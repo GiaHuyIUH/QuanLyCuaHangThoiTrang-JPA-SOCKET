@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #003333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid white;
+    height: 80px;
+}
+
+
+.center {
+    height: calc(100vh - 122px);
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+.sitebar {
+    background-color: #003333;
+    width: 25%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+}
+
+::-webkit-scrollbar {
+    border-radius: 1px;
+    width: 4px;
+    background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+
+.father {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.father li {
+    list-style: none;
+    padding: 10px 5px 10px 15px;
+    border-bottom: 1px solid wheat;
+
+}
+
+.father li:hover {
+    background-color: #4d4c4c;
+}
+
+.father li:active {
+    background-color: #795656;
+
+}
+
+.numbered-list {
+    list-style-type: decimal;
+}
+
+details {
+    margin-bottom: 5px;
+}
+
+summary {
+    font-size: 20px;
+}
+
+div a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+}
+
+.container {
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 5px;
+    padding-left: 15px;
+    background-color: #bbcdc5;
+}
+
+#additional-list {
+    display: none;
+}
+
+#additional-list li {
+    color: white;
+    overflow: hidden;
+
+}
+
+.children {
+    font-size: 15px;
+}
