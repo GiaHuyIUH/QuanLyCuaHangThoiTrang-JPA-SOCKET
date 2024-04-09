@@ -1,8 +1,15 @@
 package entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class ThuongHieuEntity {
 
-    private String maThuongHieu, tenThuongHieu;
+	@Id
+    private String maThuongHieu;
+	
+    private String  tenThuongHieu;
 
     public ThuongHieuEntity(String maThuongHieu, String tenThuongHieu) {
         super();

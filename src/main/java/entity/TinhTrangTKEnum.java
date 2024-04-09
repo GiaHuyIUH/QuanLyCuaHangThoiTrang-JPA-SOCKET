@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
- */
 package entity;
 
 /**
@@ -9,14 +5,18 @@ package entity;
  * @author HUY
  */
 public enum TinhTrangTKEnum {
-    DANG_HOAT_DONG, NGUNG_HOAT_DONG;
+    DANG_HOAT_DONG("Đang hoạt động"), NGUNG_HOAT_DONG("Ngưng hoạt động");
+	
+	private String name;
+	
+	private TinhTrangTKEnum(String name) { 
+		this.name = name;
+	}
+	
 
     @Override
     public String toString() {
-        return switch (this) {
-                case DANG_HOAT_DONG -> "Đang hoạt động";
-                default -> "Ngưng hoạt động";
-            };
+        return name;
     }
     
     

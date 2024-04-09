@@ -2,7 +2,13 @@ package entity;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
+@Entity
 public class ChatLieuEntity {
+	@Id
 	private String maChatLieu;
 	private String tenChatLieu, xuatXu;
 	public ChatLieuEntity(String maChatLieu, String tenChatLieu, String xuatXu) {

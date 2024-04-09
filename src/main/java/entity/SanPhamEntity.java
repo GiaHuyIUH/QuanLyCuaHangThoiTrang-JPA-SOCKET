@@ -1,21 +1,48 @@
 package entity;
 
+import java.util.List;
 import java.util.Objects;
 
-public class SanPhamEntity {
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
+@Entity
 
+public class SanPhamEntity {
+	@Id
     private String maSP;
     private String tenSP;
+    
+    @Enumerated(EnumType.STRING)
     private KichThuocEnum kichThuoc;
+    @Enumerated(EnumType.STRING)
     private MauSacEnum mauSac;
+    
     private double donGia;
     private int soLuongTonKho;
+    @Enumerated(EnumType.STRING)
     private TinhTrangSPEnum tinhTrang;
-    private ChatLieuEntity chatLieu;
-    private ThuongHieuEntity thuongHieu;
-    private DanhMucSanPhamEntity danhMucSanPham;
-    private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
+    
     private String imgUrl;
+    
+    
+    
+    @ManyToOne
+    private ChatLieuEntity chatLieu;
+    
+    
+    @ManyToOne
+    private ThuongHieuEntity thuongHieu;
+    
+    @ManyToOne
+    private DanhMucSanPhamEntity danhMucSanPham;
+    
+    @ManyToOne
+    private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
 
     public SanPhamEntity() {
         super();
@@ -25,31 +52,30 @@ public class SanPhamEntity {
         this.maSP = maSP;
     }
 
-    public SanPhamEntity(String maSP, String tenSP, KichThuocEnum kichThuoc, MauSacEnum mauSac, double donGia, int soLuongTonKho, TinhTrangSPEnum tinhTrang, ChatLieuEntity chatLieu, ThuongHieuEntity thuongHieu, DanhMucSanPhamEntity danhMucSanPham, ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai, String imgUrl) {
+ 
+    
+
+	public SanPhamEntity(String maSP, String tenSP, KichThuocEnum kichThuoc, MauSacEnum mauSac, double donGia,
+			int soLuongTonKho, TinhTrangSPEnum tinhTrang, String imgUrl, ChatLieuEntity chatLieu,
+			ThuongHieuEntity thuongHieu, DanhMucSanPhamEntity danhMucSanPham,
+			ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+		this.kichThuoc = kichThuoc;
+		this.mauSac = mauSac;
+		this.donGia = donGia;
+		this.soLuongTonKho = soLuongTonKho;
+		this.tinhTrang = tinhTrang;
+		this.imgUrl = imgUrl;
+		this.chatLieu = chatLieu;
+		this.thuongHieu = thuongHieu;
+		this.danhMucSanPham = danhMucSanPham;
+		this.chuongTrinhKhuyenMai = chuongTrinhKhuyenMai;
+	}
+
+	public void setMaSP(String maSP) {
         this.maSP = maSP;
-        this.tenSP = tenSP;
-        this.kichThuoc = kichThuoc;
-        this.mauSac = mauSac;
-        this.donGia = donGia;
-        this.soLuongTonKho = soLuongTonKho;
-        this.tinhTrang = tinhTrang;
-        this.chatLieu = chatLieu;
-        this.thuongHieu = thuongHieu;
-        this.danhMucSanPham = danhMucSanPham;
-        this.chuongTrinhKhuyenMai = chuongTrinhKhuyenMai;
-        this.imgUrl = imgUrl;
-    }
-
-    public String getMaSP() {
-        return maSP;
-    }
-
-    public void setMaSP(String maSP) {
-        this.maSP = maSP;
-    }
-
-    public String getTenSP() {
-        return tenSP;
     }
 
     public void setTenSP(String tenSP) {
@@ -112,15 +138,23 @@ public class SanPhamEntity {
         this.thuongHieu = thuongHieu;
     }
 
-    public DanhMucSanPhamEntity getDanhMucSanPham() {
-        return danhMucSanPham;
-    }
+   
 
-    public void setDanhMucSanPham(DanhMucSanPhamEntity danhMucSanPham) {
-        this.danhMucSanPham = danhMucSanPham;
-    }
+  
 
-    public ChuongTrinhKhuyenMaiEntity getChuongTrinhKhuyenMai() {
+	public DanhMucSanPhamEntity getDanhMucSanPham() {
+		return danhMucSanPham;
+	}
+
+	public void setDanhMucSanPham(DanhMucSanPhamEntity danhMucSanPham) {
+		this.danhMucSanPham = danhMucSanPham;
+	}
+
+	public String getTenSP() {
+		return tenSP;
+	}
+
+	public ChuongTrinhKhuyenMaiEntity getChuongTrinhKhuyenMai() {
         return chuongTrinhKhuyenMai;
     }
 
