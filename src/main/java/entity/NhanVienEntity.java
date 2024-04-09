@@ -5,17 +5,29 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+
+@Entity
 public class NhanVienEntity {
+	@Id
 	private String maNV;
 	private String hoTen;
+	@Enumerated(EnumType.STRING)
 	private GioiTinhEnum gioiTinh;
 	private LocalDate ngaySinh;
 	private String email;
 	private String soDienThoai;
 	private String diaChi;
+	@Enumerated(EnumType.STRING)
 	private ChucVuEnum chucVu;
+	@Enumerated(EnumType.STRING)
 	private TinhTrangNVEnum tinhTrang;
+	@Enumerated(EnumType.STRING)
 	private CaLamViecEnum caLamViec;
+	
         
 	public NhanVienEntity(String maNV, String hoTen, GioiTinhEnum gioiTinh, LocalDate ngaySinh, String email,
 			String soDienThoai, String diaChi, ChucVuEnum chucVu, TinhTrangNVEnum tinhTrang, CaLamViecEnum caLamViec) {

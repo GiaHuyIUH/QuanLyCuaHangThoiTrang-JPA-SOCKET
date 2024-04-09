@@ -2,8 +2,14 @@ package entity;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class DanhMucSanPhamEntity {
-	private String maDanhMuc, tenDanhMuc;
+	@Id
+	private String maDanhMuc;
+	private String tenDanhMuc;
 
 	public DanhMucSanPhamEntity(String maDanhMuc, String tenDanhMuc) {
 		super();

@@ -1,15 +1,16 @@
 package entity;
 
 public enum TinhTrangSPEnum {
-	DANGBAN, HETHANG,NGUNGBAN;
+	DANGBAN("Đang bán"), HETHANG("Hết hàng"), NGUNGBAN("Ngừng bán");
 	
+	private String tinhTrang;
+
+	private TinhTrangSPEnum(String tinhTrang) {
+		this.tinhTrang = tinhTrang;
+	}
 	@Override
 	public String toString() {
-		switch(this) {
-			case DANGBAN: return "Đang bán";
-                        case HETHANG: return "Hết hàng";
-			case NGUNGBAN: return "Ngừng bán";
-		}
-		return null;
+		return tinhTrang;
 	}
+	
 }

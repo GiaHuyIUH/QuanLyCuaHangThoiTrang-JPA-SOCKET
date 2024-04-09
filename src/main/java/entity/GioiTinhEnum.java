@@ -9,18 +9,17 @@ package entity;
  * @author HUY
  */
 public enum GioiTinhEnum {
-    NAM, NU, KHAC;
+    NAM("Nam"), NU("Nữ"), KHAC("Khác");
+	
+	private String name;
+	
+	private GioiTinhEnum(String name) {
+		this.name = name;
+	}
     
     @Override
     public String toString() {
-        switch (this) {
-            case NAM:
-                return "Nam";
-            case NU:
-                return "Nữ";
-            default:
-                return "Khác";
-        }
+        return name;
     }
     
 }
