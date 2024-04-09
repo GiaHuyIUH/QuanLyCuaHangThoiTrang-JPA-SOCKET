@@ -2,13 +2,30 @@ package entity;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "ChiTietHoaDon")
 public class ChiTietHoaDonEntity {
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaSP")
 	private SanPhamEntity sanPham;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaHD")
 	private HoaDonEntity hoaDon;
+	@Column(name = "SoLuong")
 	private int soLuong;
+	    @Column(name = "GiaGoc")
         private double giaGoc;
+	     @Column(name = "GiaBan")
         private double giaBan;
+	    @Column(name = "ThanhTien")
         private double thanhTien;
 
         public ChiTietHoaDonEntity(SanPhamEntity sanPham, HoaDonEntity hoaDon, int soLuong, double giaGoc, double giaBan, double thanhTien) {

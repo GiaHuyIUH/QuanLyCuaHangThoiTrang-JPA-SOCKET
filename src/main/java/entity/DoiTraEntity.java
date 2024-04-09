@@ -3,12 +3,33 @@ package entity;
 import java.sql.Date;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "DoiTra")
 public class DoiTraEntity {
+	@Id
+	@Column(name = "MaDT")
 	private String maDT;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaHD")
 	private HoaDonEntity hoaDon;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaNV")
 	private NhanVienEntity nhanVien;
+	@Enumerated(EnumType.STRING)
 	private HinhThucDoiTraEnum hinhThucDoiTra;
+	@Column(name = "ThoiGianDoiTra")
 	private Date thoiGianDoiTra;
+	@Column(name = "TongTien")
         private double tongTien;
 
         public DoiTraEntity() {

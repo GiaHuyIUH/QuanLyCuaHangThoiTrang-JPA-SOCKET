@@ -6,15 +6,29 @@ package entity;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 /**
  *
  * @author HUY
  */
+@Entity
+@Table(name = "KhachHang")
+
 public class KhachHangEntity {
+	@Id
+	@Column(name = "MaKH")
     private String maKH;
+    @Column(name = "HoTen")
     private String hoTen;
+    @Column(name = "GioiTinh")
     private GioiTinhEnum gioiTinh;
+    @Column(name = "SoDienThoai")
     private String soDienThoai;
+    @Column(name = "DiaChi")
     private String diaChi;
 	public KhachHangEntity(String maKH, String hoTen, GioiTinhEnum gioiTinh, String soDienThoai, String diaChi) {
 		super();
