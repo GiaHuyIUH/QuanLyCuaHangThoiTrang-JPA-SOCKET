@@ -1,12 +1,32 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
-public class ChuongTrinhKhuyenMaiEntity {
-	private String maCTKM, tenCTKM;
-        private LoaiKhuyenMaiEntity maLoaiKM;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+@Entity
+@Table(name = "ChuongTrinhKhuyenMai")
+public class ChuongTrinhKhuyenMaiEntity implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2498963444851670544L;
+
+	@Id
+	@Column(name = "maCTKM")
+	private String maCTKM;
+
+	private String tenCTKM;
+	@ManyToOne
+    @JoinColumn(name = "maLoaiCTKM")
+    private LoaiKhuyenMaiEntity maLoaiKM;
 	private double soTienToiThieu;
         private double soTienToiDa;
 	private int giamGia;

@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +12,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 
 @Entity
-public class NhanVienEntity {
+public class NhanVienEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7564071463227667131L;
 	@Id
 	private String maNV;
 	private String hoTen;

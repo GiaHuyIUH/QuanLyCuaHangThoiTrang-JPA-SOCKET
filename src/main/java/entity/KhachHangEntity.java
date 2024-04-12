@@ -4,6 +4,7 @@
  */
 package entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -18,7 +19,11 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "KhachHang")
 
-public class KhachHangEntity {
+public class KhachHangEntity implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2987574921412060331L;
 	@Id
 	@Column(name = "MaKH")
     private String maKH;

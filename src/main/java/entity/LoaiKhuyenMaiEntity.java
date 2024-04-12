@@ -4,12 +4,28 @@
  */
 package entity;
 
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 /**
  *
  * @author DELL
  */
-public class LoaiKhuyenMaiEntity {
-    private String maLoaiKM, moTa;
+@Entity
+@Table(name = "LoaiKhuyenMai")
+public class LoaiKhuyenMaiEntity implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2758145462323032003L;
+	@Id
+    @Column(name = "maLoaiKM")
+    private String maLoaiKM;
+    private String moTa;
 
     public LoaiKhuyenMaiEntity(String maLoaiKM, String moTa) {
         this.maLoaiKM = maLoaiKM;

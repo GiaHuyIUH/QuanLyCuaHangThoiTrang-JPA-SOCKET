@@ -1,18 +1,36 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@EqualsAndHashCode
 @Table(name = "ChiTietHoaDon")
-public class ChiTietHoaDonEntity {
+@Setter
+@Getter
+public class ChiTietHoaDonEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4070089837652376842L;
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MaSP")
 	private SanPhamEntity sanPham;

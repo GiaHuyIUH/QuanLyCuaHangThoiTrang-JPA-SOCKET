@@ -4,6 +4,8 @@
  */
 package entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,8 +19,12 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "ChiTietDoiTra")
-public class ChiTietDoiTraEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
+public class ChiTietDoiTraEntity implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7974067434651045054L;
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaSP")
     private SanPhamEntity sanPham;
     @ManyToOne(fetch = FetchType.LAZY)

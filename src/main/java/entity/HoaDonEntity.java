@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -19,7 +20,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "HoaDon")
-public class HoaDonEntity {
+public class HoaDonEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3387812072003627356L;
 	@Id
 	@Column(name = "MaHD")
 	private String maHD;

@@ -1,19 +1,28 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 @Entity
-
-public class SanPhamEntity {
+//@AllArgsConstructor
+public class SanPhamEntity implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8890485992814533408L;
 	@Id
+	@Column(name = "maSP")
     private String maSP;
     private String tenSP;
     
@@ -77,8 +86,13 @@ public class SanPhamEntity {
 	public void setMaSP(String maSP) {
         this.maSP = maSP;
     }
+	
 
-    public void setTenSP(String tenSP) {
+    public String getMaSP() {
+		return maSP;
+	}
+
+	public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
     }
 

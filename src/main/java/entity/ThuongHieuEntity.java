@@ -1,10 +1,17 @@
 package entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class ThuongHieuEntity {
+public class ThuongHieuEntity  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9047036202780634941L;
 
 	@Id
     private String maThuongHieu;

@@ -90,7 +90,8 @@ public class SanPham_dao implements SanPham_Interface {
 //                ThuongHieuEntity maThuongHieu=new ThuongHieuEntity(thuongHieu, tenThuongHieu);
                 DanhMucSanPhamEntity maDanhMuc = new DanhMucSanPhamEntity(danhMuc);
                 ChuongTrinhKhuyenMaiEntity maCTKM = new ChuongTrinhKhuyenMaiEntity(chuongTrinhKhuyenMai);
-                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, soLuongTonKho, tinhTrangSPEnum, maChatLieu, maThuongHieu, maDanhMuc, maCTKM, imgUrl);
+//                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, soLuongTonKho, tinhTrangSPEnum, maChatLieu, maThuongHieu, maDanhMuc, maCTKM, imgUrl);
+                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, soLuongTonKho, tinhTrangSPEnum, imgUrl, maChatLieu, maThuongHieu, maDanhMuc, maCTKM);
                 dsSanPham.add(sp);
             }
             ps.close();
@@ -185,7 +186,8 @@ public class SanPham_dao implements SanPham_Interface {
                 DanhMucSanPhamEntity danhMuc = new DanhMucSanPhamEntity(rs.getString("maDanhMuc"));
                 ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai = new ChuongTrinhKhuyenMaiEntity(rs.getString("maCTKM"));
                 String imgUrl = rs.getString("imgUrl");
-                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, chuongTrinhKhuyenMai, imgUrl);
+//                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, chuongTrinhKhuyenMai, imgUrl);
+                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, imgUrl, chatLieu, thuongHieu, danhMuc, chuongTrinhKhuyenMai);
                 dsSanPham.add(sp);
             }
             ps.close();
@@ -286,7 +288,8 @@ public class SanPham_dao implements SanPham_Interface {
                 ThuongHieuEntity maThuongHieu = new ThuongHieuEntity(thuongHieu);
                 DanhMucSanPhamEntity maDanhMuc = new DanhMucSanPhamEntity(danhMuc);
                 ChuongTrinhKhuyenMaiEntity maCTKM = new ChuongTrinhKhuyenMaiEntity(chuongTrinhKhuyenMai);
-                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, soLuongTonKho, tinhTrangSPEnum, maChatLieu, maThuongHieu, maDanhMuc, maCTKM, imgUrl);
+//                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, soLuongTonKho, tinhTrangSPEnum, maChatLieu, maThuongHieu, maDanhMuc, maCTKM, imgUrl);
+                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, soLuongTonKho, tinhTrangSPEnum, imgUrl, maChatLieu, maThuongHieu, maDanhMuc, maCTKM);
                 dsSP.add(sp);
             }
         } catch (SQLException ex) {
@@ -349,7 +352,8 @@ public class SanPham_dao implements SanPham_Interface {
 
                 ConvertStringToEnum convertToEnum = new ConvertStringToEnum();
 
-                sanPham = new SanPhamEntity(maSP, tenSP, convertToEnum.KichThuoctoEnum(kichThuoc), convertToEnum.MauSactoEnum(mauSac), donGia, soLuongTonKho, convertToEnum.TinhTrangSPToEnum(tinhTrang), chatLieu, thuongHieu, danhMucSanPham, chuongTrinhKhuyenMai, imgUrl);
+//                sanPham = new SanPhamEntity(maSP, tenSP, convertToEnum.KichThuoctoEnum(kichThuoc), convertToEnum.MauSactoEnum(mauSac), donGia, soLuongTonKho, convertToEnum.TinhTrangSPToEnum(tinhTrang), chatLieu, thuongHieu, danhMucSanPham, chuongTrinhKhuyenMai, imgUrl);
+                sanPham = new SanPhamEntity(maSP, tenSP, convertToEnum.KichThuoctoEnum(kichThuoc), convertToEnum.MauSactoEnum(mauSac), donGia, soLuongTonKho, convertToEnum.TinhTrangSPToEnum(tinhTrang), imgUrl, chatLieu, thuongHieu, danhMucSanPham, chuongTrinhKhuyenMai);
             }
             return sanPham;
         } catch (SQLException e) {

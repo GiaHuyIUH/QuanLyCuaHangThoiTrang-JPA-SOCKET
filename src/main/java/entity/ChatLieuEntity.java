@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -7,7 +8,11 @@ import jakarta.persistence.Id;
 
 
 @Entity
-public class ChatLieuEntity {
+public class ChatLieuEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9194959906817190364L;
 	@Id
 	private String maChatLieu;
 	private String tenChatLieu, xuatXu;

@@ -637,7 +637,8 @@ public class SanPham_JPanel extends javax.swing.JPanel {
             if (anh == null || anh.equals(duongDanAnhMacDinh)) {
                 JOptionPane.showMessageDialog(null, "Vui lòng chọn ảnh");
             } else {
-                SanPhamEntity sp = new SanPhamEntity(maSP, tenSanPham, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, ctkm, anh);
+//                SanPhamEntity sp = new SanPhamEntity(maSP, tenSanPham, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, ctkm, anh);
+            	SanPhamEntity sp = new SanPhamEntity(maSP, tenSanPham, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, anh, chatLieu, thuongHieu, danhMuc, ctkm);
                 boolean kiemTra = sp_bus.themSP(sp);
                 if (kiemTra) {
                     DecimalFormat decimalFormat = new DecimalFormat();
@@ -838,7 +839,8 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                         ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(maCTKM);
                         String anh = lbl_AnhSanPham.getText();
 //                        System.out.println(anh);
-                        SanPhamEntity sp = new SanPhamEntity(maSP, tenSanPham, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, ctkm, anh);
+//                        SanPhamEntity sp = new SanPhamEntity(maSP, tenSanPham, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, ctkm, anh);
+                        SanPhamEntity sp = new SanPhamEntity(maSP, tenSanPham, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, anh, chatLieu, thuongHieu, danhMuc, ctkm);
                         boolean kq = sp_bus.capNhatSanPham(sp);
                         if (kq) {
                             JOptionPane.showMessageDialog(null, "Cập nhật thành công");
@@ -1172,7 +1174,8 @@ public class SanPham_JPanel extends javax.swing.JPanel {
             String maCTKM = ctkm_bus.layMaKhuyenMaiTheoTen(tenCTKM);
             ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(maCTKM);
             String anh = model.getValueAt(i, 11).toString();
-            SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, ctkm, anh);
+//            SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, chatLieu, thuongHieu, danhMuc, ctkm, anh);
+            SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuoc, mauSac, donGia, soLuongTonKho, tinhTrang, anh, chatLieu, thuongHieu, danhMuc, ctkm);
             if (!sp_bus.kiemTraMaSanPhamTonTai(maSP)) {
                 sp_bus.themSP(sp);
             } else {

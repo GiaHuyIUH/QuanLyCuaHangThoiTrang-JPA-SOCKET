@@ -97,7 +97,8 @@ public class ChiTietHoaDon_dao implements ChiTietHoaDon_Interface {
                 ThuongHieuEntity thuonghieu = new ThuongHieuEntity(rs.getString("maThuongHieu"));
                 DanhMucSanPhamEntity danhmuc = new DanhMucSanPhamEntity(rs.getString("maDanhMuc"));
                 ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(rs.getString("maCTKM"));
-                SanPhamEntity sp = new SanPhamEntity(maSP, ten, kichthuoc, mausac, dongia, sl, tinhtrang, chatlieu, thuonghieu, danhmuc, ctkm, null);
+//                SanPhamEntity sp = new SanPhamEntity(maSP, ten, kichthuoc, mausac, dongia, sl, tinhtrang, chatlieu, thuonghieu, danhmuc, ctkm, null);
+                SanPhamEntity sp = new SanPhamEntity(maSP, ten, kichthuoc, mausac, dongia, sl, tinhtrang, ten, chatlieu, thuonghieu, danhmuc, ctkm);
                 dsSP.add(sp);
             }
         } catch (SQLException e) {
@@ -184,7 +185,8 @@ public class ChiTietHoaDon_dao implements ChiTietHoaDon_Interface {
                 ThuongHieuEntity maThuongHieu = new ThuongHieuEntity(thuongHieu);
                 DanhMucSanPhamEntity maDanhMuc = new DanhMucSanPhamEntity(danhMuc);
                 ChuongTrinhKhuyenMaiEntity maCTKM = new ChuongTrinhKhuyenMaiEntity(ctkm);
-                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, donGia, tinhTrangSPEnum, maChatLieu, maThuongHieu, maDanhMuc, maCTKM, imgUrl);
+//                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, donGia, tinhTrangSPEnum, maChatLieu, maThuongHieu, maDanhMuc, maCTKM, imgUrl);
+                SanPhamEntity sp = new SanPhamEntity(maSP, tenSP, kichThuocEnum, mauSacEnum, donGia, donGia, tinhTrangSPEnum, imgUrl, maChatLieu, maThuongHieu, maDanhMuc, maCTKM);
                 dsSP.add(sp);
             }
         } catch (Exception e) {

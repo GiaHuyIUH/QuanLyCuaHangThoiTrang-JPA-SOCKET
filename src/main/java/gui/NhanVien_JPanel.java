@@ -537,17 +537,17 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
                 else gt = GioiTinhEnum.KHAC;
                 
                 TinhTrangNVEnum tt = null;
-                if (cbo_TinhTrang.getSelectedItem().equals("Đang làm việc") == true) tt = TinhTrangNVEnum.DANGLAMVIEC;
-                else if (cbo_TinhTrang.getSelectedItem().equals("Nghỉ việc") == true) tt = TinhTrangNVEnum.NGHIVIEC;
-                else tt = TinhTrangNVEnum.NGHIPHEP;
+                if (cbo_TinhTrang.getSelectedItem().equals("Đang làm việc") == true) tt = TinhTrangNVEnum.DANG_LAM_VIEC;
+                else if (cbo_TinhTrang.getSelectedItem().equals("Nghỉ việc") == true) tt = TinhTrangNVEnum.NGHI_VIEC;
+                else tt = TinhTrangNVEnum.NGHI_PHEP;
                 
                 nv.setGioiTinh(gt);
                 nv.setSoDienThoai(txt_SDT.getText());
                 nv.setDiaChi(txt_DiaChi.getText());
                 nv.setEmail(txt_email.getText());
                 nv.setNgaySinh(ngaySinh);
-                nv.setCaLamViec(cbo_CaLamViec.getSelectedItem().equals("Ca 1") == true ? CaLamViecEnum.CA1 : CaLamViecEnum.CA2);
-                nv.setChucVu(cbo_ChucVu.getSelectedItem().equals("Nhân viên") == true ? ChucVuEnum.NHANVIEN : ChucVuEnum.QUANLY);
+                nv.setCaLamViec(cbo_CaLamViec.getSelectedItem().equals("Ca 1") == true ? CaLamViecEnum.CA_1 : CaLamViecEnum.CA_2);
+                nv.setChucVu(cbo_ChucVu.getSelectedItem().equals("Nhân viên") == true ? ChucVuEnum.NHAN_VIEN : ChucVuEnum.QUAN_LY);
                 nv.setTinhTrang(tt);
                 
                 if (bus.insert(nv)) {
@@ -669,9 +669,9 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
                 
                 
                 tt = switch (cbo_TinhTrang.getSelectedItem().toString()) {
-                    case "Đang làm việc" -> TinhTrangNVEnum.DANGLAMVIEC;
-                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHIVIEC;
-                    default -> TinhTrangNVEnum.NGHIPHEP;
+                    case "Đang làm việc" -> TinhTrangNVEnum.DANG_LAM_VIEC;
+                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHI_VIEC;
+                    default -> TinhTrangNVEnum.NGHI_PHEP;
                 };
                
                 if (rad_Nam.isSelected()) gt = GioiTinhEnum.NAM;
@@ -688,8 +688,8 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
 //              Chuyển từ date sang localdate làm tương tự như từ localDate sang date
                 nv.setNgaySinh(txt_date.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 
-                nv.setChucVu(cbo_ChucVu.toString().equals("Nhân viên") == true ? ChucVuEnum.NHANVIEN : ChucVuEnum.QUANLY);
-                nv.setCaLamViec(cbo_CaLamViec.getSelectedItem().toString().equals("Ca 1") == true ? CaLamViecEnum.CA1 : CaLamViecEnum.CA2);
+                nv.setChucVu(cbo_ChucVu.toString().equals("Nhân viên") == true ? ChucVuEnum.NHAN_VIEN : ChucVuEnum.QUAN_LY);
+                nv.setCaLamViec(cbo_CaLamViec.getSelectedItem().toString().equals("Ca 1") == true ? CaLamViecEnum.CA_1 : CaLamViecEnum.CA_2);
                 nv.setTinhTrang(tt);
                 
                 if (bus.update(nv)) {

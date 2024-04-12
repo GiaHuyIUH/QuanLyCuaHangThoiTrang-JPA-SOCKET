@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -11,7 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class TaiKhoanEntity {
+public class TaiKhoanEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7617207203593199672L;
 	private String tenTaiKhoan, matKhau;
 	private LocalDateTime thoiGianDNGN;
 	@Enumerated(EnumType.STRING)
