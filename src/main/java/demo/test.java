@@ -1,5 +1,8 @@
 package demo;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -7,8 +10,9 @@ import jakarta.persistence.Persistence;
 
 public class test {
 	public static void main(String[] args) {
+		
 		System.out.println("Hello World");
-		EntityManagerFactory emf =  Persistence.createEntityManagerFactory("jpa-mssql");
+		EntityManagerFactory emf =  Persistence.createEntityManagerFactory("JPA MSSQL");
 		
 		try(EntityManager em = emf.createEntityManager()) {
 			
@@ -19,5 +23,6 @@ public class test {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
 	}
 }

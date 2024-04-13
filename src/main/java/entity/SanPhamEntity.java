@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -24,15 +25,18 @@ public class SanPhamEntity implements Serializable{
 	@Id
 	@Column(name = "maSP")
     private String maSP;
+	
     private String tenSP;
     
     @Enumerated(EnumType.STRING)
     private KichThuocEnum kichThuoc;
+    
     @Enumerated(EnumType.STRING)
     private MauSacEnum mauSac;
     
     private double donGia;
     private int soLuongTonKho;
+    
     @Enumerated(EnumType.STRING)
     private TinhTrangSPEnum tinhTrang;
     
@@ -41,16 +45,20 @@ public class SanPhamEntity implements Serializable{
     
     
     @ManyToOne
+    @JoinColumn(name = "maChatLieu")
     private ChatLieuEntity chatLieu;
     
     
     @ManyToOne
+    @JoinColumn(name = "maThuongHieu")
     private ThuongHieuEntity thuongHieu;
     
     @ManyToOne
+    @JoinColumn(name = "maDanhMuc")
     private DanhMucSanPhamEntity danhMucSanPham;
     
     @ManyToOne
+    @JoinColumn(name = "maCTKM")
     private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
 
     public SanPhamEntity() {

@@ -6,7 +6,7 @@ import bus.ChuongTrinhKhuyenMai_bus;
 import bus.HoaDon_bus;
 import bus.KhachHang_bus;
 import bus.SanPham_bus;
-import connectDB.ConnectDB;
+
 import entity.ChiTietHoaDonEntity;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.HoaDonEntity;
@@ -62,11 +62,11 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
      * Creates new form ChiTietHoaDon_GUI
      */
     public ChiTietHoaDon_GUI() {
-           try {
-            ConnectDB.getInstance().connect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//           try {
+//            ConnectDB.getInstance().connect();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         initComponents();
         setLocationRelativeTo(null);
         cthdbus = new ChiTietHoaDon_bus();

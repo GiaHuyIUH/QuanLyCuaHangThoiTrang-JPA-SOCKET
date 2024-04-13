@@ -9,6 +9,9 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -18,23 +21,25 @@ import jakarta.persistence.Table;
  * @author Admin
  */
 @Entity
-@Table(name = "ChiTietDoiTra")
+
 public class ChiTietDoiTraEntity implements Serializable{
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 7974067434651045054L;
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaSP")
+	
+	@Id
+	@ManyToOne
     private SanPhamEntity sanPham;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaDT")
+	
+	@Id
+    @ManyToOne
     private DoiTraEntity doiTra;
-    @Column(name = "SoLuong")
+    
     private int soLuong;
-    @Column(name = "GiaBan")
+   
     private double giaBan;
-    @Column(name = "ThanhTien")
+    
     private double thanhTien;
 
     public ChiTietDoiTraEntity() {

@@ -19,6 +19,7 @@ public class NhanVienEntity implements Serializable {
 	private static final long serialVersionUID = 7564071463227667131L;
 	@Id
 	private String maNV;
+	
 	private String hoTen;
 	@Enumerated(EnumType.STRING)
 	private GioiTinhEnum gioiTinh;

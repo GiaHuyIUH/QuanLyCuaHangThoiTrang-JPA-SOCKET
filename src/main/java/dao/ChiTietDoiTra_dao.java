@@ -5,7 +5,7 @@
 package dao;
 
 import Interface.ChiTietDoiTra_Interface;
-import connectDB.ConnectDB;
+//import connectDB.ConnectDB;
 import entity.ChiTietDoiTraEntity;
 import entity.ChiTietHoaDonEntity;
 import entity.DoiTraEntity;
@@ -34,11 +34,11 @@ public class ChiTietDoiTra_dao implements ChiTietDoiTra_Interface{
     public boolean themChiTietDoiTra(ChiTietDoiTraEntity ctdt) {
         PreparedStatement statement = null;
         try {
-            ConnectDB.getInstance().connect();
-            Connection con = ConnectDB.getConnection();
+//            ConnectDB.getInstance().connect();
+//            Connection con = ConnectDB.getConnection();
             
             String sql = "Insert into ChiTietDoiTra(maSP, maDT, soLuong, giaBan, thanhTien) values (?, ?, ?, ?, ?)";
-            statement = con.prepareStatement(sql);
+//            statement = con.prepareStatement(sql);
             statement.setString(1, ctdt.getSanPham().getMaSP());
             statement.setString(2, ctdt.getDoiTra().getMaDT());
             statement.setInt(3, ctdt.getSoLuong());
@@ -58,7 +58,7 @@ public class ChiTietDoiTra_dao implements ChiTietDoiTra_Interface{
         } finally {
             try {
                 statement.close();
-                ConnectDB.getInstance().disconnect();
+//                ConnectDB.getInstance().disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -67,17 +67,17 @@ public class ChiTietDoiTra_dao implements ChiTietDoiTra_Interface{
 
     @Override
     public ArrayList<ChiTietDoiTraEntity> getAllCTDTTheoMaDT(String ma) {
-        try {
-            ConnectDB.getInstance().connect();
-        } catch (SQLException ex) {
-            Logger.getLogger(HoaDon_dao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Connection con = ConnectDB.getConnection();
+//        try {
+////            ConnectDB.getInstance().connect();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(HoaDon_dao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        Connection con = ConnectDB.getConnection();
         PreparedStatement statement = null;
         
         try {
             String sql = "Select ctdt.*, sp.tenSP, sp.kichThuoc, sp.mauSac from ChiTietDoiTra as ctdt inner join SanPham as sp on ctdt.maSP=sp.maSP where maDT=?";
-            statement = con.prepareStatement(sql);
+//            statement = con.prepareStatement(sql);
             statement.setString(1, ma);
             
             ResultSet rs = statement.executeQuery();
@@ -107,13 +107,13 @@ public class ChiTietDoiTra_dao implements ChiTietDoiTra_Interface{
             e.printStackTrace();
             return null;
         } finally {
-            if(con != null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(HoaDon_dao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+//            if(con != null) {
+//                try {
+//                    con.close();
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(HoaDon_dao.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
         }
     }
 }

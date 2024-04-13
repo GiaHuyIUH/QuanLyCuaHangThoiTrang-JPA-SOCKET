@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
  * @author HUY
  */
 @Entity
-@Table(name = "KhachHang")
+
 
 public class KhachHangEntity implements Serializable{
 	/**
@@ -25,15 +25,15 @@ public class KhachHangEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 2987574921412060331L;
 	@Id
-	@Column(name = "MaKH")
+	@Column(name = "maKH")
     private String maKH;
-    @Column(name = "HoTen")
+    
     private String hoTen;
-    @Column(name = "GioiTinh")
+   
     private GioiTinhEnum gioiTinh;
-    @Column(name = "SoDienThoai")
+    
     private String soDienThoai;
-    @Column(name = "DiaChi")
+    
     private String diaChi;
 	public KhachHangEntity(String maKH, String hoTen, GioiTinhEnum gioiTinh, String soDienThoai, String diaChi) {
 		super();

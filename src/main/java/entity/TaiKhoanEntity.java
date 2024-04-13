@@ -17,13 +17,16 @@ public class TaiKhoanEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7617207203593199672L;
-	private String tenTaiKhoan, matKhau;
+	@Id
+	private String tenTaiKhoan;
+	
+	private String matKhau;
 	private LocalDateTime thoiGianDNGN;
 	@Enumerated(EnumType.STRING)
 	private TinhTrangTKEnum tinhTrang;
 	
-	@Id
-	@OneToOne(mappedBy = "maNV")
+	
+	@OneToOne
 	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
 

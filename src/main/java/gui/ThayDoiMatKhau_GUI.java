@@ -4,7 +4,7 @@
  */
 package gui;
 
-import connectDB.ConnectDB;
+
 import dao.TaiKhoan_dao;
 import entity.TaiKhoanEntity;
 import java.io.UnsupportedEncodingException;
@@ -284,11 +284,7 @@ public class ThayDoiMatKhau_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                 try {
-                    ConnectDB.getInstance().connect();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                 
                 new ThayDoiMatKhau_GUI().setVisible(true);
             }
         });

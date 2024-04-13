@@ -5,7 +5,6 @@
 package gui;
 
 import bus.NhanVien_bus;
-import connectDB.ConnectDB;
 import dao.NhanVien_dao;
 import entity.NhanVienEntity;
 import entity.TaiKhoanEntity;
@@ -372,11 +371,8 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    ConnectDB.getInstance().connect();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                
+            	
                 new DangNhap_GUI().setVisible(true);
             }
         });

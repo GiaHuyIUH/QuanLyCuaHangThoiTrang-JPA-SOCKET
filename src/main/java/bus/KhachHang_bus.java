@@ -19,23 +19,27 @@ public class KhachHang_bus implements KhachHang_Interface {
     
     @Override
     public KhachHangEntity findOne(String id) {
-        return khachHangDAO.findOne(id);
+//        return khachHangDAO.findOne(id);
+    	return null;
     }
 
     @Override
     public boolean update(KhachHangEntity updateKH) {
-        return khachHangDAO.update(updateKH);
+//        return khachHangDAO.update(updateKH);
+    	return true;
     }
 
     @Override
     public boolean insert(KhachHangEntity insertKH) {
 //        insertKH.setMaKH(generateID.sinhMa(khachHangDAO.count(GenerateID.dateFormat()), "KH"));
-        return khachHangDAO.insert(insertKH);
+//        return khachHangDAO.insert(insertKH);
+    	return true;
     }
 
     @Override
     public ArrayList<KhachHangEntity> findAll() {
-        return khachHangDAO.findAll();
+//        return khachHangDAO.findAll();
+    	return null;
     }
 
 //    @Override
@@ -46,12 +50,14 @@ public class KhachHang_bus implements KhachHang_Interface {
     // Nguyen Huy Hoang
     @Override
     public KhachHangEntity timKiemTheoSDT(String sdt) {
-        return khachHangDAO.timKiemTheoSDT(sdt);
+//        return khachHangDAO.timKiemTheoSDT(sdt);
+    	return null;
     }
 
     @Override
     public KhachHangEntity getKHTheoMa(String ma) {
-       return khachHangDAO.getKHTheoMa(ma);
+//       return khachHangDAO.getKHTheoMa(ma);
+    	return null;
     }
     
 }

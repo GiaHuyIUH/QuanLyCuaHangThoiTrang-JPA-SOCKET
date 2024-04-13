@@ -4,7 +4,7 @@
  */
 package gui;
 
-import connectDB.ConnectDB;
+
 import dao.NhanVien_dao;
 import dao.TaiKhoan_dao;
 import entity.TaiKhoanEntity;
@@ -266,11 +266,7 @@ public class LamMoiMatKhau_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    ConnectDB.getInstance().connect();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+               
                 new LamMoiMatKhau_GUI().setVisible(true);
             }
         });

@@ -17,33 +17,31 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Setter
-@Getter
-@Table(name = "HoaDon")
+
 public class HoaDonEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3387812072003627356L;
+	
 	@Id
-	@Column(name = "MaHD")
 	private String maHD;
-	@Column(name = "NgayLapHD")
+	
 	private Date ngayLapHD;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaKH")
+	@JoinColumn(name = "maKH")
 	private KhachHangEntity khachHang;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaNV")
+	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaKM")
+	@JoinColumn(name = "maCTKM")
 	private ChuongTrinhKhuyenMaiEntity chuongTrinhKM;
-	@Column(name = "TienKhuyenMai")
+	
 	private double tienKhuyenMai;
-	@Column(name = "TongTien")
+	
         private double tongTien;
-	@Column(name = "TienThanhToan")
+	
         private double tienThanhToan;
 	@Enumerated(EnumType.STRING)
         private TinhTrangHDEnum tinhTrang;

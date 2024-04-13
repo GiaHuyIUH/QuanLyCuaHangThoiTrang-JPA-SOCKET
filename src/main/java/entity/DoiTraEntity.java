@@ -15,26 +15,29 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "DoiTra")
 public class DoiTraEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6170787916186295208L;
-	@Id
-	@Column(name = "MaDT")
-	private String maDT;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaHD")
-	private HoaDonEntity hoaDon;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaNV")
-	private NhanVienEntity nhanVien;
-	@Enumerated(EnumType.STRING)
-	private HinhThucDoiTraEnum hinhThucDoiTra;
-	@Column(name = "ThoiGianDoiTra")
+	 private static final long serialVersionUID = -6170787916186295208L;
+	    @Id
+	    
+	    private String maDT;
+	    
+	    @ManyToOne
+	    
+	    private HoaDonEntity hoaDon;
+	    
+	    
+	    @ManyToOne
+	    
+	    private NhanVienEntity nhanVien;
+	    
+	    @Enumerated(EnumType.STRING)
+	    private HinhThucDoiTraEnum hinhThucDoiTra;
+	
 	private Date thoiGianDoiTra;
-	@Column(name = "TongTien")
+	
         private double tongTien;
 
         public DoiTraEntity() {

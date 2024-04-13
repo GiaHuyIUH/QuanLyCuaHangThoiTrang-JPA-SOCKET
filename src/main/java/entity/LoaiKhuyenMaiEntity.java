@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
  * @author DELL
  */
 @Entity
-@Table(name = "LoaiKhuyenMai")
+
 public class LoaiKhuyenMaiEntity implements Serializable{
     /**
 	 * 

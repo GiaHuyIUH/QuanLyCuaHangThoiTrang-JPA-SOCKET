@@ -53,7 +53,6 @@
 	<classpathentry kind="lib" path="lib/poi-5.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-5.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-full-5.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="lib/xmlbeans-4.0.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

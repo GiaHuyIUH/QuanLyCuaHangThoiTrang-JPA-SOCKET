@@ -1,7 +1,6 @@
 package gui;
 
 import bus.HoaDon_bus;
-import connectDB.ConnectDB;
 import entity.HoaDonEntity;
 import java.awt.Image;
 import java.sql.SQLException;

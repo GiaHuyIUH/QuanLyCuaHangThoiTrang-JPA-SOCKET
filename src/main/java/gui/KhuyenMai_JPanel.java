@@ -1,7 +1,6 @@
 package gui;
 
 import bus.ChuongTrinhKhuyenMai_bus;
-import connectDB.ConnectDB;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.LoaiKhuyenMaiEntity;
 import java.awt.Color;
@@ -51,10 +50,7 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
      */
     public KhuyenMai_JPanel() {
         initComponents();
-         try {
-             ConnectDB.getInstance().connect();
-        } catch (Exception e) {
-        }
+         
          ButtonGroup rdo_group = new ButtonGroup();
          rdo_group.add(rdo_sp);
          rdo_group.add(rdo_hd);
