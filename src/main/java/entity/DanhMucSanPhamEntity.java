@@ -3,10 +3,13 @@ package entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.EqualsAndHashCode;
 
 @Entity
+@EqualsAndHashCode
 public class DanhMucSanPhamEntity implements Serializable{
 	/**
 	 * 
@@ -15,6 +18,7 @@ public class DanhMucSanPhamEntity implements Serializable{
 	@Id
 	private String maDanhMuc;
 	
+	@Column(name = "tenDanhMuc", columnDefinition = "nvarchar(255)")
 	private String tenDanhMuc;
 
 	public DanhMucSanPhamEntity(String maDanhMuc, String tenDanhMuc) {

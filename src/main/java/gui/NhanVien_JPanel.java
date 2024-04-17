@@ -11,7 +11,10 @@ import entity.ChucVuEnum;
 import entity.GioiTinhEnum;
 import entity.NhanVienEntity;
 import entity.TinhTrangNVEnum;
+
+import java.awt.HeadlessException;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -36,8 +39,9 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
     private NhanVien_bus bus = new NhanVien_bus();
     /**
      * Creates new form NhanVien_JPanel
+     * @throws RemoteException 
      */
-    public NhanVien_JPanel() {
+    public NhanVien_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748); 
         ImageIcon img_btnTimKiem = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
@@ -387,7 +391,12 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_TimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_TimKiemMouseClicked(evt);
+                try {
+					btn_TimKiemMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -404,7 +413,12 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_LamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_LamMoiMouseClicked(evt);
+                try {
+					btn_LamMoiMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -417,7 +431,12 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
         btn_Them.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Them.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ThemActionPerformed(evt);
+                try {
+					btn_ThemActionPerformed(evt);
+				} catch (HeadlessException | BadLocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -520,7 +539,7 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_NhapSDTActionPerformed
 
-    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemActionPerformed
+    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) throws HeadlessException, BadLocationException {//GEN-FIRST:event_btn_ThemActionPerformed
 
         try {
             if (checkInput()) {
@@ -557,7 +576,7 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
                 }
                 else JOptionPane.showMessageDialog(this, "Thêm thất bại! Số điện thoại nhân viên đã bị trùng!");
             }
-        } catch (BadLocationException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(KhachHang_JPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_ThemActionPerformed
@@ -583,7 +602,7 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btn_TimKiemActionPerformed
 
-    private void btn_TimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimKiemMouseClicked
+    private void btn_TimKiemMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException{//GEN-FIRST:event_btn_TimKiemMouseClicked
         String id = txt_NhapSDT.getText();
         if (id.isBlank()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại của nhân viên!");
@@ -630,7 +649,7 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
        tableModel.addRow(new Object[]{nv.getMaNV(), nv.getHoTen(), nv.getGioiTinh().toString(), nv.getNgaySinh().toString(), nv.getEmail(), nv.getSoDienThoai() ,nv.getDiaChi(), nv.getChucVu().toString(), nv.getTinhTrang().toString(), nv.getCaLamViec().toString()});                                   
     }//GEN-LAST:event_btn_TimKiemMouseClicked
 
-    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMouseClicked
+    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiMouseClicked
         refresh();
     }//GEN-LAST:event_btn_LamMoiMouseClicked
 
@@ -698,7 +717,8 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
                 }
                 else JOptionPane.showMessageDialog(this, "Hệ thống không thể cập nhật dữ liệu do số điện thoại nhân viên đã tồn tại!");
             }
-        } catch (BadLocationException ex) {
+        } catch (RemoteException | HeadlessException | BadLocationException ex) {
+        	
             Logger.getLogger(KhachHang_JPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_CapNhatActionPerformed
@@ -744,7 +764,7 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_email;
     // End of variables declaration//GEN-END:variables
 
-    private void loadData() {
+    private void loadData() throws RemoteException {
         ArrayList<NhanVienEntity> listNV = new ArrayList<>();
         listNV = bus.findAll();
         for (NhanVienEntity kh : listNV) {
@@ -782,7 +802,7 @@ public class NhanVien_JPanel extends javax.swing.JPanel {
         return true;
     }
     
-    public void refresh() {
+    public void refresh() throws RemoteException {
         txt_MaNV.setText("");
         txt_HoTen.setText("");
         txt_DiaChi.setText("");

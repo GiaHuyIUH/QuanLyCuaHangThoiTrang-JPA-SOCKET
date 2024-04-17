@@ -9,6 +9,8 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 /**
@@ -16,7 +18,9 @@ import jakarta.persistence.Table;
  * @author DELL
  */
 @Entity
-
+@NamedQueries({
+	@NamedQuery(name = "LoaiKhuyenMaiEntity.getAllLoaiKhuyenMai", query = "SELECT lkm FROM LoaiKhuyenMaiEntity lkm"),
+})
 public class LoaiKhuyenMaiEntity implements Serializable{
     /**
 	 * 
@@ -25,6 +29,7 @@ public class LoaiKhuyenMaiEntity implements Serializable{
 	@Id
     @Column(name = "maLoaiKM")
     private String maLoaiKM;
+	@Column(name = "moTa", columnDefinition = "nvarchar(255)")
     private String moTa;
 
     public LoaiKhuyenMaiEntity(String maLoaiKM, String moTa) {

@@ -32,7 +32,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
             // Dimention
 //        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         
-    public TrangChu_GUI() {
+    public TrangChu_GUI() throws Exception {
 
         initComponents();
         ToanCuc tc = new ToanCuc();

@@ -1,7 +1,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -11,11 +10,17 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import lombok.EqualsAndHashCode;
 @Entity
+@EqualsAndHashCode
 //@AllArgsConstructor
+@NamedQueries({
+	@NamedQuery(name = "SanPhamEntity.getSanPhamTheoMaSP", query = "SELECT sp FROM SanPhamEntity sp WHERE sp.maSP = :maSP"),
+//	select * from SanPham where maSP in (select maSP from ChiTietHoaDon where maHD = ?)
+	@NamedQuery(name = "SanPhamEntity.getSanPhamTheoMaHD", query = "SELECT sp FROM SanPhamEntity sp WHERE sp.maSP IN (SELECT cthd.sanPham.maSP FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD)"),
+})
 public class SanPhamEntity implements Serializable{
 	
 	/**
@@ -26,20 +31,24 @@ public class SanPhamEntity implements Serializable{
 	@Column(name = "maSP")
     private String maSP;
 	
+	@Column(name = "tenSP", columnDefinition = "nvarchar(255)")
     private String tenSP;
     
     @Enumerated(EnumType.STRING)
     private KichThuocEnum kichThuoc;
     
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING )
+    @Column(columnDefinition = "nvarchar(255)")
     private MauSacEnum mauSac;
     
     private double donGia;
     private int soLuongTonKho;
     
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "nvarchar(255)")
     private TinhTrangSPEnum tinhTrang;
-    
+
+    @Column(name = "imgUrl", columnDefinition = "nvarchar(255)")
     private String imgUrl;
     
     

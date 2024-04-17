@@ -64,8 +64,9 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form PhieuNhap_JPanel
+     * @throws Exception 
      */
-    public PhieuNhap_JPanel() {
+    public PhieuNhap_JPanel() throws Exception {
         initComponents();
         //Khỏi tạo
         mhn_bus = new MatHangNhap_bus();

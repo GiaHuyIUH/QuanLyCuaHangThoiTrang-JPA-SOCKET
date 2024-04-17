@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -47,8 +48,9 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form KhuyenMai_JPanel
+     * @throws RemoteException 
      */
-    public KhuyenMai_JPanel() {
+    public KhuyenMai_JPanel() throws RemoteException {
         initComponents();
          
          ButtonGroup rdo_group = new ButtonGroup();
@@ -89,7 +91,7 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         DocDuLieuTuSQLvaoTable();
     }
 
-    private void DocDuLieuTuSQLvaoTable() {
+    private void DocDuLieuTuSQLvaoTable() throws RemoteException {
           ArrayList<ChuongTrinhKhuyenMaiEntity> listCTKM = ctkmbus.getallCTKMtheoLoaiKM(txtLoaiKM.getText());
         for (ChuongTrinhKhuyenMaiEntity ctkm : listCTKM) {
             addRows(new Object[]{ctkm.getMaCTKM(),ctkm.getMaLoaiKM().getMaLoaiKM(), ctkm.getTenCTKM(), ctkm.getSoTienToiThieu(),ctkm.getSoTienToiDa(), ctkm.getGiamGia(), ctkm.getNgayBatDau(), ctkm.getNgayKetThuc(),ctkm.getTinhTrang()});
@@ -543,7 +545,12 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         rdo_sp.setText("Áp dụng cho sản phẩm");
         rdo_sp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_spActionPerformed(evt);
+                try {
+					rdo_spActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         JPanel_ThongTinCTKM.add(rdo_sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
@@ -554,7 +561,12 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         rdo_hd.setText("Áp dụng cho hoá đơn");
         rdo_hd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_hdActionPerformed(evt);
+                try {
+					rdo_hdActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         JPanel_ThongTinCTKM.add(rdo_hd, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 110, -1, -1));
@@ -571,7 +583,12 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         btn_Xuat.setLabel("Xuất");
         btn_Xuat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_XuatMouseClicked(evt);
+                try {
+					btn_XuatMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_XuatMouseEntered(evt);
@@ -619,7 +636,12 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_LamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_LamMoiMouseClicked(evt);
+                try {
+					btn_LamMoiMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
@@ -727,7 +749,7 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         Tim();
     }//GEN-LAST:event_btn_TimKiemMouseClicked
 
-    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMouseClicked
+    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiMouseClicked
         // TODO add your handling code here:
         LamMoi();
         XoahetDuLieuTrenTable();
@@ -755,7 +777,7 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         CapNhat();
     }//GEN-LAST:event_btn_CapNhatActionPerformed
 
-    private void rdo_spActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_spActionPerformed
+    private void rdo_spActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_spActionPerformed
         txtSoTienGiamTD.setEditable(false);
         txtSoTienGiamTD.setBackground(new java.awt.Color(244, 244, 244));
         txtSoTienGiamTT.setEditable(false);
@@ -783,7 +805,7 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         DocDuLieuTuSQLvaoTable();
     }//GEN-LAST:event_rdo_spActionPerformed
 
-    private void rdo_hdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_hdActionPerformed
+    private void rdo_hdActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_hdActionPerformed
         txtSoTienGiamTD.setEditable(true);
         txtSoTienGiamTD.setBackground(new java.awt.Color(255, 255, 255));
         txtSoTienGiamTT.setEditable(true);
@@ -829,7 +851,7 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_dateNgayKetThucPropertyChange
 
-    private void btn_XuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XuatMouseClicked
+    private void btn_XuatMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_XuatMouseClicked
         btn_Xuat.setBackground(Color.CYAN);        
          JFileChooser fileChooser = new JFileChooser("C:\\Users\\MY PC\\OneDrive\\Máy tính");
             fileChooser.setDialogTitle("Chọn nơi lưu file");

@@ -15,13 +15,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 
 /**
  *
  * @author Admin
  */
 @Entity
-
+@EqualsAndHashCode
 public class ChiTietDoiTraEntity implements Serializable{
     /**
 	 * 
@@ -30,12 +31,14 @@ public class ChiTietDoiTraEntity implements Serializable{
 	
 	@Id
 	@ManyToOne
+	@JoinColumn(name = "maSP")
     private SanPhamEntity sanPham;
 	
 	@Id
     @ManyToOne
+    @JoinColumn(name = "maDoiTra")
     private DoiTraEntity doiTra;
-    
+	
     private int soLuong;
    
     private double giaBan;

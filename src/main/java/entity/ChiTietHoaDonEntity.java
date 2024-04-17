@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -20,6 +22,18 @@ import lombok.Setter;
 @Entity
 
 @Table(name = "ChiTietHoaDon")
+@EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "ChiTietHoaDonEntity.getAllCTHD", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd"),
+    @NamedQuery(name = "ChiTietHoaDonEntity.getCTHDByMaHD", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD"),
+    @NamedQuery(name = "ChiTietHoaDonEntity.getCTHDByMaSP", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.sanPham.maSP = :maSP"),
+    @NamedQuery(name = "ChiTietHoaDonEntity.getCTHDByMaHDAndMaSP", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD AND cthd.sanPham.maSP = :maSP"),
+//	"Select cthd.*, sp.tenSP, sp.kichThuoc, sp.mauSac from ChiTietHoaDon as cthd inner join SanPham as sp on cthd.maSP=sp.maSP where maHD=?"
+	@NamedQuery(name = "ChiTietHoaDonEntity.getAllCTHDTheoMaHD", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD"),
+//	"Select tongSoLuong=sum(cthd.soLuong) from ChiTietHoaDon as cthd inner join HoaDon as hd on cthd.maHD=hd.maHD where cthd.maSP=? and hd.tinhTrang=N'Chưa thanh toán' "
+	@NamedQuery(name = "ChiTietHoaDonEntity.getSoLuongCTHD", query = "SELECT SUM(cthd.soLuong) FROM ChiTietHoaDonEntity cthd WHERE cthd.sanPham.maSP = :maSP AND cthd.hoaDon.tinhTrang = 'CHUATHANHTOAN' "),
+	@NamedQuery(name = "ChiTietHoaDonEntity.soluongSPByMaSPAndMaHD", query = "SELECT cthd.soLuong FROM ChiTietHoaDonEntity cthd WHERE cthd.sanPham.maSP = :maSP AND cthd.hoaDon.maHD = :maHD"),
+})
 
 public class ChiTietHoaDonEntity implements Serializable {
 	/**

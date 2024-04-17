@@ -6,11 +6,17 @@ import Interface.ChuongTrinhKhuyenMai_Interface;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.LoaiKhuyenMaiEntity;
 import gui.KhuyenMai_JPanel;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,12 +24,18 @@ import java.util.logging.Logger;
  *
  * @author DELL
  */
-public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface {
+public class ChuongTrinhKhuyenMai_dao extends UnicastRemoteObject implements ChuongTrinhKhuyenMai_Interface {
 
-    public ChuongTrinhKhuyenMai_dao() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6564856768160309775L;
+	private EntityManager em;
+	public ChuongTrinhKhuyenMai_dao() throws RemoteException {
+		em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
     }
 
-    public ArrayList<ChuongTrinhKhuyenMaiEntity> getallCTKM() {
+    public ArrayList<ChuongTrinhKhuyenMaiEntity> getallCTKM()throws RemoteException {
         ArrayList<ChuongTrinhKhuyenMaiEntity> dsctkm = new ArrayList<ChuongTrinhKhuyenMaiEntity>();
 //        try {
            
@@ -50,77 +62,93 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+            dsctkm = (ArrayList<ChuongTrinhKhuyenMaiEntity>) em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.getAllCTKM",ChuongTrinhKhuyenMaiEntity.class).getResultList();
         return dsctkm;
     }
 
     @Override
-    public ArrayList<ChuongTrinhKhuyenMaiEntity> getCTKMTheoMaCTKM(String maCTKM,String maLoai) {
+    public ArrayList<ChuongTrinhKhuyenMaiEntity> getCTKMTheoMaCTKM(String maCTKM,String maLoai)throws RemoteException {
         ArrayList<ChuongTrinhKhuyenMaiEntity> dsctkm = new ArrayList<ChuongTrinhKhuyenMaiEntity>();
-        
-//        Connection con = ConnectDB.getConnection();
-        PreparedStatement stmt = null;
-        try {
-            String sql = "SELECT * FROM ChuongTrinhKhuyenMai WHERE maCTKM = ? and maLoaiCTKM = ?";
-//            stmt = con.prepareStatement(sql);
-            stmt.setString(1, maCTKM);
-            stmt.setString(2, maLoai);
-            ResultSet  rs = stmt.executeQuery();
-            while (rs.next()){
-                 String maKM = rs.getString("maCTKM");
-                String ten = rs.getString("tenCTKM");
-                String maLoaiKM = rs.getString("maLoaiCTKM");
-                LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(maLoaiKM);
-                double sotienTT = rs.getDouble("soTienToiThieu");
-                double sotienTD = rs.getDouble("soTienToiDa");
-                int giamgia = rs.getInt("giamGia");
-                Date ngaybatdau = rs.getDate("ngayBatDau");
-                Date ngayketthuc = rs.getDate("ngayKetThuc");
-                String tinhTrang = rs.getString("tinhTrang");
-//                ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(ma, ten, sotienTT, giamgia, ngaybatdau, ngayketthuc);
-                ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(maKM, ten, lkm, sotienTT, sotienTD, giamgia, ngaybatdau, ngayketthuc, tinhTrang);
-                dsctkm.add(ctkm);
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        
+////        Connection con = ConnectDB.getConnection();
+//        PreparedStatement stmt = null;
+//        try {
+//            String sql = "SELECT * FROM ChuongTrinhKhuyenMai WHERE maCTKM = ? and maLoaiCTKM = ?";
+////            stmt = con.prepareStatement(sql);
+//            stmt.setString(1, maCTKM);
+//            stmt.setString(2, maLoai);
+//            ResultSet  rs = stmt.executeQuery();
+//            while (rs.next()){
+//                 String maKM = rs.getString("maCTKM");
+//                String ten = rs.getString("tenCTKM");
+//                String maLoaiKM = rs.getString("maLoaiCTKM");
+//                LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(maLoaiKM);
+//                double sotienTT = rs.getDouble("soTienToiThieu");
+//                double sotienTD = rs.getDouble("soTienToiDa");
+//                int giamgia = rs.getInt("giamGia");
+//                Date ngaybatdau = rs.getDate("ngayBatDau");
+//                Date ngayketthuc = rs.getDate("ngayKetThuc");
+//                String tinhTrang = rs.getString("tinhTrang");
+////                ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(ma, ten, sotienTT, giamgia, ngaybatdau, ngayketthuc);
+//                ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(maKM, ten, lkm, sotienTT, sotienTD, giamgia, ngaybatdau, ngayketthuc, tinhTrang);
+//                dsctkm.add(ctkm);
+//                
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+		dsctkm = (ArrayList<ChuongTrinhKhuyenMaiEntity>) em
+				.createNamedQuery("ChuongTrinhKhuyenMaiEntity.getCTKMTheoMaCTKMAndMaLoaiCTKM",
+						ChuongTrinhKhuyenMaiEntity.class)
+				.setParameter("maCTKM", maCTKM).setParameter("maLoaiKM", maLoai).getResultList();
         return dsctkm;
     }
 
     @Override
-    public boolean create(ChuongTrinhKhuyenMaiEntity ctkm) {
+    public boolean create(ChuongTrinhKhuyenMaiEntity ctkm) throws RemoteException{
        
 //       Connection con = ConnectDB.getConnection();
-       PreparedStatement stmt = null;
-       int n =0;
-        try {
-//            stmt = con.prepareStatement("INSERT INTO ChuongTrinhKhuyenMai values(?,?,?,?,?,?,?,?,?)");
-            stmt.setString(1, ctkm.getMaCTKM());
-            
-            stmt.setString(2, ctkm.getTenCTKM());
-            stmt.setDouble(3, ctkm.getSoTienToiDa());
-            stmt.setDouble(4, ctkm.getSoTienToiThieu());
-            stmt.setInt(5, ctkm.getGiamGia());
-            stmt.setDate(6, (Date) ctkm.getNgayBatDau());
-            stmt.setDate(7, (Date) ctkm.getNgayKetThuc());
-            stmt.setString(8, ctkm.getTinhTrang());
-            stmt.setString(9, ctkm.getMaLoaiKM().getMaLoaiKM());
-            n = stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally{
-            try {
-                stmt.close();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
-        return n >0;
+//       PreparedStatement stmt = null;
+//       int n =0;
+//        try {
+////            stmt = con.prepareStatement("INSERT INTO ChuongTrinhKhuyenMai values(?,?,?,?,?,?,?,?,?)");
+//            stmt.setString(1, ctkm.getMaCTKM());
+//            
+//            stmt.setString(2, ctkm.getTenCTKM());
+//            stmt.setDouble(3, ctkm.getSoTienToiDa());
+//            stmt.setDouble(4, ctkm.getSoTienToiThieu());
+//            stmt.setInt(5, ctkm.getGiamGia());
+//            stmt.setDate(6, (Date) ctkm.getNgayBatDau());
+//            stmt.setDate(7, (Date) ctkm.getNgayKetThuc());
+//            stmt.setString(8, ctkm.getTinhTrang());
+//            stmt.setString(9, ctkm.getMaLoaiKM().getMaLoaiKM());
+//            n = stmt.executeUpdate();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        finally{
+//            try {
+//                stmt.close();
+//            } catch (SQLException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+    	EntityTransaction tx = em.getTransaction();
+    	try {
+			tx.begin();
+			em.persist(ctkm);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			tx.rollback();
+			e.printStackTrace();
+		}
+        return false;
     }
 
     @Override
-    public boolean delete(ChuongTrinhKhuyenMaiEntity ctkm) {
+    public boolean delete(ChuongTrinhKhuyenMaiEntity ctkm)throws RemoteException {
 //        try {
 //            ConnectDB.getInstance().connect();
 //        } catch (SQLException ex) {
@@ -149,7 +177,7 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
     }
 
     @Override
-    public boolean update(ChuongTrinhKhuyenMaiEntity ctkm) {
+    public boolean update(ChuongTrinhKhuyenMaiEntity ctkm)throws RemoteException {
 //        try {
 //            ConnectDB.getInstance().connect();
 //        } catch (SQLException ex) {
@@ -190,11 +218,21 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+    	EntityTransaction tx = em.getTransaction();
+    	try {
+    		tx.begin();
+    		em.merge(ctkm);
+    		tx.commit();
+    		return true;
+    	}catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+    	}
         return false;
         
     }
        @Override
-    public ArrayList<LoaiKhuyenMaiEntity> getallLoaiCTKM() {
+    public ArrayList<LoaiKhuyenMaiEntity> getallLoaiCTKM()throws RemoteException {
         ArrayList<LoaiKhuyenMaiEntity> dsLoaiKM = new ArrayList<>();
         
 //       try {
@@ -215,12 +253,13 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        
 //            e.printStackTrace();
 //    }
+        dsLoaiKM = (ArrayList<LoaiKhuyenMaiEntity>) em.createNamedQuery("LoaiKhuyenMaiEntity.getAllLoaiKhuyenMai",LoaiKhuyenMaiEntity.class).getResultList();
         return dsLoaiKM;
 }
     
     // Nguyen Huy Hoang
     @Override
-    public ChuongTrinhKhuyenMaiEntity kiemTraKhuyenMai(double tongTien) {
+    public ChuongTrinhKhuyenMaiEntity kiemTraKhuyenMai(double tongTien)throws RemoteException {
        
 //        Connection con = ConnectDB.getConnection();
 //        PreparedStatement statement = null;
@@ -259,11 +298,12 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //                }
 //            }
 //        }
-    	        return null;
+    	ChuongTrinhKhuyenMaiEntity ctkm = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.kiemTraKhuyenMai", ChuongTrinhKhuyenMaiEntity.class).setParameter("currentDate", new Date(System.currentTimeMillis())).setParameter("soTienToiThieu", tongTien).setMaxResults(1).getResultList().stream().findFirst().orElse(null);
+    	        return ctkm;
     }
 
     @Override
-    public ArrayList<ChuongTrinhKhuyenMaiEntity> getallCTKMtheoLoaiKM(String ma) {
+    public ArrayList<ChuongTrinhKhuyenMaiEntity> getallCTKMtheoLoaiKM(String ma)throws RemoteException {
         ArrayList<ChuongTrinhKhuyenMaiEntity> dsctkm = new ArrayList<>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -292,11 +332,12 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        dsctkm = (ArrayList<ChuongTrinhKhuyenMaiEntity>) em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.getallCTKMtheoLoaiKM",ChuongTrinhKhuyenMaiEntity.class).setParameter("maLoaiKM", ma).getResultList();
         return dsctkm;
     }
 
  @Override
-    public String layTenKhuyenMaiTheoMa(String maDanhMuc) {
+    public String layTenKhuyenMaiTheoMa(String maDanhMuc)throws RemoteException {
         String tenDanhMuc = null;
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -319,11 +360,12 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        tenDanhMuc = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.layTenKhuyenMaiTheoMa",String.class).setParameter("maCTKM", maDanhMuc).getResultList().get(0);
         return tenDanhMuc;
     }
 
     @Override
-    public String layMaKhuyenMaiTheoTen(String tenDanhMuc) {
+    public String layMaKhuyenMaiTheoTen(String tenDanhMuc)throws RemoteException {
         String maDanhMuc = null;
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -344,12 +386,12 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
+        maDanhMuc = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.layMaKhuyenMaiTheoTen",String.class).setParameter("tenCTKM", tenDanhMuc).getResultList().get(0);
         return maDanhMuc;
     }
 
     @Override
-    public ChuongTrinhKhuyenMaiEntity getKMTheoma(String ma) {
+    public ChuongTrinhKhuyenMaiEntity getKMTheoma(String ma)throws RemoteException {
         ChuongTrinhKhuyenMaiEntity dsctkm = new ChuongTrinhKhuyenMaiEntity();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -382,11 +424,12 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+        dsctkm = em.find(ChuongTrinhKhuyenMaiEntity.class, ma);
         return dsctkm;
     }
 
     @Override
-    public ArrayList<ChuongTrinhKhuyenMaiEntity> getAllCTKMTheoLoaiKMVaTinhTrang(String loaiKM, String tinhTrang) {
+    public ArrayList<ChuongTrinhKhuyenMaiEntity> getAllCTKMTheoLoaiKMVaTinhTrang(String loaiKM, String tinhTrang)throws RemoteException {
         ArrayList<ChuongTrinhKhuyenMaiEntity> dsctkm = new ArrayList<>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -415,11 +458,12 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        dsctkm = (ArrayList<ChuongTrinhKhuyenMaiEntity>) em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.getAllCTKMTheoLoaiKMVaTinhTrang",ChuongTrinhKhuyenMaiEntity.class).setParameter("maLoaiKM", loaiKM).setParameter("tinhTrang", tinhTrang).getResultList();
         return dsctkm;
     }
 
     @Override
-    public ChuongTrinhKhuyenMaiEntity getKMTheomaHD(String maHD) {
+    public ChuongTrinhKhuyenMaiEntity getKMTheomaHD(String maHD) throws RemoteException{
         
        ChuongTrinhKhuyenMaiEntity dsctkm = null;
 //        try {
@@ -449,6 +493,7 @@ public class ChuongTrinhKhuyenMai_dao implements ChuongTrinhKhuyenMai_Interface 
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+           dsctkm = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.getKMTheomaHD", ChuongTrinhKhuyenMaiEntity.class).setParameter("maHD", maHD).getResultList().get(0);
         return dsctkm;
     }
 

@@ -26,6 +26,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
@@ -65,8 +66,9 @@ public class SanPham_JPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form SanPham_JPanel
+     * @throws Exception 
      */
-    public SanPham_JPanel() {
+    public SanPham_JPanel() throws Exception {
         initComponents();
         //Khởi tạo
         sp_bus = new SanPham_bus();
@@ -323,7 +325,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemActionPerformed(evt);
+                try {
+					btn_TimKiemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -336,7 +343,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LamMoiActionPerformed(evt);
+                try {
+					btn_LamMoiActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -349,7 +361,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_Them.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_Them.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ThemActionPerformed(evt);
+                try {
+					btn_ThemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -362,7 +379,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_CapNhat.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_CapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CapNhatActionPerformed(evt);
+                try {
+					btn_CapNhatActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -386,7 +408,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_KiemTraTonKho.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btn_KiemTraTonKho.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_KiemTraTonKhoActionPerformed(evt);
+                try {
+					btn_KiemTraTonKhoActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -408,7 +435,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_Luu.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btn_Luu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LuuActionPerformed(evt);
+                try {
+					btn_LuuActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -528,7 +560,7 @@ public class SanPham_JPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     //Hàm load dữ liệu từ db lên table
-    private void loadDuLieuTuDataLenTable() {
+    private void loadDuLieuTuDataLenTable() throws RemoteException {
         sp_bus.capNhatKhuyenMai();
         ArrayList<SanPhamEntity> dsSanPham = sp_bus.getAllSanPham();
         DecimalFormat decimalFormat = new DecimalFormat();
@@ -572,13 +604,13 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btn_ChonAnhActionPerformed
 
-    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemActionPerformed
+    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_ThemActionPerformed
         // TODO add your handling code here:
         themSanPham();
     }//GEN-LAST:event_btn_ThemActionPerformed
 
     //Hàm thêm sản phẩm
-    private void themSanPham() {
+    private void themSanPham() throws RemoteException {
         if (validata()) {
             String maSP = GenerateID.sinhMa("SP");
             String tenSanPham = txt_TenSanPham.getText();
@@ -600,11 +632,11 @@ public class SanPham_JPanel extends javax.swing.JPanel {
             }
             MauSacEnum mauSac = null;
             if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
-                mauSac = MauSacEnum.TRANG;
+                mauSac = MauSacEnum.Trang;
             } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
-                mauSac = MauSacEnum.DEN;
+                mauSac = MauSacEnum.Đen;
             } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
-                mauSac = MauSacEnum.XAM;
+                mauSac = MauSacEnum.Xám;
             }
             double donGia = Double.parseDouble(txt_DonGia.getText());
             int soLuongTonKho = Integer.parseInt(txt_SoLuongTonKho.getText());
@@ -688,7 +720,7 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         btn_Them.setEnabled(false);
     }//GEN-LAST:event_table_DanhSachSanPhamMouseClicked
 
-    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
         // TODO add your handling code here:
         String dieuKien = txt_MaSanPham_Search.getText().trim();
         timKiemSanPham(dieuKien);
@@ -696,7 +728,7 @@ public class SanPham_JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_TimKiemActionPerformed
 
     //Hàm tìm kiếm sản phẩm
-    private void timKiemSanPham(String dieuKien) {
+    private void timKiemSanPham(String dieuKien) throws RemoteException {
         String timKiem = txt_MaSanPham_Search.getText().trim();
         if (timKiem.isBlank()) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập điều kiện tìm kiếm");
@@ -732,13 +764,13 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LamMoiActionPerformed
+    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiActionPerformed
         // TODO add your handling code here:
         lamMoi();
     }//GEN-LAST:event_btn_LamMoiActionPerformed
 
     //Hàm làm mới sản phẩm
-    public void lamMoi() {
+    public void lamMoi() throws RemoteException {
         txt_MaSanPham.setText("");
         txt_TenSanPham.setText("");
         cbo_ChatLieu.setSelectedIndex(0);
@@ -775,13 +807,13 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         loadDuLieuTuDataLenTable();
     }
 
-    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CapNhatActionPerformed
+    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
         // TODO add your handling code here:
         capNhatSanPham();
     }//GEN-LAST:event_btn_CapNhatActionPerformed
 
     //Hàm cập nhật sản phẩm
-    private void capNhatSanPham() {
+    private void capNhatSanPham() throws RemoteException {
         int row = table_DanhSachSanPham.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(null, "Chưa chọn sản phẩm để cập nhật");
@@ -809,11 +841,11 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                         }
                         MauSacEnum mauSac = null;
                         if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
-                            mauSac = MauSacEnum.TRANG;
+                            mauSac = MauSacEnum.Trang;
                         } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
-                            mauSac = MauSacEnum.DEN;
+                            mauSac = MauSacEnum.Đen;
                         } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
-                            mauSac = MauSacEnum.XAM;
+                            mauSac = MauSacEnum.Xám;
                         }
                         double donGia = Double.parseDouble(txt_DonGia.getText().replace(" VNĐ", "").replace(",", ""));
                         TinhTrangSPEnum tinhTrang = null;
@@ -986,13 +1018,13 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_KiemTraTonKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_KiemTraTonKhoActionPerformed
+    private void btn_KiemTraTonKhoActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_KiemTraTonKhoActionPerformed
         // TODO add your handling code here:
         kiemTraTonKho();
     }//GEN-LAST:event_btn_KiemTraTonKhoActionPerformed
 
     //Hàm kiểm tra tồn kho
-    private void kiemTraTonKho() {
+    private void kiemTraTonKho() throws RemoteException {
         ArrayList<SanPhamEntity> dsSP = sp_bus.kiemTraTonKho();
         model.setRowCount(0);
         DecimalFormat decimalFormat = new DecimalFormat();
@@ -1117,13 +1149,13 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_LuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LuuActionPerformed
+    private void btn_LuuActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LuuActionPerformed
         // TODO add your handling code here:
         luu();
     }//GEN-LAST:event_btn_LuuActionPerformed
 
     //Hàm lưu dữ liệu từ table vào db
-    private void luu() {
+    private void luu() throws RemoteException {
         for (int i = 0; i < model.getRowCount(); i++) {
             String maSP = model.getValueAt(i, 0).toString();
             String tenSP = model.getValueAt(i, 1).toString();
@@ -1145,11 +1177,11 @@ public class SanPham_JPanel extends javax.swing.JPanel {
             }
             MauSacEnum mauSac = null;
             if (model.getValueAt(i, 3).toString().equals("Trắng")) {
-                mauSac = MauSacEnum.TRANG;
+                mauSac = MauSacEnum.Trang;
             } else if (model.getValueAt(i, 3).toString().equals("Đen")) {
-                mauSac = MauSacEnum.DEN;
+                mauSac = MauSacEnum.Đen;
             } else if (model.getValueAt(i, 3).toString().equals("Xám")) {
-                mauSac = MauSacEnum.XAM;
+                mauSac = MauSacEnum.Xám;
             }
             double donGia = Double.parseDouble(model.getValueAt(i, 4).toString().replace(" VNĐ", "").replace(",", ""));
             TinhTrangSPEnum tinhTrang = null;
@@ -1194,7 +1226,7 @@ public class SanPham_JPanel extends javax.swing.JPanel {
     }
 
     //Hàm kiểm tra sản phẩm có chứa tiêu chí tìm kiếm không
-    private boolean matchesSearchTerm(SanPhamEntity sanPham, String search) {
+    private boolean matchesSearchTerm(SanPhamEntity sanPham, String search) throws RemoteException {
         String lowercaseSearch = search.toLowerCase(); // Chuyển chuỗi tìm kiếm về chữ thường
 
         if (sanPham.getMaSP().toLowerCase().contains(lowercaseSearch)

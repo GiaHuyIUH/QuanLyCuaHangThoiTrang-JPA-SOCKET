@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -66,14 +67,16 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 String stringPass = new String(pass);
                 String encodePass = MD5Encode.md5Encode(stringPass);
 
+                
                 dao.NhanVien_dao nv_dao = new NhanVien_dao();
+				
                 dao.TaiKhoan_dao tk_dao = new dao.TaiKhoan_dao();
                 nvbus = new NhanVien_bus();
                 TaiKhoanEntity tk = new TaiKhoanEntity();
                 try {
                     tk = tk_dao.getTaiKhoan(tfTK, encodePass);
                     // TODO add your handling code here:
-                } catch (SQLException ex) {
+                } catch (RemoteException ex) {
                     Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (tk == null) {
@@ -98,9 +101,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
+            } catch (RemoteException ex) {
                 Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
     };
 
@@ -224,7 +230,15 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         btn_DangNhap4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_DangNhap4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_DangNhap4MouseClicked(evt);
+                try {
+					btn_DangNhap4MouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn_DangNhap4.addActionListener(new java.awt.event.ActionListener() {
@@ -287,7 +301,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_HuyBoActionPerformed
 
-    private void btn_DangNhap4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhap4MouseClicked
+    private void btn_DangNhap4MouseClicked(java.awt.event.MouseEvent evt) throws Exception {//GEN-FIRST:event_btn_DangNhap4MouseClicked
 
         try {
 
@@ -303,7 +317,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             try {
                 tk = tk_dao.getTaiKhoan(tfTK, encodePass);
                 // TODO add your handling code here:
-            } catch (SQLException ex) {
+            } catch (RemoteException ex) {
                 Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (tk == null) {
@@ -332,7 +346,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_DangNhap4MouseClicked

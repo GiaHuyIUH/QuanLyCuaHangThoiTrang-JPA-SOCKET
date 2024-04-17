@@ -9,6 +9,7 @@ import dao.NhanVien_dao;
 import dao.TaiKhoan_dao;
 import entity.TaiKhoanEntity;
 import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -220,7 +221,7 @@ public class LamMoiMatKhau_GUI extends javax.swing.JFrame {
 
             }
 
-        } catch (SQLException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(LamMoiMatKhau_GUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(LamMoiMatKhau_GUI.class.getName()).log(Level.SEVERE, null, ex);

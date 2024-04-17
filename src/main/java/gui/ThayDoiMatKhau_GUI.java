@@ -8,6 +8,7 @@ package gui;
 import dao.TaiKhoan_dao;
 import entity.TaiKhoanEntity;
 import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -116,7 +117,12 @@ public class ThayDoiMatKhau_GUI extends javax.swing.JFrame {
         btn_ThuyDoi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_ThuyDoi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ThuyDoiMouseClicked(evt);
+                try {
+					btn_ThuyDoiMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn_ThuyDoi.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +209,7 @@ public class ThayDoiMatKhau_GUI extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btn_HuyBoMouseClicked
 
-    private void btn_ThuyDoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThuyDoiMouseClicked
+    private void btn_ThuyDoiMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_ThuyDoiMouseClicked
         try {                                         
             String tenTaiKhoan = jlf_TenTaiKhoan.getText();
             char[] po = jpf_MatKhauHienTai.getPassword();
@@ -231,7 +237,7 @@ public class ThayDoiMatKhau_GUI extends javax.swing.JFrame {
             
             try {
                 tk = tk_dao.getTaiKhoan(tenTaiKhoan, encodeOldPass);
-            } catch (SQLException ex) {
+            } catch (RemoteException ex) {
                 Logger.getLogger(ThayDoiMatKhau_GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(tk == null){

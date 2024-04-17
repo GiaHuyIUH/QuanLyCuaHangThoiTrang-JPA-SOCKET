@@ -5,14 +5,20 @@
 package Interface;
 
 import entity.ChatLieuEntity;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+
+
 
 /**
  *
  * @author Tran Hien Vinh
  */
 public interface ChatLieu_Interface {
-    public ArrayList<ChatLieuEntity> getAllCL();
-    public String layTenChatLieuTheoMa(String maChatLieu);
-    public String layMaChatLieuTheoTen(String tenChatLieu);
+    public ArrayList<ChatLieuEntity> getAllCL()throws java.rmi.RemoteException;
+    public String layTenChatLieuTheoMa(String maChatLieu)throws java.rmi.RemoteException;
+    public String layMaChatLieuTheoTen(String tenChatLieu)throws java.rmi.RemoteException;
+	boolean themChatLieu(ChatLieuEntity cl) throws RemoteException;
 }

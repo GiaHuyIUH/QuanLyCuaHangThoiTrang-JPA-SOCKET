@@ -2,7 +2,7 @@ package entity;
 
 public enum MauSacEnum {
 	
-	TRANG("Trắng"), DEN("Đen"), XAM("Xám");
+	 Đen("Đen"), Xám("Xám"),Trang("Trắng");
 	
 	private String mauSac;
 

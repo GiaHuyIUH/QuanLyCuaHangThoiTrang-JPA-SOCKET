@@ -15,6 +15,7 @@ import entity.SanPhamEntity;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -60,8 +61,9 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form ChiTietHoaDon_GUI
+     * @throws RemoteException 
      */
-    public ChiTietHoaDon_GUI() {
+    public ChiTietHoaDon_GUI() throws RemoteException {
 //           try {
 //            ConnectDB.getInstance().connect();
 //        } catch (SQLException e) {
@@ -109,7 +111,7 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
 
     }
 
-    private void DocDuLieuSQLvaoTable() {
+    private void DocDuLieuSQLvaoTable() throws RemoteException {
     ArrayList<ChiTietHoaDonEntity> listCTHD = cthdbus.getallCTHD();
     int sl = 0;
         try {

@@ -9,6 +9,12 @@ import entity.NhanVienEntity;
 import entity.TaiKhoanEntity;
 import entity.TinhTrangNVEnum;
 import entity.TinhTrangTKEnum;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,10 +28,20 @@ import java.util.logging.Logger;
  *
  * @author HUY
  */
-public class NhanVien_dao implements NhanVienInterface{
+public class NhanVien_dao extends UnicastRemoteObject implements NhanVienInterface{
     
-    @Override
-    public Boolean checkNV(String email, String sdt) throws SQLException {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2628481656822445170L;
+	private EntityManager em;
+	
+	public NhanVien_dao() throws RemoteException{
+		em = Persistence.createEntityManagerFactory("JPA MSSQL")
+				.createEntityManager();
+	}
+	@Override
+    public boolean checkNV(String email, String sdt) throws RemoteException {
 //        ConnectDB.getInstance();
 //        Connection con = ConnectDB.getConnection();
 //        PreparedStatement statement = null;
@@ -50,52 +66,18 @@ public class NhanVien_dao implements NhanVienInterface{
 //                e2.printStackTrace();
 //            }
 //        }
-        return false;
+        return em.createNamedQuery("NhanVienEntity.checkNV", NhanVienEntity.class).setParameter("email", email).setParameter("soDienThoai", sdt).getResultList().size() > 0;
       
     }
     @Override
-    public NhanVienEntity getNV( String sdt) throws SQLException {
+    public NhanVienEntity getNV( String sdt) throws RemoteException {
         NhanVienEntity nv = new NhanVienEntity();
-//        ConnectDB.getInstance();
-//        Connection con = ConnectDB.getConnection();
-//        PreparedStatement statement = null;
-//        try {
-//
-//            String sql = "SELECT * FROM NhanVien WHERE  soDienThoai = ?";
-//            statement = con.prepareStatement(sql);
-//            statement.setString(1, sdt);
-//            ResultSet rs = statement.executeQuery();
-//            while (rs.next()) {
-//               
-//              GioiTinhEnum gt = null;
-//                gt = switch (rs.getString("gioiTinh")) {
-//                    case "Nam" -> GioiTinhEnum.NAM;
-//                    case "Nữ" -> GioiTinhEnum.NU;
-//                    default -> GioiTinhEnum.KHAC;
-//                };
-//                TinhTrangNVEnum tt = null;
-//                tt = switch (rs.getString("tinhTrang")) {
-//                    case "Đang làm việc" -> TinhTrangNVEnum.DANG_LAM_VIEC;
-//                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHI_VIEC;
-//                    default -> TinhTrangNVEnum.NGHI_PHEP;
-//                };
-//                nv = new NhanVienEntity(rs.getString("maNV"), 
-//                        rs.getString("hoTen"), 
-//                        gt, LocalDate.parse(rs.getString("ngaySinh")), 
-//                        rs.getString("email"), 
-//                        rs.getString("soDienThoai"), 
-//                        rs.getString("diaChi"), 
-//                        rs.getString("chucVu").equals(ChucVuEnum.NHAN_VIEN.toString()) == true ? ChucVuEnum.NHAN_VIEN : ChucVuEnum.QUAN_LY, 
-//                        tt, 
-//                        rs.getString("caLamViec").equals(CaLamViecEnum.CA_1.toString()) == true ? CaLamViecEnum.CA_1 : CaLamViecEnum.CA_2);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+     nv = em.createNamedQuery("NhanVienEntity.getNV", NhanVienEntity.class).setParameter("soDienThoai", sdt).getResultList()
+        .stream().findFirst().orElse(null);
         return nv;
     }
     @Override
-    public NhanVienEntity findOne(String id) {
+    public NhanVienEntity findOne(String id)throws RemoteException {
         NhanVienEntity nhanVien = null;
 //        ResultSet rs = null;
 //        try {
@@ -132,11 +114,13 @@ public class NhanVien_dao implements NhanVienInterface{
 //        } catch (SQLException ex) {
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+		nhanVien = em.createNamedQuery("NhanVienEntity.getNV", NhanVienEntity.class).setParameter("soDienThoai", id)
+				.getResultList().stream().findFirst().orElse(null);
         return nhanVien;
     }
 
     @Override
-    public boolean update(NhanVienEntity NewNV) {
+    public boolean update(NhanVienEntity NewNV) throws RemoteException{
 //        StringBuilder sql = new StringBuilder("UPDATE NhanVien SET hoTen = ?, gioiTinh = ?,");
 //        sql.append(" ngaySinh = ?, email = ?, soDienThoai = ?, diaChi = ?, chucVu = ?, tinhTrang = ?, caLamViec = ? WHERE maNV = ?");
 //        int n = 0;
@@ -158,11 +142,21 @@ public class NhanVien_dao implements NhanVienInterface{
 //        } catch (SQLException ex) {
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+    	EntityTransaction tx = em.getTransaction();
+    	try {
+			tx.begin();
+			em.merge(NewNV);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+    	}
         return false;
     }
 
     @Override
-    public boolean insert(NhanVienEntity NV ) {
+    public boolean insert(NhanVienEntity NV )throws RemoteException {
 //        TaiKhoan_dao tkDao = new TaiKhoan_dao();
 //        int n = 0;
 //        if(tkDao.insert(new TaiKhoanEntity(NV.getSoDienThoai(), "1111", null, TinhTrangTKEnum.DANG_HOAT_DONG))) {
@@ -188,12 +182,21 @@ public class NhanVien_dao implements NhanVienInterface{
 //                Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //        }
-        
+        EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.persist(NV);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
         return  false;
     }
 
     @Override
-    public ArrayList<NhanVienEntity> findAll() {
+    public ArrayList<NhanVienEntity> findAll()throws RemoteException {
         ArrayList<NhanVienEntity> listKH = new ArrayList<>();
 //        try {
 //            connect.connect();
@@ -229,6 +232,7 @@ public class NhanVien_dao implements NhanVienInterface{
 //        catch (SQLException ex) {
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        listKH = (ArrayList<NhanVienEntity>) em.createNamedQuery("NhanVienEntity.getAllNV", NhanVienEntity.class).getResultList();
         return listKH;
     }
 }

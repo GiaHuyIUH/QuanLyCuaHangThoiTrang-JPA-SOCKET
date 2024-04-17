@@ -20,6 +20,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -45,7 +46,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
      * Creates new form DoiTra_JPanel
      */
     private HoaDon_bus hd_bus = new HoaDon_bus();
-    private ChiTietHoaDon_bus cthd_bus = new ChiTietHoaDon_bus();
+    private ChiTietHoaDon_bus cthd_bus ;
     private SanPham_bus sp_bus = new SanPham_bus();
     private DefaultTableModel tableModel_HoaDon;
     private DefaultTableModel tableModel_GioHang;
@@ -206,7 +207,12 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         btn_TimKiemHoaDon.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TimKiemHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemHoaDonActionPerformed(evt);
+                try {
+					btn_TimKiemHoaDonActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -600,7 +606,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_table_GioHangMouseClicked
 
-    private void btn_TimKiemHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemHoaDonActionPerformed
+    private void btn_TimKiemHoaDonActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemHoaDonActionPerformed
         timKiemHoaDon();
     }//GEN-LAST:event_btn_TimKiemHoaDonActionPerformed
 
@@ -679,7 +685,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_MaHoaDon;
     // End of variables declaration//GEN-END:variables
     
-    public void timKiemHoaDon() {
+    public void timKiemHoaDon() throws RemoteException {
         String maHD = txt_MaHoaDon.getText().trim();
         if(maHD.equals("")) {
             JOptionPane.showMessageDialog(this, "Mã hoá đơn chưa được nhập!");

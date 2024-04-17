@@ -2,10 +2,13 @@ package entity;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.EqualsAndHashCode;
 
 @Entity
+@EqualsAndHashCode
 public class ThuongHieuEntity  implements Serializable{
 
 	/**
@@ -16,6 +19,7 @@ public class ThuongHieuEntity  implements Serializable{
 	@Id
     private String maThuongHieu;
 	
+	@Column(name = "tenThuongHieu", columnDefinition = "nvarchar(255)")
     private String  tenThuongHieu;
 
     public ThuongHieuEntity(String maThuongHieu, String tenThuongHieu) {
