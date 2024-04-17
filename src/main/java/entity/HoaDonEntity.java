@@ -1,17 +1,51 @@
 package entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class HoaDonEntity {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+@Entity
+@Setter
+@Getter
+@Table(name = "HoaDon")
+public class HoaDonEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3387812072003627356L;
+	@Id
+	@Column(name = "MaHD")
 	private String maHD;
+	@Column(name = "NgayLapHD")
 	private Date ngayLapHD;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaKH")
 	private KhachHangEntity khachHang;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaNV")
 	private NhanVienEntity nhanVien;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MaKM")
 	private ChuongTrinhKhuyenMaiEntity chuongTrinhKM;
+	@Column(name = "TienKhuyenMai")
 	private double tienKhuyenMai;
+	@Column(name = "TongTien")
         private double tongTien;
+	@Column(name = "TienThanhToan")
         private double tienThanhToan;
+	@Enumerated(EnumType.STRING)
         private TinhTrangHDEnum tinhTrang;
         
 	public HoaDonEntity(String maHD, Date ngayLapHD, KhachHangEntity khachHang, NhanVienEntity nhanVien,

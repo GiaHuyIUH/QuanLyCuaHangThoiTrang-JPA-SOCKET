@@ -1,9 +1,20 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class DanhMucSanPhamEntity {
-	private String maDanhMuc, tenDanhMuc;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class DanhMucSanPhamEntity implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8000915183043346637L;
+	@Id
+	private String maDanhMuc;
+	private String tenDanhMuc;
 
 	public DanhMucSanPhamEntity(String maDanhMuc, String tenDanhMuc) {
 		super();

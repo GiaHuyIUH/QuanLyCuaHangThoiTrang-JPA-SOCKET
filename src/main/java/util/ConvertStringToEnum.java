@@ -71,22 +71,22 @@ public class ConvertStringToEnum {
     
     public ChucVuEnum ChucVuToEnum(String chucVu) {
         if(chucVu.equals("Nhân viên")) {
-            return ChucVuEnum.NHANVIEN;
+            return ChucVuEnum.NHAN_VIEN;
         }
         if(chucVu.equals("Quản lý")) {
-            return ChucVuEnum.QUANLY;
+            return ChucVuEnum.QUAN_LY;
         }
-        return ChucVuEnum.NHANVIEN;
+        return ChucVuEnum.NHAN_VIEN;
     }
     
     public CaLamViecEnum CaLamViecToEnum(String caLamViec) {
         if(caLamViec.equals("Ca 1")) {
-            return CaLamViecEnum.CA1;
+            return CaLamViecEnum.CA_1;
         }
         if(caLamViec.equals("Ca 2")) {
-            return CaLamViecEnum.CA2;
+            return CaLamViecEnum.CA_2;
         }
-        return CaLamViecEnum.CA1;
+        return CaLamViecEnum.CA_1;
     }
     
     public TinhTrangNCCEnum TinhTrangNCCToEnum(String tinhTrangNCC) {
@@ -101,15 +101,15 @@ public class ConvertStringToEnum {
     
     public TinhTrangNVEnum TinhTrangNVToEnum(String tinhTrangNV) {
         if(tinhTrangNV.equals("Đang làm việc")) {
-            return TinhTrangNVEnum.DANGLAMVIEC;
+            return TinhTrangNVEnum.DANG_LAM_VIEC;
         }
         if(tinhTrangNV.equals("Nghỉ việc")) {
-            return TinhTrangNVEnum.NGHIVIEC;
+            return TinhTrangNVEnum.NGHI_VIEC;
         }
         if(tinhTrangNV.equals("Nghỉ phép")) {
-            return TinhTrangNVEnum.NGHIPHEP;
+            return TinhTrangNVEnum.NGHI_PHEP;
         }
-        return TinhTrangNVEnum.DANGLAMVIEC;
+        return TinhTrangNVEnum.DANG_LAM_VIEC;
     }
     
     public TinhTrangSPEnum TinhTrangSPToEnum(String tinhTrangSP) {

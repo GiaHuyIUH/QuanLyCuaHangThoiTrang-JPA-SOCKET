@@ -75,9 +75,9 @@ public class NhanVien_dao implements NhanVienInterface{
                 };
                 TinhTrangNVEnum tt = null;
                 tt = switch (rs.getString("tinhTrang")) {
-                    case "Đang làm việc" -> TinhTrangNVEnum.DANGLAMVIEC;
-                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHIVIEC;
-                    default -> TinhTrangNVEnum.NGHIPHEP;
+                    case "Đang làm việc" -> TinhTrangNVEnum.DANG_LAM_VIEC;
+                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHI_VIEC;
+                    default -> TinhTrangNVEnum.NGHI_PHEP;
                 };
                 nv = new NhanVienEntity(rs.getString("maNV"), 
                         rs.getString("hoTen"), 
@@ -85,9 +85,9 @@ public class NhanVien_dao implements NhanVienInterface{
                         rs.getString("email"), 
                         rs.getString("soDienThoai"), 
                         rs.getString("diaChi"), 
-                        rs.getString("chucVu").equals(ChucVuEnum.NHANVIEN.toString()) == true ? ChucVuEnum.NHANVIEN : ChucVuEnum.QUANLY, 
+                        rs.getString("chucVu").equals(ChucVuEnum.NHAN_VIEN.toString()) == true ? ChucVuEnum.NHAN_VIEN : ChucVuEnum.QUAN_LY, 
                         tt, 
-                        rs.getString("caLamViec").equals(CaLamViecEnum.CA1.toString()) == true ? CaLamViecEnum.CA1 : CaLamViecEnum.CA2);
+                        rs.getString("caLamViec").equals(CaLamViecEnum.CA_1.toString()) == true ? CaLamViecEnum.CA_1 : CaLamViecEnum.CA_2);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,9 +112,9 @@ public class NhanVien_dao implements NhanVienInterface{
                 };
                 TinhTrangNVEnum tt = null;
                 tt = switch (rs.getString("tinhTrang")) {
-                    case "Đang làm việc" -> TinhTrangNVEnum.DANGLAMVIEC;
-                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHIVIEC;
-                    default -> TinhTrangNVEnum.NGHIPHEP;
+                    case "Đang làm việc" -> TinhTrangNVEnum.DANG_LAM_VIEC;
+                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHI_VIEC;
+                    default -> TinhTrangNVEnum.NGHI_PHEP;
                 };
                 nhanVien = new NhanVienEntity(rs.getString("maNV"), 
                         rs.getString("hoTen"), 
@@ -122,9 +122,9 @@ public class NhanVien_dao implements NhanVienInterface{
                         rs.getString("email"), 
                         rs.getString("soDienThoai"), 
                         rs.getString("diaChi"), 
-                        rs.getString("chucVu").equals(ChucVuEnum.NHANVIEN.name()) == true ? ChucVuEnum.NHANVIEN : ChucVuEnum.QUANLY, 
+                        rs.getString("chucVu").equals(ChucVuEnum.NHAN_VIEN.name()) == true ? ChucVuEnum.NHAN_VIEN : ChucVuEnum.QUAN_LY, 
                         tt, 
-                        rs.getString("caLamViec").equals(CaLamViecEnum.CA1.name()) == true ? CaLamViecEnum.CA1 : CaLamViecEnum.CA2);
+                        rs.getString("caLamViec").equals(CaLamViecEnum.CA_1.name()) == true ? CaLamViecEnum.CA_1 : CaLamViecEnum.CA_2);
             }
             
             connect.disconnect();
@@ -209,9 +209,9 @@ public class NhanVien_dao implements NhanVienInterface{
                 };
                 TinhTrangNVEnum tt = null;
                 tt = switch (rs.getString("tinhTrang")) {
-                    case "Đang làm việc" -> TinhTrangNVEnum.DANGLAMVIEC;
-                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHIVIEC;
-                    default -> TinhTrangNVEnum.NGHIPHEP;
+                    case "Đang làm việc" -> TinhTrangNVEnum.DANG_LAM_VIEC;
+                    case "Nghỉ việc" -> TinhTrangNVEnum.NGHI_VIEC;
+                    default -> TinhTrangNVEnum.NGHI_PHEP;
                 };
                 nhanVien = new NhanVienEntity(rs.getString("maNV"), 
                         rs.getString("hoTen"), 
@@ -219,9 +219,9 @@ public class NhanVien_dao implements NhanVienInterface{
                         rs.getString("email"), 
                         rs.getString("soDienThoai"), 
                         rs.getString("diaChi"), 
-                        rs.getString("chucVu").equals(ChucVuEnum.NHANVIEN.toString()) == true ? ChucVuEnum.NHANVIEN : ChucVuEnum.QUANLY, 
+                        rs.getString("chucVu").equals(ChucVuEnum.NHAN_VIEN.toString()) == true ? ChucVuEnum.NHAN_VIEN : ChucVuEnum.QUAN_LY, 
                         tt, 
-                        rs.getString("caLamViec").equals(CaLamViecEnum.CA1.toString()) == true ? CaLamViecEnum.CA1 : CaLamViecEnum.CA2);
+                        rs.getString("caLamViec").equals(CaLamViecEnum.CA_1.toString()) == true ? CaLamViecEnum.CA_1 : CaLamViecEnum.CA_2);
                 if (!listKH.contains(nhanVien)) listKH.add(nhanVien);
             }
             connect.disconnect();

@@ -65,7 +65,7 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
             ps = con.prepareStatement(sql);
             ps.setString(1, mhn.getMaMHN());
             ps.setString(2, mhn.getNhaCungCap().getMaNCC());
-            ps.setString(3, mhn.getSanPham().getMaSP());
+//            ps.setString(3, mhn.getSanPham().getMaSP());
             ps.setInt(4, mhn.getSoLuongNhap());
             ps.setDate(5, Date.valueOf(mhn.getNgayNhap()));
             int check = ps.executeUpdate();

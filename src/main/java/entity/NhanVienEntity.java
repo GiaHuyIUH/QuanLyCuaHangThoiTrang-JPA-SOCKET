@@ -1,21 +1,38 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class NhanVienEntity {
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+
+@Entity
+public class NhanVienEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7564071463227667131L;
+	@Id
 	private String maNV;
 	private String hoTen;
+	@Enumerated(EnumType.STRING)
 	private GioiTinhEnum gioiTinh;
 	private LocalDate ngaySinh;
 	private String email;
 	private String soDienThoai;
 	private String diaChi;
+	@Enumerated(EnumType.STRING)
 	private ChucVuEnum chucVu;
+	@Enumerated(EnumType.STRING)
 	private TinhTrangNVEnum tinhTrang;
+	@Enumerated(EnumType.STRING)
 	private CaLamViecEnum caLamViec;
+	
         
 	public NhanVienEntity(String maNV, String hoTen, GioiTinhEnum gioiTinh, LocalDate ngaySinh, String email,
 			String soDienThoai, String diaChi, ChucVuEnum chucVu, TinhTrangNVEnum tinhTrang, CaLamViecEnum caLamViec) {

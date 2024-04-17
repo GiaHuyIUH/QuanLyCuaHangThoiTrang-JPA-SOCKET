@@ -1,9 +1,27 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class NhaCungCapEntity {
-	private String maNCC, tenNCC, diaChi, soDienThoai;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+
+@Entity
+public class NhaCungCapEntity implements Serializable {
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3206133651895847697L;
+	@Id
+	 @Column(name = "maNCC")
+	    private String maNCC;
+	    private String tenNCC;
+	    private String diaChi;
+	    private String soDienThoai;
+	    @Enumerated(EnumType.STRING)
 	private TinhTrangNCCEnum tinhTrang;
 	public NhaCungCapEntity(String maNCC, String tenNCC, String diaChi, String soDienThoai, TinhTrangNCCEnum tinhTrang) {
 		super();
