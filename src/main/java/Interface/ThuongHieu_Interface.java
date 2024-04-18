@@ -5,6 +5,8 @@
 package Interface;
 
 import entity.ThuongHieuEntity;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +14,7 @@ import java.util.ArrayList;
  * @author Tran Hien Vinh
  */
 public interface ThuongHieu_Interface {
-    public ArrayList<ThuongHieuEntity> getAllTH();
-    public String layTenThuongHieuTheoMa(String maThuongHieu);
-    public String layMaThuongHieuTheoTen(String tenThuongHieu);
+    public ArrayList<ThuongHieuEntity> getAllTH()throws RemoteException;
+    public String layTenThuongHieuTheoMa(String maThuongHieu)throws RemoteException;
+    public String layMaThuongHieuTheoTen(String tenThuongHieu)throws RemoteException;
 }

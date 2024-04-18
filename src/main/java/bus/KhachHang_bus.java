@@ -6,6 +6,9 @@ package bus;
 
 import dao.KhachHang_dao;
 import entity.KhachHangEntity;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import util.GenerateID;
 import Interface.KhachHang_Interface;
@@ -14,32 +17,36 @@ import Interface.KhachHang_Interface;
  *
  * @author HUY
  */
-public class KhachHang_bus implements KhachHang_Interface {
-    KhachHang_dao khachHangDAO = new KhachHang_dao();
+public class KhachHang_bus extends UnicastRemoteObject implements KhachHang_Interface {
+    KhachHang_dao khachHangDAO;
+    
+	public KhachHang_bus() throws RemoteException {
+		khachHangDAO = new KhachHang_dao();
+	}
     
     @Override
-    public KhachHangEntity findOne(String id) {
-//        return khachHangDAO.findOne(id);
-    	return null;
+    public KhachHangEntity findOne(String id)throws RemoteException {
+        return khachHangDAO.findOne(id);
+    	
     }
 
     @Override
-    public boolean update(KhachHangEntity updateKH) {
-//        return khachHangDAO.update(updateKH);
-    	return true;
+    public boolean update(KhachHangEntity updateKH)throws RemoteException {
+        return khachHangDAO.update(updateKH);
+//    	return true;
     }
 
     @Override
-    public boolean insert(KhachHangEntity insertKH) {
+    public boolean insert(KhachHangEntity insertKH)throws RemoteException {
 //        insertKH.setMaKH(generateID.sinhMa(khachHangDAO.count(GenerateID.dateFormat()), "KH"));
-//        return khachHangDAO.insert(insertKH);
-    	return true;
+        return khachHangDAO.insert(insertKH);
+//    	return true;
     }
 
     @Override
-    public ArrayList<KhachHangEntity> findAll() {
-//        return khachHangDAO.findAll();
-    	return null;
+    public ArrayList<KhachHangEntity> findAll() throws RemoteException{
+        return khachHangDAO.findAll();
+//    	return null;
     }
 
 //    @Override
@@ -49,15 +56,15 @@ public class KhachHang_bus implements KhachHang_Interface {
     
     // Nguyen Huy Hoang
     @Override
-    public KhachHangEntity timKiemTheoSDT(String sdt) {
-//        return khachHangDAO.timKiemTheoSDT(sdt);
-    	return null;
+    public KhachHangEntity timKiemTheoSDT(String sdt)throws RemoteException {
+        return khachHangDAO.timKiemTheoSDT(sdt);
+//    	return null;
     }
 
     @Override
-    public KhachHangEntity getKHTheoMa(String ma) {
-//       return khachHangDAO.getKHTheoMa(ma);
-    	return null;
+    public KhachHangEntity getKHTheoMa(String ma) throws RemoteException{
+       return khachHangDAO.getKHTheoMa(ma);
+//    	return null;
     }
     
 }

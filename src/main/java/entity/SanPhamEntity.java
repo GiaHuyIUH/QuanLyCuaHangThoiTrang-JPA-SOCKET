@@ -20,6 +20,8 @@ import lombok.EqualsAndHashCode;
 	@NamedQuery(name = "SanPhamEntity.getSanPhamTheoMaSP", query = "SELECT sp FROM SanPhamEntity sp WHERE sp.maSP = :maSP"),
 //	select * from SanPham where maSP in (select maSP from ChiTietHoaDon where maHD = ?)
 	@NamedQuery(name = "SanPhamEntity.getSanPhamTheoMaHD", query = "SELECT sp FROM SanPhamEntity sp WHERE sp.maSP IN (SELECT cthd.sanPham.maSP FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD)"),
+//	UPDATE SanPham SET maCTKM = NULL WHERE maCTKM IN (SELECT maCTKM FROM ChuongTrinhKhuyenMai WHERE ngayKetThuc < SYSDATETIME() AND ngayKetThuc <> CONVERT(DATE, SYSDATETIME()))
+	@NamedQuery(name = "SanPhamEntity.capNhatKhuyenMai", query = "UPDATE SanPhamEntity sp SET sp.chuongTrinhKhuyenMai.maCTKM = NULL WHERE sp.chuongTrinhKhuyenMai.maCTKM IN (SELECT ctkm.maCTKM FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.ngayKetThuc < CURRENT_DATE AND ctkm.ngayKetThuc <> CURRENT_DATE)"),
 })
 public class SanPhamEntity implements Serializable{
 	

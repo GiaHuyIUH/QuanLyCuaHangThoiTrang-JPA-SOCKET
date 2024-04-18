@@ -1,27 +1,45 @@
 package dao;
-//
+
 //import connectDB.ConnectDB;
-//import entity.GioiTinhEnum;
-//import entity.KhachHangEntity;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.sql.Connection;
-//import java.util.ArrayList;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
-//import Interface.KhachHang_Interface;
-//import util.ConvertStringToEnum;
-//
-///**
-// *
-// * @author HUY
-// */
-public class KhachHang_dao{
+import entity.GioiTinhEnum;
+import entity.KhachHangEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import Interface.KhachHang_Interface;
+import util.ConvertStringToEnum;
+
+/**
+ *
+ * @author HUY
+ */
+public class KhachHang_dao extends UnicastRemoteObject implements KhachHang_Interface{
+	
+	private EntityManager em;
+	
+	
+	public KhachHang_dao() throws RemoteException{
+		super();
+		em =Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
+		
+	}
+	
 //    ConnectDB connect = new ConnectDB();
-//    
-//    @Override
-//    public KhachHangEntity findOne(String id) {
+    
+    @Override
+    public KhachHangEntity findOne(String id)throws RemoteException {
+    	
+    	  return em.find(KhachHangEntity.class, id);
 //        KhachHangEntity khachHang = null;
 //        ResultSet rs = null;
 //        try {
@@ -52,10 +70,23 @@ public class KhachHang_dao{
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        return khachHang;
-//    }
-//
-//    @Override
-//    public boolean update(KhachHangEntity NewKH) {
+    }
+
+    @Override
+    public boolean update(KhachHangEntity NewKH) throws RemoteException{
+    	
+    	EntityTransaction tx = em.getTransaction();
+    	try {
+    		tx.begin();
+    		em.merge(NewKH);
+    		tx.commit();
+    		return true;
+		}catch (Exception e) {
+				tx.rollback();
+				e.printStackTrace();
+    		}
+    	return false;
+		
 //        StringBuilder sql = new StringBuilder("UPDATE KhachHang SET hoTen = ?, gioiTinh = ?,");
 //        sql.append(" soDienThoai = ?, diaChi = ? WHERE maKH = ?");
 //        int n = 0;
@@ -73,10 +104,21 @@ public class KhachHang_dao{
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        return n > 0;
-//    }
-//
-//    @Override
-//    public boolean insert(KhachHangEntity KH) {
+    }
+
+    @Override
+    public boolean insert(KhachHangEntity KH) throws RemoteException{
+    	EntityTransaction tx = em.getTransaction();
+    	try {
+    		tx.begin();
+    		em.persist(KH);
+    		tx.commit();
+    		return true;
+        }catch (Exception e) {
+        	tx.rollback();
+        	e.printStackTrace();
+        }
+    	return false;
 //        int n = 0;
 //        StringBuilder sql = new StringBuilder("INSERT INTO KhachHang(maKH, hoTen, gioiTinh, soDienThoai, diaChi)");
 //        sql.append(" VALUES(?, ?, ?, ?, ?)");
@@ -94,10 +136,13 @@ public class KhachHang_dao{
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        return n > 0;
-//    }
-//
-//    @Override
-//    public ArrayList<KhachHangEntity> findAll() {
+    }
+
+    @Override
+    public ArrayList<KhachHangEntity> findAll()throws RemoteException {
+    		return (ArrayList<KhachHangEntity>) em.createQuery("from KhachHangEntity").getResultList();
+    	
+    	
 //        ArrayList<KhachHangEntity> listKH = new ArrayList<>();
 //        try {
 //            connect.connect();
@@ -127,32 +172,38 @@ public class KhachHang_dao{
 //            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        return listKH;
-//    }
-//
-////    @Override
-////    public int count(String id) {
-////        int count = 0;
-////        StringBuilder sql = new StringBuilder("SELECT COUNT(*) AS TotalCount ");
-////            sql.append("FROM KhachHang WHERE maKH LIKE ?");
-////        try {
-////            connect.connect();
-////            PreparedStatement statement = connect.getConnection().prepareStatement(sql.toString());
-////            statement.setString(1, "%" + id + "%");
-////            ResultSet rs = statement.executeQuery();
-////            while (rs.next()) {
-////                count = rs.getInt("TotalCount");
-////            }
-////            connect.disconnect();
-////        } catch (SQLException ex) {
-////            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
-////        }
-////        return count;
-////    }
-//    
-//    
-//    // Nguyen Huy Hoang
+    }
+
 //    @Override
-//    public KhachHangEntity timKiemTheoSDT(String sdt) {
+//    public int count(String id) {
+//        int count = 0;
+//        StringBuilder sql = new StringBuilder("SELECT COUNT(*) AS TotalCount ");
+//            sql.append("FROM KhachHang WHERE maKH LIKE ?");
+//        try {
+//            connect.connect();
+//            PreparedStatement statement = connect.getConnection().prepareStatement(sql.toString());
+//            statement.setString(1, "%" + id + "%");
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                count = rs.getInt("TotalCount");
+//            }
+//            connect.disconnect();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(KhachHang_dao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return count;
+//    }
+    
+    
+    // Nguyen Huy Hoang
+    @Override
+    public KhachHangEntity timKiemTheoSDT(String sdt) throws RemoteException{
+    		
+		return em.createQuery("select k from KhachHangEntity k where k.soDienThoai = :sdt", KhachHangEntity.class)
+				.setParameter("sdt", sdt).getResultList().stream().findFirst().orElse(null);
+    	
+    	
+    	
 //        PreparedStatement statement = null;
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -188,10 +239,15 @@ public class KhachHang_dao{
 //                e.printStackTrace();
 //            }
 //        }
-//    }
-//
-//    @Override
-//    public KhachHangEntity getKHTheoMa(String ma) {
+    }
+
+    @Override
+    public KhachHangEntity getKHTheoMa(String ma) throws RemoteException{
+    	
+    	
+    	return em.find(KhachHangEntity.class, ma);
+    	
+    	
 //          KhachHangEntity khachHang = null;
 //        ResultSet rs = null;
 //        try {
@@ -223,4 +279,4 @@ public class KhachHang_dao{
 //        }
 //        return khachHang;
     }
-//}
+}

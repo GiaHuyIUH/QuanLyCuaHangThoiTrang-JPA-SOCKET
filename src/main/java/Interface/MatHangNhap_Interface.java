@@ -5,6 +5,8 @@
 package Interface;
 
 import entity.MatHangNhapEntity;
+
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -14,13 +16,13 @@ import java.util.ArrayList;
  */
 public interface MatHangNhap_Interface {
 
-    public ArrayList<MatHangNhapEntity> getAllMatHangNhap();
+    public ArrayList<MatHangNhapEntity> getAllMatHangNhap() throws RemoteException;
 
-    public boolean nhapHang(MatHangNhapEntity mhn);
+    public boolean nhapHang(MatHangNhapEntity mhn)throws RemoteException;
 
-    public ArrayList<MatHangNhapEntity> timKiemMHN(LocalDate ngayNhap);
+    public ArrayList<MatHangNhapEntity> timKiemMHN(LocalDate ngayNhap)throws RemoteException;
 
-    public boolean capNhapMatHangNhap(MatHangNhapEntity mhn);
+    public boolean capNhapMatHangNhap(MatHangNhapEntity mhn)throws RemoteException;
 
-    public boolean kiemTraMaMatHangNhapTonTai(String maMHN);
+    public boolean kiemTraMaMatHangNhapTonTai(String maMHN)throws RemoteException;
 }

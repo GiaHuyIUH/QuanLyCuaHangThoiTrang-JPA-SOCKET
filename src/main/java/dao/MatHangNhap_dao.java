@@ -9,7 +9,13 @@ import Interface.MatHangNhap_Interface;
 import entity.MatHangNhapEntity;
 import entity.NhaCungCapEntity;
 import entity.SanPhamEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+
 import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,10 +29,35 @@ import java.util.logging.Logger;
  *
  * @author Tran Hien Vinh
  */
-public class MatHangNhap_dao implements MatHangNhap_Interface {
+public class MatHangNhap_dao extends UnicastRemoteObject implements MatHangNhap_Interface {
 
-    @Override
-    public ArrayList<MatHangNhapEntity> getAllMatHangNhap() {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1822590663794462584L;
+	EntityManager em;
+	
+	
+	
+    public MatHangNhap_dao() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+		em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
+	}
+
+	@Override
+    public ArrayList<MatHangNhapEntity> getAllMatHangNhap() throws RemoteException{
+    	
+		     ArrayList<MatHangNhapEntity> dsMHN = new ArrayList<MatHangNhapEntity>();
+        	try {
+        		dsMHN = (ArrayList<MatHangNhapEntity>) em.createQuery("select m from MatHangNhapEntity m").getResultList();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    			
+    		}
+        	return dsMHN;
+    	
+    	
 //        ArrayList<MatHangNhapEntity> dsMHN = new ArrayList<MatHangNhapEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -52,11 +83,24 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return null;
+//        return dsMHN;
     }
 
     @Override
-    public boolean nhapHang(MatHangNhapEntity mhn) {
+    public boolean nhapHang(MatHangNhapEntity mhn)throws RemoteException {
+    	EntityTransaction tx = em.getTransaction();
+        try {
+        	tx.begin();
+        	em.persist(mhn);
+        	tx.commit();
+        	return true;
+        }
+		catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+    	return false;
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -75,11 +119,25 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return false;
+//        return false;
     }
 
     @Override
-    public ArrayList<MatHangNhapEntity> timKiemMHN(LocalDate ngayNhap) {
+    public ArrayList<MatHangNhapEntity> timKiemMHN(LocalDate ngayNhap)throws RemoteException {
+    	
+    	ArrayList<MatHangNhapEntity> dsMHN = new ArrayList<MatHangNhapEntity>();
+    	try {
+    		ArrayList<MatHangNhapEntity> resultList = (ArrayList<MatHangNhapEntity>) em.createQuery("select m from MatHangNhapEntity m where m.ngayNhap = :ngayNhap")
+    				.setParameter("ngayNhap", ngayNhap)
+    				.getResultList();
+			dsMHN = resultList;
+        } catch (Exception e) {
+ 			e.printStackTrace();
+        	     			
+        }
+    	
+    	return dsMHN;
+    	
 //        ArrayList<MatHangNhapEntity> dsMHN = new ArrayList<MatHangNhapEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -110,11 +168,28 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return null;
+//        return dsMHN;
     }
 
     @Override
-    public boolean capNhapMatHangNhap(MatHangNhapEntity mhn) {
+    public boolean capNhapMatHangNhap(MatHangNhapEntity mhn) throws RemoteException{
+    	
+    	EntityTransaction tx = em.getTransaction();
+        try {
+        	tx.begin();
+        	em.merge(mhn);
+        	tx.commit();
+        	return true;
+        }catch (Exception e) {
+            tx.rollback();	
+            e.printStackTrace();
+        }
+    	
+    	return false;
+    	
+    	
+    	
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -133,12 +208,12 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //            return false;
 //        }
-		return false;
-	
     }
 
     @Override
-    public boolean kiemTraMaMatHangNhapTonTai(String maMHN) {
+    public boolean kiemTraMaMatHangNhapTonTai(String maMHN)throws RemoteException {
+		MatHangNhapEntity mhn = em.find(MatHangNhapEntity.class, maMHN);
+		return mhn != null;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -158,6 +233,6 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
 //            Logger.getLogger(MatHangNhap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //
 //        }
-        return false;
+//        return false;
     }
 }

@@ -63,7 +63,7 @@ public class SanPham_JPanel extends javax.swing.JPanel {
     private ThuongHieu_bus thuongHieu_bus;
     private ChatLieu_bus chatLieu_bus;
     private ChuongTrinhKhuyenMai_bus ctkm_bus;
-
+    
     /**
      * Creates new form SanPham_JPanel
      * @throws Exception 
@@ -568,9 +568,24 @@ public class SanPham_JPanel extends javax.swing.JPanel {
 
             String formattedDonGia = decimalFormat.format(sp.getDonGia()) + " VNĐ";
             String tenChatLieu = chatLieu_bus.layTenChatLieuTheoMa(sp.getChatLieu().getMaChatLieu());
+            
             String tenThuongHieu = thuongHieu_bus.layTenThuongHieuTheoMa(sp.getThuongHieu().getMaThuongHieu());
-            String tenDanhMuc = danhMucSanPham_bus.layTenDanhMucTheoMa(sp.getDanhMucSanPham().getMaDanhMuc());
-            String tenCTKM = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
+            DanhMucSanPhamEntity danhMucSanPham = sp.getDanhMucSanPham();
+            String tenDanhMuc = danhMucSanPham_bus.layTenDanhMucTheoMa(danhMucSanPham.getMaDanhMuc());
+            ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai = sp.getChuongTrinhKhuyenMai();
+            String tenCTKM = null;
+            if (chuongTrinhKhuyenMai != null) {
+                String maCTKM = chuongTrinhKhuyenMai.getMaCTKM();
+                // Sử dụng maCTKM
+                tenCTKM = ctkm_bus.layTenKhuyenMaiTheoMa(maCTKM);
+            } else {
+                // Xử lý khi chuongTrinhKhuyenMai là null
+            }
+//            String tenCTKM = null;
+//			if (sp.getChuongTrinhKhuyenMai().getMaCTKM() != null) {
+//				  tenCTKM = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
+//			}
+//            String tenCTKM = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
             String hienThiKM = null;
             if (tenCTKM != null) {
                 hienThiKM = tenCTKM;
@@ -632,11 +647,11 @@ public class SanPham_JPanel extends javax.swing.JPanel {
             }
             MauSacEnum mauSac = null;
             if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
-                mauSac = MauSacEnum.Trang;
+                mauSac = MauSacEnum.WHITE;
             } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
-                mauSac = MauSacEnum.Đen;
+                mauSac = MauSacEnum.BLACK;
             } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
-                mauSac = MauSacEnum.Xám;
+                mauSac = MauSacEnum.GREY;
             }
             double donGia = Double.parseDouble(txt_DonGia.getText());
             int soLuongTonKho = Integer.parseInt(txt_SoLuongTonKho.getText());
@@ -742,7 +757,9 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                 String tenChatLieu = chatLieu_bus.layTenChatLieuTheoMa(sp.getChatLieu().getMaChatLieu());
                 String tenThuongHieu = thuongHieu_bus.layTenThuongHieuTheoMa(sp.getThuongHieu().getMaThuongHieu());
                 String tenDanhMuc = danhMucSanPham_bus.layTenDanhMucTheoMa(sp.getDanhMucSanPham().getMaDanhMuc());
-                String km = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
+                ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai = sp.getChuongTrinhKhuyenMai();
+                
+                String km = ctkm_bus.layTenKhuyenMaiTheoMa(chuongTrinhKhuyenMai.getMaCTKM());
                 String hienThiKM = null;
                 if (km != null) {
                     hienThiKM = km;
@@ -841,11 +858,11 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                         }
                         MauSacEnum mauSac = null;
                         if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
-                            mauSac = MauSacEnum.Trang;
+                            mauSac = MauSacEnum.WHITE;
                         } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
-                            mauSac = MauSacEnum.Đen;
+                            mauSac = MauSacEnum.BLACK;
                         } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
-                            mauSac = MauSacEnum.Xám;
+                            mauSac = MauSacEnum.GREY;
                         }
                         double donGia = Double.parseDouble(txt_DonGia.getText().replace(" VNĐ", "").replace(",", ""));
                         TinhTrangSPEnum tinhTrang = null;
@@ -1177,11 +1194,11 @@ public class SanPham_JPanel extends javax.swing.JPanel {
             }
             MauSacEnum mauSac = null;
             if (model.getValueAt(i, 3).toString().equals("Trắng")) {
-                mauSac = MauSacEnum.Trang;
+                mauSac = MauSacEnum.WHITE;
             } else if (model.getValueAt(i, 3).toString().equals("Đen")) {
-                mauSac = MauSacEnum.Đen;
+                mauSac = MauSacEnum.BLACK;
             } else if (model.getValueAt(i, 3).toString().equals("Xám")) {
-                mauSac = MauSacEnum.Xám;
+                mauSac = MauSacEnum.GREY;
             }
             double donGia = Double.parseDouble(model.getValueAt(i, 4).toString().replace(" VNĐ", "").replace(",", ""));
             TinhTrangSPEnum tinhTrang = null;

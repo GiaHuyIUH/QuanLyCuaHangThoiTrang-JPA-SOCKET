@@ -9,6 +9,7 @@ import entity.NhaCungCapEntity;
 import entity.TinhTrangNCCEnum;
 import java.awt.Font;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -28,8 +29,9 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form NhaCungCap_JPanel
+     * @throws RemoteException 
      */
-    public NhaCungCap_JPanel() {
+    public NhaCungCap_JPanel() throws RemoteException {
         initComponents();
         //Khỏi tạo
         ncc_bus = new NhaCungCap_bus();
@@ -63,7 +65,7 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
     }
 
     //Hàm load dữ liệu từ database lên table
-    private void loadDuLieuTuDataLenTable() {
+    private void loadDuLieuTuDataLenTable() throws RemoteException {
         ArrayList<NhaCungCapEntity> dsNCC = ncc_bus.getAllNhaCungCap();
         for (NhaCungCapEntity ncc : dsNCC) {
             model.addRow(new Object[]{ncc.getMaNCC(), ncc.getTenNCC(), ncc.getSoDienThoai(), ncc.getDiaChi(), ncc.getTinhTrang()});
@@ -230,7 +232,12 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemActionPerformed(evt);
+                try {
+					btn_TimKiemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -243,7 +250,12 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LamMoiActionPerformed(evt);
+                try {
+					btn_LamMoiActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -255,7 +267,12 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         btn_Them.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_Them.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ThemActionPerformed(evt);
+                try {
+					btn_ThemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -268,7 +285,12 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         btn_CapNhat.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_CapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CapNhatActionPerformed(evt);
+                try {
+					btn_CapNhatActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -384,13 +406,13 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemActionPerformed
+    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_ThemActionPerformed
         // TODO add your handling code here:
         themNhaCungCap();
     }//GEN-LAST:event_btn_ThemActionPerformed
 
     //Hàm thêm nhà cung cấp
-    private void themNhaCungCap() {
+    private void themNhaCungCap() throws RemoteException {
         if (validata()) {
             String maNCC = GenerateID.sinhMa("NCC");
             String tenNCC = txt_TenNhaCungCap.getText();
@@ -414,14 +436,14 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
         // TODO add your handling code here:
         String dieuKien = txt_MaNhaCungCap_Search.getText();
         timkiemNhaCungCap(dieuKien);
     }//GEN-LAST:event_btn_TimKiemActionPerformed
 
     // Hàm tìm kiếm nhà cung cấp
-    private void timkiemNhaCungCap(String dieuKien) {
+    private void timkiemNhaCungCap(String dieuKien) throws RemoteException {
         String timKiem = txt_MaNhaCungCap_Search.getText().trim();
         if (timKiem.isBlank()) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập điều kiện tìm kiếm");
@@ -435,13 +457,13 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LamMoiActionPerformed
+    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiActionPerformed
         // TODO add your handling code here:
         lamMoi();
     }//GEN-LAST:event_btn_LamMoiActionPerformed
 
     //Hàm làm mói
-    private void lamMoi() {
+    private void lamMoi() throws RemoteException {
         txt_MaNhaCungCap.setText("");
         txt_TenNhaCungCap.setText("");
         txt_SoDienThoai.setText("");
@@ -478,13 +500,13 @@ public class NhaCungCap_JPanel extends javax.swing.JPanel {
         sort.setRowFilter(RowFilter.regexFilter(ma));
     }
 
-    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CapNhatActionPerformed
+    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
         // TODO add your handling code here:
         capNhatNhaCungCap();
     }//GEN-LAST:event_btn_CapNhatActionPerformed
     
     //Hàm cập nhật nhà cung cấp
-    private void capNhatNhaCungCap() {
+    private void capNhatNhaCungCap() throws RemoteException {
         int row = table_DanhSachNhaCungCap.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(null, "Chưa chọn nhà cung cấp để cập nhật");

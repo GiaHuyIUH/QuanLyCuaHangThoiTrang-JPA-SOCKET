@@ -5,7 +5,7 @@
 package dao;
 
 import Interface.SanPham_Interface;
-
+//import connectDB.ConnectDB;
 import entity.ChatLieuEntity;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.DanhMucSanPhamEntity;
@@ -14,7 +14,13 @@ import entity.MauSacEnum;
 import entity.SanPhamEntity;
 import entity.ThuongHieuEntity;
 import entity.TinhTrangSPEnum;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+
 import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,11 +33,38 @@ import util.ConvertStringToEnum;
  *
  * @author Tran Hien Vinh
  */
-public class SanPham_dao implements SanPham_Interface {
+public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interface {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2929240039504344643L;
+	EntityManager em;
+	
+	
+	
+	
 
-    @Override
-    public ArrayList<SanPhamEntity> getAllSanPham() {
-        ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
+    public SanPham_dao() throws RemoteException{
+		super();
+		// TODO Auto-generated constructor stub
+		em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
+	}
+
+	@Override
+    public ArrayList<SanPhamEntity> getAllSanPham()throws RemoteException {
+		
+		ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
+//		try {
+			dsSanPham = (ArrayList<SanPhamEntity>) em.createQuery("select s from SanPhamEntity s").getResultList();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//
+//		}
+		return dsSanPham;
+		
+		
+//        ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -100,11 +133,25 @@ public class SanPham_dao implements SanPham_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return dsSanPham;
+//        return dsSanPham;
     }
 
     @Override
-    public boolean themSP(SanPhamEntity sp) {
+    public boolean themSP(SanPhamEntity sp)throws RemoteException {
+    	
+    	EntityTransaction tx = em.getTransaction();
+        try {
+        	tx.begin();
+        	em.persist(sp);
+        	tx.commit();
+        	return true;
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+        return false;
+    	
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -130,12 +177,26 @@ public class SanPham_dao implements SanPham_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return false;
+//        return false;
     }
 
-    @Override
-    public ArrayList<SanPhamEntity> timSanPham(String ma) {
-        ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
+
+	@Override
+    public ArrayList<SanPhamEntity> timSanPham(String ma)throws RemoteException {
+    	
+    	ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
+    	        try {
+					dsSanPham = (ArrayList<SanPhamEntity>) em
+							.createQuery("select s from SanPhamEntity s where s.maSP = :maSP").setParameter("maSP", ma)
+							.getResultList();
+				} catch (Exception e) {
+					e.printStackTrace();
+    	        }
+    	return dsSanPham;
+    	
+    	
+    	
+//        ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -196,11 +257,23 @@ public class SanPham_dao implements SanPham_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return dsSanPham;
+//        return dsSanPham;
     }
 
     @Override
-    public boolean capNhatSanPham(SanPhamEntity sp) {
+    public boolean capNhatSanPham(SanPhamEntity sp) throws RemoteException{
+    	
+    	EntityTransaction tx = em.getTransaction();
+        try {
+        	tx.begin();
+        	em.merge(sp);
+        	tx.commit();
+        	return true;
+        } catch (Exception e) {
+        	tx.rollback();
+        	e.printStackTrace();
+        }
+        return false;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -227,13 +300,24 @@ public class SanPham_dao implements SanPham_Interface {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //            return false;
 //        }
-		return false;
-	
     }
 
     @Override
-    public ArrayList<SanPhamEntity> kiemTraTonKho() {
-        ArrayList<SanPhamEntity> dsSP = new ArrayList<SanPhamEntity>();
+    public ArrayList<SanPhamEntity> kiemTraTonKho() throws RemoteException{
+    	
+    	
+		ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
+		try {
+			dsSanPham = (ArrayList<SanPhamEntity>) em
+					.createQuery("select s from SanPhamEntity s order by s.soLuongTonKho asc").getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsSanPham;
+    	
+    	
+    	
+//        ArrayList<SanPhamEntity> dsSP = new ArrayList<SanPhamEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -297,13 +381,21 @@ public class SanPham_dao implements SanPham_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return dsSP;
+//        return dsSP;
     }
 
-    // Nguyen Huy Hoang
+    
     @Override
-    public SanPhamEntity timKiemSanPham(String ma) {
-        PreparedStatement statement = null;
+    public SanPhamEntity timKiemSanPham(String ma) throws RemoteException{
+    	
+    	
+		SanPhamEntity sp = em.find(SanPhamEntity.class, ma);
+		
+		return sp;
+    	
+    	
+    	
+//        PreparedStatement statement = null;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -369,13 +461,28 @@ public class SanPham_dao implements SanPham_Interface {
 //                e.printStackTrace();
 //            }
 //        }
-		return null;
-	
     }
 
     @Override
-    public boolean capNhatSoLuongTonSauKhiTaoHD(String maSP, int soLuong) {
-        PreparedStatement statement = null;
+    public boolean capNhatSoLuongTonSauKhiTaoHD(String maSP, int soLuong)throws RemoteException {
+    	
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
+			sp.setSoLuongTonKho(sp.getSoLuongTonKho() - soLuong);
+			em.merge(sp);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+		return false;
+    	
+    	
+    	
+//        PreparedStatement statement = null;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -403,14 +510,17 @@ public class SanPham_dao implements SanPham_Interface {
 //                e.printStackTrace();
 //            }
 //        }
-		return false;
-
-	
     }
 
     @Override
-    public int laySoLuongTonKhoTheoMaSP(String maSP) {
-        int soLuongHienTai = 0;
+    public int laySoLuongTonKhoTheoMaSP(String maSP) throws RemoteException{
+    	
+		SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
+		return sp.getSoLuongTonKho();
+    	
+    	
+    	
+//        int soLuongHienTai = 0;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -428,11 +538,28 @@ public class SanPham_dao implements SanPham_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return soLuongHienTai;
+//        return soLuongHienTai;
     }
 
     @Override
-    public boolean capNhatSoLuong(String maSP, int soLuongNhap) {
+    public boolean capNhatSoLuong(String maSP, int soLuongNhap)throws RemoteException {
+    	
+	        EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
+				sp.setSoLuongTonKho(sp.getSoLuongTonKho() + soLuongNhap);
+				em.merge(sp);
+				tx.commit();
+				return true;
+			} catch (Exception e) {
+				tx.rollback();
+				e.printStackTrace();
+			}
+			return false;
+    	
+    	
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -449,11 +576,16 @@ public class SanPham_dao implements SanPham_Interface {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //            return false;
 //        }
-    	        return false;
     }
 
     @Override
-    public boolean kiemTraMaSanPhamTonTai(String maSP) {
+    public boolean kiemTraMaSanPhamTonTai(String maSP) throws RemoteException{
+    		
+    	        SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
+    	        return sp != null;
+    	
+    	
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -473,11 +605,24 @@ public class SanPham_dao implements SanPham_Interface {
 //            Logger.getLogger(SanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //
 //        }
-        return false;
+//        return false;
     }
 
     @Override
-    public void capNhatKhuyenMai() {
+    public void capNhatKhuyenMai() throws RemoteException{
+    	
+    	EntityTransaction tx = em.getTransaction();
+        try {
+			tx.begin();
+			em.createQuery("SanPhamEntity.capNhatKhuyenMai").executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+        }
+    	
+    	
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -494,7 +639,22 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public void capNhatTinhTrang(String maSP, TinhTrangSPEnum tinhTrangDangBan) {
+    public void capNhatTinhTrang(String maSP, TinhTrangSPEnum tinhTrangDangBan) throws RemoteException{
+    	
+    	EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
+            sp.setTinhTrang(tinhTrangDangBan);
+            em.merge(sp);
+            tx.commit();
+        } catch (Exception e) {
+        	tx.rollback();
+        	e.printStackTrace();
+    	            	
+        }
+    	
+    	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();

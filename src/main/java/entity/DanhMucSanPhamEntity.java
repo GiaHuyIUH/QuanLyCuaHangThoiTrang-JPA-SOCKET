@@ -6,10 +6,18 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "DanhMucSanPhamEntity.getAllDanhMucSanPham", query = "SELECT dm FROM DanhMucSanPhamEntity dm"),
+    @NamedQuery(name = "DanhMucSanPhamEntity.getTenDanhMucTheoMa", query = "SELECT dm.tenDanhMuc FROM DanhMucSanPhamEntity dm WHERE dm.maDanhMuc = :maDanhMuc"),
+    @NamedQuery(name = "DanhMucSanPhamEntity.getMaDanhMucTheoTen", query = "SELECT dm.maDanhMuc FROM DanhMucSanPhamEntity dm WHERE dm.tenDanhMuc = :tenDanhMuc")
+
+})
 public class DanhMucSanPhamEntity implements Serializable{
 	/**
 	 * 

@@ -37,8 +37,8 @@ public class BanHang_JPanel extends javax.swing.JPanel {
     private DefaultTableModel tableModel_GioHang;
     private DefaultTableModel tableModel_HoaDon;
     private SpinnerNumberModel spinnerModel;
-    private SanPham_bus sp_bus = new SanPham_bus();
-    private KhachHang_bus kh_bus = new KhachHang_bus();
+    private SanPham_bus sp_bus ;
+    private KhachHang_bus kh_bus ;
     private ChuongTrinhKhuyenMai_bus ctkm_bus;
     private HoaDon_bus hd_bus = new HoaDon_bus();
     private ChiTietHoaDon_bus cthd_bus;
@@ -309,7 +309,6 @@ public class BanHang_JPanel extends javax.swing.JPanel {
                 try {
 					btn_CapNhatSoLuongActionPerformed(evt);
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
@@ -325,7 +324,12 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         btn_TimKiemSanPham.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TimKiemSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemSanPhamActionPerformed(evt);
+                try {
+					btn_TimKiemSanPhamActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -567,7 +571,12 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         btn_TimKiemKhachHang.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TimKiemKhachHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemKhachHangActionPerformed(evt);
+                try {
+					btn_TimKiemKhachHangActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -648,7 +657,12 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         btn_TaoHoaDon.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TaoHoaDonActionPerformed(evt);
+                try {
+					btn_TaoHoaDonActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -949,7 +963,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         xoaKhoiGioHang();
     }//GEN-LAST:event_btn_XoaKhoiGioActionPerformed
 
-    private void btn_TimKiemKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemKhachHangActionPerformed
+    private void btn_TimKiemKhachHangActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemKhachHangActionPerformed
         timKiemKhachHang();
     }//GEN-LAST:event_btn_TimKiemKhachHangActionPerformed
 
@@ -961,7 +975,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         lamMoi();
     }//GEN-LAST:event_btn_LamMoiActionPerformed
 
-    private void btn_TaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TaoHoaDonActionPerformed
+    private void btn_TaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TaoHoaDonActionPerformed
         taoHoaDon();
     }//GEN-LAST:event_btn_TaoHoaDonActionPerformed
 
@@ -973,7 +987,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         luuTam();
     }//GEN-LAST:event_btn_LuuTamActionPerformed
 
-    private void btn_TimKiemSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemSanPhamActionPerformed
+    private void btn_TimKiemSanPhamActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemSanPhamActionPerformed
         timKiemSanPham();
     }//GEN-LAST:event_btn_TimKiemSanPhamActionPerformed
 
@@ -1064,7 +1078,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_TienNhan;
     // End of variables declaration//GEN-END:variables
     
-    public void timKiemSanPham() { 
+    public void timKiemSanPham() throws RemoteException { 
         String maSP = txt_MaSanPham.getText().trim();
         if(maSP.equals("")) {
             JOptionPane.showMessageDialog(this, "Mã sản phẩm chưa nhập !");
@@ -1100,7 +1114,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         }
     }
     
-    public void timKiemKhachHang() {
+    public void timKiemKhachHang() throws RemoteException {
         String soDienThoai = txt_SoDienThoai.getText().trim();
         if(soDienThoai.equals("")) {
             JOptionPane.showMessageDialog(this, "Số điện thoại chưa nhập !");
@@ -1277,7 +1291,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         lbl_TienThanhToan.setText(convert.toMoney(tienThanhToan));
     }
     
-    public void taoHoaDon() {
+    public void taoHoaDon() throws RemoteException {
         int rowCount = table_GioHang.getRowCount();
         if(rowCount == 0) {
             JOptionPane.showMessageDialog(this, "Giỏ hàng chưa có sản phẩm !");

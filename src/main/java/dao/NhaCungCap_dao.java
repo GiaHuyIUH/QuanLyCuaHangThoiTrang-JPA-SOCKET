@@ -5,25 +5,39 @@
 package dao;
 
 import Interface.NhaCungCap_Interface;
-
 import entity.NhaCungCapEntity;
 import entity.TinhTrangNCCEnum;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Tran Hien Vinh
- */
-public class NhaCungCap_dao implements NhaCungCap_Interface {
 
-    @Override
-    public ArrayList<NhaCungCapEntity> getAllNhaCungCap() {
+
+public class NhaCungCap_dao extends UnicastRemoteObject implements NhaCungCap_Interface {
+	
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4602343847237255983L;
+		private EntityManager em;
+	
+	    public NhaCungCap_dao() throws RemoteException{
+	        super();
+	        em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
+	    }
+
+	    @Override
+	    public ArrayList<NhaCungCapEntity> getAllNhaCungCap()throws RemoteException {
+	        Query query = em.createQuery("SELECT n FROM NhaCungCapEntity n");
+	        return (ArrayList<NhaCungCapEntity>) query.getResultList();
+	    }
+//    @Override
+//    public ArrayList<NhaCungCapEntity> getAllNhaCungCap() {
 //        ArrayList<NhaCungCapEntity> dsNCC = new ArrayList<NhaCungCapEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -53,11 +67,25 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return null;
-    }
+//        return dsNCC;
+//    }
 
-    @Override
-    public boolean themNCC(NhaCungCapEntity ncc) {
+	    @Override
+	    public boolean themNCC(NhaCungCapEntity ncc) throws RemoteException{
+	        EntityTransaction tx = em.getTransaction();
+	        try {
+	            tx.begin();
+	            em.persist(ncc);
+	            tx.commit();
+	            return true;
+	        } catch (Exception e) {
+	            tx.rollback();
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
+//    @Override
+//    public boolean themNCC(NhaCungCapEntity ncc) {
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -76,11 +104,16 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return false;
-    }
-
-    @Override
-    public ArrayList<NhaCungCapEntity> timKiemNCC(String ma) {
+//        return false;
+//    }
+	    @Override
+	    public ArrayList<NhaCungCapEntity> timKiemNCC(String ma)throws RemoteException {
+	        Query query = em.createQuery("SELECT n FROM NhaCungCapEntity n WHERE n.maNCC = :maNCC");
+	        query.setParameter("maNCC", ma);
+	        return (ArrayList<NhaCungCapEntity>) query.getResultList();
+	    }
+//    @Override
+//    public ArrayList<NhaCungCapEntity> timKiemNCC(String ma) {
 //        ArrayList<NhaCungCapEntity> dsNCC = new ArrayList<NhaCungCapEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -116,11 +149,24 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return null;
-    }
-
-    @Override
-    public boolean capNhatNhaCungCap(NhaCungCapEntity ncc) {
+//        return dsNCC;
+//    }
+	    @Override
+	    public boolean capNhatNhaCungCap(NhaCungCapEntity ncc) throws RemoteException{
+	        EntityTransaction tx = em.getTransaction();
+	        try {
+	            tx.begin();
+	            em.merge(ncc);
+	            tx.commit();
+	            return true;
+	        } catch (Exception e) {
+	            tx.rollback();
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
+//    @Override
+//    public boolean capNhatNhaCungCap(NhaCungCapEntity ncc) {
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -140,12 +186,15 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //            return false;
 //        }
-		return false;
-	
-    }
-
-    @Override
-    public ArrayList<NhaCungCapEntity> layDSNCCDangNhap() {
+//    }
+	    @Override
+	    public ArrayList<NhaCungCapEntity> layDSNCCDangNhap()throws RemoteException {
+	        Query query = em.createQuery("SELECT n FROM NhaCungCapEntity n WHERE n.tinhTrang = :tinhTrang");
+	        query.setParameter("tinhTrang", TinhTrangNCCEnum.DANGNHAP);
+	        return (ArrayList<NhaCungCapEntity>) query.getResultList();
+	    }
+//    @Override
+//    public ArrayList<NhaCungCapEntity> layDSNCCDangNhap() {
 //        ArrayList<NhaCungCapEntity> dsNCC = new ArrayList<NhaCungCapEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -168,12 +217,17 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return null;
-    }
-
-    @Override
-    public String layTenNhaCungCapTheoMa(String maNhaCungCap) {
-        String tenNCC = null;
+//        return dsNCC;
+//    }
+	    @Override
+	    public String layTenNhaCungCapTheoMa(String maNhaCungCap) throws RemoteException{
+	        Query query = em.createQuery("SELECT n.tenNCC FROM NhaCungCapEntity n WHERE n.maNCC = :maNCC");
+	        query.setParameter("maNCC", maNhaCungCap);
+	        return (String) query.getSingleResult();
+	    }
+//    @Override
+//    public String layTenNhaCungCapTheoMa(String maNhaCungCap) {
+//        String tenNCC = null;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -195,12 +249,17 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        return tenNCC;
-    }
-
-    @Override
-    public String layMaNhaCungCapTheoTen(String tenNhaCungCap) {
-        String maNCC = null;
+//        return tenNCC;
+//    }
+	    @Override
+	    public String layMaNhaCungCapTheoTen(String tenNhaCungCap)throws RemoteException {
+	        Query query = em.createQuery("SELECT n.maNCC FROM NhaCungCapEntity n WHERE n.tenNCC = :tenNCC");
+	        query.setParameter("tenNCC", tenNhaCungCap);
+	        return (String) query.getSingleResult();
+	    }
+//    @Override
+//    public String layMaNhaCungCapTheoTen(String tenNhaCungCap) {
+//        String maNCC = null;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -220,7 +279,7 @@ public class NhaCungCap_dao implements NhaCungCap_Interface {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NhaCungCap_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
-        return maNCC;
-    }
+//
+//        return maNCC;
+//    }
 }

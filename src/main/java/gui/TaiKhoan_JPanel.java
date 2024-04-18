@@ -1,6 +1,7 @@
 package gui;
 
 import bus.TaiKhoan_bus;
+import entity.NhanVienEntity;
 import entity.TaiKhoanEntity;
 import entity.TinhTrangTKEnum;
 import java.awt.Image;
@@ -247,7 +248,17 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         ArrayList<TaiKhoanEntity> listTK = new ArrayList<>();
         listTK = bus.findAll();
         for (TaiKhoanEntity tk : listTK) {
-            tableModel.addRow(new Object[]{tk.getNhanVien().getHoTen(), tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
+        	NhanVienEntity nv = tk.getNhanVien();
+        	String hoTen = "";
+        	if (nv != null) {
+        	    hoTen = nv.getHoTen();
+        	    // Sử dụng hoTen
+        	} else {
+        	    // Xử lý khi nhanVien là null
+        	}
+
+        	
+            tableModel.addRow(new Object[]{hoTen, tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
         }
     }
 

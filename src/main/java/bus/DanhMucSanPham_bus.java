@@ -7,26 +7,36 @@ package bus;
 import Interface.DanhMucSanPham_Interface;
 import dao.DanhMucSanPham_dao;
 import entity.DanhMucSanPhamEntity;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 /**
  *
  * @author Tran Hien Vinh
  */
-public class DanhMucSanPham_bus implements DanhMucSanPham_Interface{
-    DanhMucSanPham_dao dmsp_dao=new DanhMucSanPham_dao();
+public class DanhMucSanPham_bus extends UnicastRemoteObject implements DanhMucSanPham_Interface{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3306035117812713001L;
+	DanhMucSanPham_dao dmsp_dao;
+	public DanhMucSanPham_bus() throws RemoteException {
+		dmsp_dao=new DanhMucSanPham_dao();
+	}
     @Override
-    public ArrayList<DanhMucSanPhamEntity> getAllDMSP() {
+    public ArrayList<DanhMucSanPhamEntity> getAllDMSP()throws RemoteException {
         return dmsp_dao.getAllDMSP();
     }
 
     @Override
-    public String layTenDanhMucTheoMa(String maDanhMuc) {
+    public String layTenDanhMucTheoMa(String maDanhMuc) throws RemoteException{
         return dmsp_dao.layTenDanhMucTheoMa(maDanhMuc);
     }
 
     @Override
-    public String layMaDanhMucTheoTen(String tenDanhMuc) {
+    public String layMaDanhMucTheoTen(String tenDanhMuc)throws RemoteException {
         return dmsp_dao.layMaDanhMucTheoTen(tenDanhMuc);
     }
     

@@ -3,7 +3,10 @@ import bus.KhachHang_bus;
 import dao.KhachHang_dao;
 import entity.GioiTinhEnum;
 import entity.KhachHangEntity;
+
+import java.awt.HeadlessException;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +29,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
     private DefaultTableModel tableModel = new DefaultTableModel();
     private KhachHang_bus bus = new KhachHang_bus();
     
-    public KhachHang_JPanel() {
+    public KhachHang_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748);
         
@@ -60,7 +63,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         loadData();
     }
     
-    private void loadData() {
+    private void loadData() throws RemoteException {
         ArrayList<KhachHangEntity> listKH = new ArrayList<>();
         listKH = bus.findAll();
         for (KhachHangEntity kh : listKH) {
@@ -259,7 +262,12 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_TimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_TimKiemMouseClicked(evt);
+                try {
+					btn_TimKiemMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -277,7 +285,12 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_LamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_LamMoiMouseClicked(evt);
+                try {
+					btn_LamMoiMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
@@ -296,7 +309,12 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         btn_Them.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Them.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ThemActionPerformed(evt);
+                try {
+					btn_ThemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         panel_ThaoTaoKH.add(btn_Them, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 30, 120, 30));
@@ -314,7 +332,12 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         });
         btn_CapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CapNhatActionPerformed(evt);
+                try {
+					btn_CapNhatActionPerformed(evt);
+				} catch (HeadlessException | RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         panel_ThaoTaoKH.add(btn_CapNhat, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 30, 120, 30));
@@ -361,7 +384,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_NhapSDTActionPerformed
 
-    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemActionPerformed
+    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_ThemActionPerformed
         KhachHang_dao dao = new KhachHang_dao();
         ArrayList<KhachHangEntity> listKH = bus.findAll();
         try {
@@ -388,7 +411,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btn_ThemActionPerformed
     
-    public void refresh() {
+    public void refresh() throws RemoteException {
         txt_MaKH.setText("");
         txt_HoTen.setText("");
         txt_DiaChi.setText("");
@@ -424,7 +447,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         return true;
     }
     
-    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CapNhatActionPerformed
+    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws HeadlessException, RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
 //        KhachHang_dao dao = new KhachHang_dao();
 //        ArrayList<KhachHangEntity> listKH = bus.findAll();
         try {
@@ -479,7 +502,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_btn_CapNhatMouseClicked
 
-    private void btn_TimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimKiemMouseClicked
+    private void btn_TimKiemMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemMouseClicked
         String id = txt_NhapSDT.getText();
         if (id.isBlank()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại của khách hàng!");
@@ -521,7 +544,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_TimKiemMouseClicked
 
-    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMouseClicked
+    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiMouseClicked
         refresh();
         btn_Them.setEnabled(true);
     }//GEN-LAST:event_btn_LamMoiMouseClicked

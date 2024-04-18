@@ -3,18 +3,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dao;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import Interface.DanhMucSanPham_Interface;
 import entity.DanhMucSanPhamEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
 /**
  *
  * @author Tran Hien Vinh
  */
-public class DanhMucSanPham_dao implements DanhMucSanPham_Interface{
+public class DanhMucSanPham_dao extends UnicastRemoteObject implements DanhMucSanPham_Interface{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6618766286250931252L;
+	private EntityManager em;
+	public DanhMucSanPham_dao() throws RemoteException {
+		em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
+	}
 
     @Override
-    public ArrayList<DanhMucSanPhamEntity> getAllDMSP() {
+    public ArrayList<DanhMucSanPhamEntity> getAllDMSP() throws RemoteException{
          ArrayList<DanhMucSanPhamEntity> dsDMSP=new ArrayList<DanhMucSanPhamEntity>();
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -32,11 +45,12 @@ public class DanhMucSanPham_dao implements DanhMucSanPham_Interface{
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+         dsDMSP = (ArrayList<DanhMucSanPhamEntity>) em.createNamedQuery("DanhMucSanPhamEntity.getAllDanhMucSanPham",DanhMucSanPhamEntity.class).getResultList();
         return dsDMSP;
     }
 
     @Override
-    public String layTenDanhMucTheoMa(String maDanhMuc) {
+    public String layTenDanhMucTheoMa(String maDanhMuc) throws RemoteException{
         String tenDanhMuc = null;
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -59,11 +73,12 @@ public class DanhMucSanPham_dao implements DanhMucSanPham_Interface{
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        tenDanhMuc = em.createNamedQuery("DanhMucSanPhamEntity.getTenDanhMucTheoMa",String.class).setParameter("maDanhMuc", maDanhMuc).getResultList().get(0);
         return tenDanhMuc;
     }
 
     @Override
-    public String layMaDanhMucTheoTen(String tenDanhMuc) {
+    public String layMaDanhMucTheoTen(String tenDanhMuc)throws RemoteException {
         String maDanhMuc = null;
 //        try {
 //            ConnectDB.getInstance().connect();
@@ -84,7 +99,7 @@ public class DanhMucSanPham_dao implements DanhMucSanPham_Interface{
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
+        maDanhMuc = em.createNamedQuery("DanhMucSanPhamEntity.getMaDanhMucTheoTen",String.class).setParameter("tenDanhMuc", tenDanhMuc).getResultList().get(0);
         return maDanhMuc;
     }
     

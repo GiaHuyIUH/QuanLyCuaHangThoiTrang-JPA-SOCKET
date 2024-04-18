@@ -5,6 +5,8 @@
 package Interface;
 
 import entity.NhaCungCapEntity;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -12,11 +14,11 @@ import java.util.ArrayList;
  * @author Tran Hien Vinh
  */
 public interface NhaCungCap_Interface {
-    public ArrayList<NhaCungCapEntity> getAllNhaCungCap();
-    public boolean themNCC(NhaCungCapEntity ncc);
-    public ArrayList<NhaCungCapEntity> timKiemNCC(String ma);
-    public boolean capNhatNhaCungCap(NhaCungCapEntity maNCC);
-    public ArrayList<NhaCungCapEntity> layDSNCCDangNhap();
-    public String layTenNhaCungCapTheoMa(String maNhaCungCap);
-    public String layMaNhaCungCapTheoTen(String tenNhaCungCap);
+    public ArrayList<NhaCungCapEntity> getAllNhaCungCap()throws RemoteException;
+    public boolean themNCC(NhaCungCapEntity ncc)throws RemoteException;
+    public ArrayList<NhaCungCapEntity> timKiemNCC(String ma)throws RemoteException;
+    public boolean capNhatNhaCungCap(NhaCungCapEntity maNCC)throws RemoteException;
+    public ArrayList<NhaCungCapEntity> layDSNCCDangNhap()throws RemoteException;
+    public String layTenNhaCungCapTheoMa(String maNhaCungCap)throws RemoteException;
+    public String layMaNhaCungCapTheoTen(String tenNhaCungCap)throws RemoteException;
 }

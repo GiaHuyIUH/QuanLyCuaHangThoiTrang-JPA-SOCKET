@@ -23,15 +23,15 @@ public class ConvertStringToEnum {
     
     public MauSacEnum MauSactoEnum(String mauSac) {
         if(mauSac.equals("Trắng")) {
-            return MauSacEnum.Trang;
+            return MauSacEnum.WHITE;
         } 
         if(mauSac.equals("Đen")) {
-            return MauSacEnum.Đen;
+            return MauSacEnum.BLACK;
         } 
         if(mauSac.equals("Xám")) {
-            return MauSacEnum.Xám;
+            return MauSacEnum.GREY;
         } 
-        return MauSacEnum.Trang;
+        return MauSacEnum.WHITE;
     }
     
     public KichThuocEnum KichThuoctoEnum(String kichThuoc) {
