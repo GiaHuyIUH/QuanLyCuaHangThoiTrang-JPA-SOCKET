@@ -1,49 +1,42 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@EqualsAndHashCode
+
 @Table(name = "ChiTietHoaDon")
-@Setter
-@Getter
+
 public class ChiTietHoaDonEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4070089837652376842L;
 	
+	
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaSP")
+	@JoinColumn(name = "maSP")
 	private SanPhamEntity sanPham;
+	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaHD")
+	@JoinColumn(name = "maHD")
 	private HoaDonEntity hoaDon;
-	@Column(name = "SoLuong")
+	
+	
 	private int soLuong;
-	    @Column(name = "GiaGoc")
+	    
         private double giaGoc;
-	     @Column(name = "GiaBan")
+	     
         private double giaBan;
-	    @Column(name = "ThanhTien")
+	    
         private double thanhTien;
 
         public ChiTietHoaDonEntity(SanPhamEntity sanPham, HoaDonEntity hoaDon, int soLuong, double giaGoc, double giaBan, double thanhTien) {

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package entity;
 
 import java.io.Serializable;
@@ -9,6 +6,8 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -17,7 +16,7 @@ import jakarta.persistence.Table;
  * @author HUY
  */
 @Entity
-@Table(name = "KhachHang")
+
 
 public class KhachHangEntity implements Serializable{
 	/**
@@ -25,15 +24,16 @@ public class KhachHangEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 2987574921412060331L;
 	@Id
-	@Column(name = "MaKH")
+	@Column(name = "maKH")
     private String maKH;
-    @Column(name = "HoTen")
+    
     private String hoTen;
-    @Column(name = "GioiTinh")
+    
+    @Enumerated(EnumType.STRING)
     private GioiTinhEnum gioiTinh;
-    @Column(name = "SoDienThoai")
+    
     private String soDienThoai;
-    @Column(name = "DiaChi")
+    
     private String diaChi;
 	public KhachHangEntity(String maKH, String hoTen, GioiTinhEnum gioiTinh, String soDienThoai, String diaChi) {
 		super();

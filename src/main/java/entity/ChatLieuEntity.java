@@ -15,6 +15,7 @@ public class ChatLieuEntity implements Serializable {
 	private static final long serialVersionUID = 9194959906817190364L;
 	@Id
 	private String maChatLieu;
+	
 	private String tenChatLieu, xuatXu;
 	public ChatLieuEntity(String maChatLieu, String tenChatLieu, String xuatXu) {
 		super();

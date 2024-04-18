@@ -12,30 +12,41 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "DoiTra")
+@NamedQueries({
+	@NamedQuery(name = "DoiTra.kiemTraThoiHanDoiTra", query = "SELECT COUNT(dt) FROM DoiTraEntity dt " +
+            "WHERE YEAR(dt.hoaDon.ngayLapHD) = YEAR(CURRENT_DATE) " +
+            "AND MONTH(dt.hoaDon.ngayLapHD) = MONTH(CURRENT_DATE) " +
+            "AND DAY(dt.hoaDon.ngayLapHD) + 7 >= DAY(CURRENT_DATE) " +
+            "AND dt.hoaDon.maHD = :maHD"),
+})
 public class DoiTraEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6170787916186295208L;
-	@Id
-	@Column(name = "MaDT")
-	private String maDT;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaHD")
-	private HoaDonEntity hoaDon;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaNV")
-	private NhanVienEntity nhanVien;
-	@Enumerated(EnumType.STRING)
-	private HinhThucDoiTraEnum hinhThucDoiTra;
-	@Column(name = "ThoiGianDoiTra")
-	private Date thoiGianDoiTra;
-	@Column(name = "TongTien")
-        private double tongTien;
+	 private static final long serialVersionUID = -6170787916186295208L;
+		@Id
+
+		private String maDT;
+
+		@ManyToOne
+
+		private HoaDonEntity hoaDon;
+
+		@ManyToOne
+
+		private NhanVienEntity nhanVien;
+
+		@Enumerated(EnumType.STRING)
+		private HinhThucDoiTraEnum hinhThucDoiTra;
+
+		private Date thoiGianDoiTra;
+
+		private double tongTien;
 
         public DoiTraEntity() {
         }

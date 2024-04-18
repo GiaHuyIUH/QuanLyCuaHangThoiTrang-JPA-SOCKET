@@ -14,6 +14,7 @@ public class DanhMucSanPhamEntity implements Serializable{
 	private static final long serialVersionUID = 8000915183043346637L;
 	@Id
 	private String maDanhMuc;
+	
 	private String tenDanhMuc;
 
 	public DanhMucSanPhamEntity(String maDanhMuc, String tenDanhMuc) {

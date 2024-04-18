@@ -1,7 +1,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -9,12 +8,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 @Entity
-//@AllArgsConstructor
+@NamedQueries({
+	@NamedQuery(name = "SanPham.getSoLuongTonTheoMa", query = "SELECT sp.soLuongTonKho FROM SanPhamEntity sp WHERE sp.maSP = :maSP"),
+})
 public class SanPhamEntity implements Serializable{
 	
 	/**
@@ -24,15 +25,18 @@ public class SanPhamEntity implements Serializable{
 	@Id
 	@Column(name = "maSP")
     private String maSP;
+	
     private String tenSP;
     
     @Enumerated(EnumType.STRING)
     private KichThuocEnum kichThuoc;
+    
     @Enumerated(EnumType.STRING)
     private MauSacEnum mauSac;
     
     private double donGia;
     private int soLuongTonKho;
+    
     @Enumerated(EnumType.STRING)
     private TinhTrangSPEnum tinhTrang;
     
@@ -41,16 +45,20 @@ public class SanPhamEntity implements Serializable{
     
     
     @ManyToOne
+    @JoinColumn(name = "maChatLieu")
     private ChatLieuEntity chatLieu;
     
     
     @ManyToOne
+    @JoinColumn(name = "maThuongHieu")
     private ThuongHieuEntity thuongHieu;
     
     @ManyToOne
+    @JoinColumn(name = "maDanhMuc")
     private DanhMucSanPhamEntity danhMucSanPham;
     
     @ManyToOne
+    @JoinColumn(name = "maCTKM")
     private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
 
     public SanPhamEntity() {
