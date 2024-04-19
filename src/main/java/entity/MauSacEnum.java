@@ -2,7 +2,7 @@ package entity;
 
 public enum MauSacEnum {
 	
-	TRANG("Trắng"), DEN("Đen"), XAM("Xám");
+	WHITE("Trắng"), BLACK("Đen"), GREY("Xám");
 	
 	private String mauSac;
 

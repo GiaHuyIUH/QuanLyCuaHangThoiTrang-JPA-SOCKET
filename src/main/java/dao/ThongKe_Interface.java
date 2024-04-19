@@ -1,17 +1,17 @@
 
 package dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ThongKe_Interface {
-    public ArrayList<Object[]> getListThongKeDoanhThu();
-    public ArrayList<Object[]> getListThongKeDoanhSo();
-    public ArrayList<Object[]> getListDoanhThuTheoThangvaNam(String thang,String nam);
-    public ArrayList<Object[]> getListDoanhThuTrongNam(String nam);
-    public ArrayList<Object[]> getListThongKeDoanhSoTheoThangNam(String thangNam,String sort);
-    public ArrayList<Object[]> getListTop5NhanVienDoanhThuCaoNhat(String thang, String nam);
-    public ArrayList<Object[]> getListTop5KhachHangMuaHangNhieuNhat(String thang, String nam);
-    public ArrayList<Object[]> getListThongKeDoanhSoTheoNam(String Nam,String sort) ;
+    public List<Object[]> getListThongKeDoanhThu();
+    public List<Object[]> getListThongKeDoanhSo();
+    public List<Object[]> getListDoanhThuTheoThangvaNam(String thang,String nam);
+    public List<Object[]> getListDoanhThuTrongNam(String nam);
+    public List<Object[]> getListThongKeDoanhSoTheoThangNam(String thangNam,String sort);
+    public List<Object[]> getListTop5NhanVienDoanhThuCaoNhat(String thang, String nam);
+    public List<Object[]> getListTop5KhachHangMuaHangNhieuNhat(String thang, String nam);
+    public List<Object[]> getListThongKeDoanhSoTheoNam(String Nam,String sort) ;
 
-    public ArrayList<Object[]> getListDoanhThuBySort(String  thang, String nam);
+    public List<Object[]> getListDoanhThuBySort(String  thang, String nam);
 }

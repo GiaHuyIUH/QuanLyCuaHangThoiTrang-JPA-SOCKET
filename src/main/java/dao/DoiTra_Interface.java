@@ -15,6 +15,6 @@ public interface DoiTra_Interface {
     public DoiTraEntity getDoiTraTheoMa(String ma);
     public ArrayList<DoiTraEntity> getDoiTraTheoNgayLap(Date ngayLap);
     public DoiTraEntity getDoiTraTheoDieuKien(String ma, Date ngayLap);
-    public int getTongSoLuongSPDoiTra(String maHD, String maSP);
+    public Long getTongSoLuongSPDoiTra(String maHD, String maSP);
     public boolean kiemTraThoiHanDoiTra(String maHD);
 }

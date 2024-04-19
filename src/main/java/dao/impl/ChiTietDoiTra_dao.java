@@ -3,6 +3,9 @@ package dao.impl;
 import java.util.ArrayList;
 
 import entity.ChiTietDoiTraEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 
 /**
  *
@@ -10,21 +13,32 @@ import entity.ChiTietDoiTraEntity;
  */
 public class ChiTietDoiTra_dao implements dao.ChiTietDoiTra_Interface{
 	
+	private EntityManager em;
     
     public ChiTietDoiTra_dao() {
-        
+        em = Persistence.createEntityManagerFactory("CoLenServer").createEntityManager();
     }
 
 	@Override
 	public boolean themChiTietDoiTra(ChiTietDoiTraEntity ctdt) {
-		// TODO Auto-generated method stub
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.persist(ctdt);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public ArrayList<ChiTietDoiTraEntity> getAllCTDTTheoMaDT(String ma) {
-		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<ChiTietDoiTraEntity>) em
+				.createNamedQuery("ChiTietDoiTra.getAllCTDTTheoMaDT", ChiTietDoiTraEntity.class)
+				.setParameter("ma", ma).getResultList();
 	}
     
 //    @Override

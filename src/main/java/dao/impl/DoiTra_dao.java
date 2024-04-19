@@ -5,67 +5,80 @@ import java.util.ArrayList;
 
 import entity.ChiTietDoiTraEntity;
 import entity.DoiTraEntity;
+import entity.HinhThucDoiTraEnum;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
 /**
  *
  * @author Huy
  */
-public class DoiTra_dao implements dao.DoiTra_Interface{
-	
+public class DoiTra_dao implements dao.DoiTra_Interface {
+
 	private EntityManager em;
-    
-    public DoiTra_dao() {
-        this.em = Persistence.createEntityManagerFactory("CoLenServer").createEntityManager();
-    }
+
+	public DoiTra_dao() {
+		this.em = Persistence.createEntityManagerFactory("CoLenServer").createEntityManager();
+	}
 
 	@Override
 	public boolean taoDoiTra(DoiTraEntity dt, ArrayList<ChiTietDoiTraEntity> ctdtList) {
-		// TODO Auto-generated method stub
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+			em.persist(dt);
+			for (ChiTietDoiTraEntity ctdt : ctdtList) {
+				em.persist(ctdt);
+			}
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public ArrayList<DoiTraEntity> getAllDoiTra() {
-		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<DoiTraEntity>) em.createNamedQuery("DoiTra.getAllDoiTra", DoiTraEntity.class).getResultList();
 	}
 
 	@Override
 	public DoiTraEntity getDoiTraTheoMa(String ma) {
-		// TODO Auto-generated method stub
-		return null;
+		return em.find(DoiTraEntity.class, ma);
 	}
 
 	@Override
 	public ArrayList<DoiTraEntity> getDoiTraTheoNgayLap(Date ngayLap) {
-		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<DoiTraEntity>) em.createNamedQuery("DoiTra.getDoiTraTheoNgayLap", DoiTraEntity.class)
+				.setParameter("ngayLap", ngayLap).getResultList();
 	}
 
 	@Override
 	public DoiTraEntity getDoiTraTheoDieuKien(String ma, Date ngayLap) {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createNamedQuery("DoiTra.getDoiTraTheoDieuKien", DoiTraEntity.class).setParameter("ma", ma)
+				.setParameter("ngayLap", ngayLap).getSingleResult();
 	}
 
 	@Override
-	public int getTongSoLuongSPDoiTra(String maHD, String maSP) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Long getTongSoLuongSPDoiTra(String maHD, String maSP) {
+		return em.createNamedQuery("DoiTra.getTongSoLuongSPDoiTra", Long.class).setParameter("maHD", maHD)
+				.setParameter("maSP", maSP).setParameter("hinhThucDoiTra", HinhThucDoiTraEnum.HOANTRA)
+				.getSingleResult();
 	}
 
 	@Override
 	public boolean kiemTraThoiHanDoiTra(String maHD) {
-		Long count = (Long) em.createNamedQuery("DoiTra.kiemTraThoiHanDoiTra").setParameter("maHD", maHD).getSingleResult();
-		System.out.println(count);
+		Long count = em.createNamedQuery("DoiTra.kiemTraThoiHanDoiTra", Long.class).setParameter("maHD", maHD)
+				.getSingleResult();
 		if (count == 1) {
 			return true;
 		}
 		return false;
 	}
-    
+
 //    @Override
 //    public boolean taoDoiTra(DoiTraEntity dt, ArrayList<ChiTietDoiTraEntity> ctdtList) {
 //        try {

@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -17,7 +20,9 @@ import jakarta.persistence.Table;
  * @author Admin
  */
 @Entity
-
+@NamedQueries({
+	@NamedQuery(name = "ChiTietDoiTra.getAllCTDTTheoMaDT", query = "SELECT ctdt FROM ChiTietDoiTraEntity ctdt WHERE ctdt.doiTra.maDT = :ma"),
+})
 public class ChiTietDoiTraEntity implements Serializable{
     /**
 	 * 
@@ -39,6 +44,10 @@ public class ChiTietDoiTraEntity implements Serializable{
     private double giaBan;
     
     private double thanhTien;
+    
+    @ManyToOne
+    private ChiTietHoaDonEntity chiTietHoaDon;
+    
 
     public ChiTietDoiTraEntity() {
     }

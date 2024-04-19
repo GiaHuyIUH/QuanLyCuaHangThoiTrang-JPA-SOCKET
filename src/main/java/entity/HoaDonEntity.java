@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -14,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
@@ -60,6 +62,9 @@ public class HoaDonEntity implements Serializable {
 	private double tienThanhToan;
 	@Enumerated(EnumType.STRING)
 	private TinhTrangHDEnum tinhTrang;
+	
+	@OneToMany(mappedBy = "hoaDon")
+	private List<ChiTietHoaDonEntity> chiTietHoaDon;
 
 	public HoaDonEntity(String maHD, Date ngayLapHD, KhachHangEntity khachHang, NhanVienEntity nhanVien,
 			ChuongTrinhKhuyenMaiEntity chuongTrinhKM) {

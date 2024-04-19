@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "SanPham.getSoLuongTonTheoMa", query = "SELECT sp.soLuongTonKho FROM SanPhamEntity sp WHERE sp.maSP = :maSP"),
@@ -44,6 +46,8 @@ public class SanPhamEntity implements Serializable{
     
     
     
+    
+    
     @ManyToOne
     @JoinColumn(name = "maChatLieu")
     private ChatLieuEntity chatLieu;
@@ -60,6 +64,15 @@ public class SanPhamEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "maCTKM")
     private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
+    
+    @OneToMany(mappedBy = "sanPham")
+    private List<ChiTietHoaDonEntity> chiTietHoaDon;
+    
+    @OneToMany(mappedBy = "sanPham")
+    private List<MatHangNhapEntity> matHangNhap ;
+    
+    @OneToMany(mappedBy = "sanPham")
+    private List<ChiTietDoiTraEntity> chiTietDoiTra;
 
     public SanPhamEntity() {
         super();
