@@ -1,16 +1,22 @@
 package gui;
 
 import java.awt.Image;
+import java.rmi.RemoteException;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 
 public class ThongKe_JPanel extends javax.swing.JPanel {
 
-    private final DoanhThu_JPanel panel_doanhthu ;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6684979969966698812L;
+	private final DoanhThu_JPanel panel_doanhthu ;
     private final DoanhSo_JPanel panel_doanhso ;
     private final ThongKeNVKH_Panel panel_nvkh;
 
-    public ThongKe_JPanel() {
+    public ThongKe_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748);
 //        ImageIcon img_btnTimKiem = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");

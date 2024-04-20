@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 import java.io.Serializable;
@@ -14,15 +10,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 
 /**
  *
  * @author Admin
  */
 @Entity
-@EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "ChiTietDoiTra.getAllCTDTTheoMaDT", query = "SELECT ctdt FROM ChiTietDoiTraEntity ctdt WHERE ctdt.doiTra.maDT = :ma"),
+})
 public class ChiTietDoiTraEntity implements Serializable{
     /**
 	 * 
@@ -38,12 +38,16 @@ public class ChiTietDoiTraEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "maDoiTra")
     private DoiTraEntity doiTra;
-	
+    
     private int soLuong;
    
     private double giaBan;
     
     private double thanhTien;
+    
+    @ManyToOne
+    private ChiTietHoaDonEntity chiTietHoaDon;
+    
 
     public ChiTietDoiTraEntity() {
     }

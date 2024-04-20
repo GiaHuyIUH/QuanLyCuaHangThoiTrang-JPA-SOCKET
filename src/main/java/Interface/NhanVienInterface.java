@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author HUY
  */
-public interface NhanVienInterface {
+public interface NhanVienInterface extends java.rmi.Remote{
     public boolean checkNV(String email, String sdt) throws RemoteException ;
     public NhanVienEntity getNV( String sdt) throws RemoteException ;
     NhanVienEntity findOne(String id)throws RemoteException;

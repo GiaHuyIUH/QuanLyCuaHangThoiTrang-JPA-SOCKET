@@ -56,7 +56,11 @@ import util.GenerateID;
  */
 public class SanPham_JPanel extends javax.swing.JPanel {
 
-    private String duongDanAnhMacDinh = "src//main//java//pic//icon//labelAnh.png";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8505077212933232002L;
+	private String duongDanAnhMacDinh = "src//main//java//pic//icon//labelAnh.png";
     private String duongDanAnh = null;
     private SanPham_bus sp_bus;
     private DanhMucSanPham_bus danhMucSanPham_bus;

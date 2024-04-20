@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author DELL
  */
-public interface ChiTietHoaDon_Interface {
+public interface ChiTietHoaDon_Interface extends java.rmi.Remote {
     public ArrayList<ChiTietHoaDonEntity> getallCTHD() throws RemoteException;
     public ArrayList<SanPhamEntity> getSanPhamTheoMaSP(String maSP)throws RemoteException; 
     public ArrayList<SanPhamEntity> getSanPhamTheoMaHD(String maHD)throws RemoteException;

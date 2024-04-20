@@ -32,7 +32,11 @@ import util.ToanCuc;
  */
 public class DangNhap_GUI extends javax.swing.JFrame {
 
-    private LamMoiMatKhau_GUI lammoiDangNhap_GUI = new LamMoiMatKhau_GUI();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5403365403277130127L;
+	private LamMoiMatKhau_GUI lammoiDangNhap_GUI = new LamMoiMatKhau_GUI();
 //    private ThayDoiMatKhau_GUI thaydoimatkhau_gui = new ThayDoiMatKhau_GUI();
     private NhanVien_bus nvbus;
 

@@ -33,7 +33,12 @@ import util.HoaDon_toancuc;
  */
 public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
     
-     public static void main(String args[]) {
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 167296322406356641L;
+
+	public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             private ChiTietHoaDon_GUI frame;

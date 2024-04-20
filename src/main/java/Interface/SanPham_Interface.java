@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author Tran Hien Vinh
  */
-public interface SanPham_Interface {
+public interface SanPham_Interface extends java.rmi.Remote{
 
     public ArrayList<SanPhamEntity> getAllSanPham()throws RemoteException;
 

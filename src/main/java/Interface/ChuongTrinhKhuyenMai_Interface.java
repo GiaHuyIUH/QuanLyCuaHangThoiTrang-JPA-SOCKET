@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author DELL
  */
-public interface ChuongTrinhKhuyenMai_Interface {
+public interface ChuongTrinhKhuyenMai_Interface extends java.rmi.Remote {
     public ArrayList<ChuongTrinhKhuyenMaiEntity > getallCTKM()throws RemoteException;
     public ArrayList<ChuongTrinhKhuyenMaiEntity> getCTKMTheoMaCTKM(String maCTKM, String maLoai)throws RemoteException;
     public boolean create (ChuongTrinhKhuyenMaiEntity ctkm)throws RemoteException;

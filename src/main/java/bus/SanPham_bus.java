@@ -18,7 +18,11 @@ import java.util.ArrayList;
  * @author Tran Hien Vinh
  */
 public class SanPham_bus extends UnicastRemoteObject implements SanPham_Interface{
-    SanPham_dao sp_dao;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7635727434715538223L;
+	SanPham_dao sp_dao;
     
 	public SanPham_bus() throws RemoteException{
 		sp_dao =new SanPham_dao();

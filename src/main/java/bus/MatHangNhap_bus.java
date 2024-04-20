@@ -18,7 +18,11 @@ import java.util.ArrayList;
  * @author Tran Hien Vinh
  */
 public class MatHangNhap_bus extends UnicastRemoteObject implements MatHangNhap_Interface{
-    MatHangNhap_dao mhn_dao;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1167898117083455639L;
+	MatHangNhap_dao mhn_dao;
 
 	public MatHangNhap_bus() throws RemoteException {
 		mhn_dao=new MatHangNhap_dao() ;

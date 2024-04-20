@@ -12,7 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class TaiKhoan_JPanel extends javax.swing.JPanel {
-    private TaiKhoan_bus bus = new TaiKhoan_bus();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7924558533978254668L;
+	private TaiKhoan_bus bus = new TaiKhoan_bus();
     private DefaultTableModel tableModel = new DefaultTableModel();
     public TaiKhoan_JPanel() throws RemoteException {
         initComponents();

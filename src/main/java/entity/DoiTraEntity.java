@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -12,11 +13,27 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
+import jakarta.persistence.NamedQueries;
 
 @Entity
 @EqualsAndHashCode
+
+@NamedQueries({
+	@NamedQuery(name = "DoiTra.getAllDoiTra", query = "SELECT dt FROM DoiTraEntity dt"),
+	@NamedQuery(name = "DoiTra.kiemTraThoiHanDoiTra", query = "SELECT COUNT(hd) FROM HoaDonEntity hd "
+			+ "WHERE YEAR(hd.ngayLapHD) = YEAR(CURRENT_DATE) " + "AND MONTH(hd.ngayLapHD) = MONTH(CURRENT_DATE) "
+			+ "AND DAY(hd.ngayLapHD) + 7 >= DAY(CURRENT_DATE) " + "AND hd.maHD = :maHD"),
+	@NamedQuery(name = "DoiTra.getTongSoLuongSPDoiTra", query = "SELECT SUM(ctdt.soLuong) AS tongSoLuong FROM DoiTraEntity dt "
+			+ "INNER JOIN dt.chiTietDoiTra ctdt " + "WHERE dt.hoaDon.maHD = :maHD "
+			+ "AND dt.hinhThucDoiTra = :hinhThucDoiTra " + "AND ctdt.sanPham.maSP = :maSP "
+			+ "GROUP BY ctdt.sanPham.maSP"),
+	@NamedQuery(name = "DoiTra.getDoiTraTheoDieuKien", query = "SELECT dt FROM DoiTraEntity dt WHERE dt.maDT = :ma AND dt.thoiGianDoiTra = :ngayLap"),
+	@NamedQuery(name = "DoiTra.getDoiTraTheoNgayLap", query = "SELECT dt FROM DoiTraEntity dt WHERE dt.thoiGianDoiTra = :ngayLap"),
+})
 public class DoiTraEntity implements Serializable {
 	/**
 	 * 
@@ -32,6 +49,9 @@ public class DoiTraEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
+	
+	@OneToMany(mappedBy = "doiTra") 
+	private List<ChiTietDoiTraEntity> chiTietDoiTra;
 
 	@Enumerated(EnumType.STRING)
 	private HinhThucDoiTraEnum hinhThucDoiTra;

@@ -24,6 +24,10 @@ import util.ToanCuc;
 public class ThayDoiMatKhau_GUI extends javax.swing.JFrame {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8036865999594457287L;
+	/**
      * Creates new form DangNhap_GUI
      */
     public ThayDoiMatKhau_GUI() {

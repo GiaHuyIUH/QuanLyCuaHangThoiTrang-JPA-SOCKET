@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode
@@ -22,6 +24,8 @@ import lombok.EqualsAndHashCode;
 	@NamedQuery(name = "SanPhamEntity.getSanPhamTheoMaHD", query = "SELECT sp FROM SanPhamEntity sp WHERE sp.maSP IN (SELECT cthd.sanPham.maSP FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD)"),
 //	UPDATE SanPham SET maCTKM = NULL WHERE maCTKM IN (SELECT maCTKM FROM ChuongTrinhKhuyenMai WHERE ngayKetThuc < SYSDATETIME() AND ngayKetThuc <> CONVERT(DATE, SYSDATETIME()))
 	@NamedQuery(name = "SanPhamEntity.capNhatKhuyenMai", query = "UPDATE SanPhamEntity sp SET sp.chuongTrinhKhuyenMai.maCTKM = NULL WHERE sp.chuongTrinhKhuyenMai.maCTKM IN (SELECT ctkm.maCTKM FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.ngayKetThuc < CURRENT_DATE AND ctkm.ngayKetThuc <> CURRENT_DATE)"),
+	@NamedQuery(name = "SanPham.getSoLuongTonTheoMa", query = "SELECT sp.soLuongTonKho FROM SanPhamEntity sp WHERE sp.maSP = :maSP"),
+	
 })
 public class SanPhamEntity implements Serializable{
 	
@@ -71,6 +75,15 @@ public class SanPhamEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "maCTKM")
     private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
+    
+    @OneToMany(mappedBy = "sanPham")
+    private List<ChiTietDoiTraEntity> chiTietDoiTra;
+    
+    @OneToMany(mappedBy = "sanPham")
+    private List<ChiTietHoaDonEntity> chiTietHoaDon;
+    
+    @OneToMany(mappedBy = "sanPham")
+    private List<MatHangNhapEntity> matHangNhap ;
 
     public SanPhamEntity() {
         super();

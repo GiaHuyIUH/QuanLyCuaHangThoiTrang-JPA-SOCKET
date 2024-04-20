@@ -35,7 +35,11 @@ import util.GenerateID;
  * @author 84335
  */
 public class NhanVien_JPanel extends javax.swing.JPanel {
-    private DefaultTableModel tableModel = new DefaultTableModel();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3883045689816518265L;
+	private DefaultTableModel tableModel = new DefaultTableModel();
     private NhanVien_bus bus = new NhanVien_bus();
     /**
      * Creates new form NhanVien_JPanel

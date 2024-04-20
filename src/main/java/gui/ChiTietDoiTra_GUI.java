@@ -8,6 +8,8 @@ import bus.ChiTietDoiTra_bus;
 import bus.DoiTra_bus;
 import entity.ChiTietDoiTraEntity;
 import entity.DoiTraEntity;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import util.ConvertDoubleToMoney;
@@ -18,13 +20,17 @@ import util.ConvertDoubleToMoney;
  */
 public class ChiTietDoiTra_GUI extends javax.swing.JFrame {
 
-    private String maDT;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5814256826937229991L;
+	private String maDT;
     private DefaultTableModel tableModel;
-    private DoiTra_bus dt_bus = new DoiTra_bus();
-    private ChiTietDoiTra_bus ctdt_bus = new ChiTietDoiTra_bus();
+    private DoiTra_bus dt_bus;
+    private ChiTietDoiTra_bus ctdt_bus;
     private ConvertDoubleToMoney convert = new ConvertDoubleToMoney();
     
-    public ChiTietDoiTra_GUI(String maDT) {
+    public ChiTietDoiTra_GUI(String maDT) throws RemoteException {
         this.maDT = maDT;
         initComponents();
         setLocationRelativeTo(null);

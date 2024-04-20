@@ -25,6 +25,10 @@ import util.email;
 public class LamMoiMatKhau_GUI extends javax.swing.JFrame {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8543271194767272231L;
+	/**
      * Creates new form DangNhap_GUI
      */
     public LamMoiMatKhau_GUI() {

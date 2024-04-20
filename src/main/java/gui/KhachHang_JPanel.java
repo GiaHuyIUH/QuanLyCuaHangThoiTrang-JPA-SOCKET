@@ -24,6 +24,10 @@ import util.GenerateID;
 public class KhachHang_JPanel extends javax.swing.JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 928236066554287660L;
+	/**
      * Creates new form KhachHang_JPanel
      */
     private DefaultTableModel tableModel = new DefaultTableModel();

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Tran Hien Vinh
  */
-public interface ThuongHieu_Interface {
+public interface ThuongHieu_Interface  extends java.rmi.Remote{
     public ArrayList<ThuongHieuEntity> getAllTH()throws RemoteException;
     public String layTenThuongHieuTheoMa(String maThuongHieu)throws RemoteException;
     public String layMaThuongHieuTheoTen(String tenThuongHieu)throws RemoteException;

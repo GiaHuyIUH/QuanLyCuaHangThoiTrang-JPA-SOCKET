@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author HUY
  */ 
-public interface KhachHang_Interface {
+public interface KhachHang_Interface extends java.rmi.Remote {
     KhachHangEntity findOne(String id   )throws RemoteException;
     boolean update(KhachHangEntity updateKH)throws RemoteException;
     boolean insert(KhachHangEntity insertKH)throws RemoteException;

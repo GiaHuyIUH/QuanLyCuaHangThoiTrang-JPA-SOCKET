@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author Tran Hien Vinh
  */
-public interface MatHangNhap_Interface {
+public interface MatHangNhap_Interface extends java.rmi.Remote {
 
     public ArrayList<MatHangNhapEntity> getAllMatHangNhap() throws RemoteException;
 

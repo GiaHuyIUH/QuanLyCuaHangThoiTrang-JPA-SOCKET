@@ -42,7 +42,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class KhuyenMai_JPanel extends javax.swing.JPanel {
 
-    private final ChuongTrinhKhuyenMai_bus ctkmbus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5322481204067101213L;
+	private final ChuongTrinhKhuyenMai_bus ctkmbus;
     private DefaultTableModel model;
     private java.sql.Date ngaybatdau;
 

@@ -18,7 +18,11 @@ import util.ExportToPDF;
  */
 public class ThongTinHoaDon_GUI extends javax.swing.JFrame {
     
-    private HoaDonEntity hoaDon;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7127332196415713936L;
+	private HoaDonEntity hoaDon;
     private ArrayList<ChiTietHoaDonEntity> cthdList;
     private double tienNhan, tienTraLai;
     private ConvertDoubleToMoney convert = new ConvertDoubleToMoney();

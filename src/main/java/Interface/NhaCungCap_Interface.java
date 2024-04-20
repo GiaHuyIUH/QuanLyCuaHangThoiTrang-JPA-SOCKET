@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Tran Hien Vinh
  */
-public interface NhaCungCap_Interface {
+public interface NhaCungCap_Interface extends java.rmi.Remote {
     public ArrayList<NhaCungCapEntity> getAllNhaCungCap()throws RemoteException;
     public boolean themNCC(NhaCungCapEntity ncc)throws RemoteException;
     public ArrayList<NhaCungCapEntity> timKiemNCC(String ma)throws RemoteException;

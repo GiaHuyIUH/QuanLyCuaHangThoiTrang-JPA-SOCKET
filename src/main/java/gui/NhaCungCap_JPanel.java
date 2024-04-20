@@ -25,7 +25,11 @@ import util.GenerateID;
  */
 public class NhaCungCap_JPanel extends javax.swing.JPanel {
 
-    private NhaCungCap_bus ncc_bus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1660101526276997753L;
+	private NhaCungCap_bus ncc_bus;
 
     /**
      * Creates new form NhaCungCap_JPanel

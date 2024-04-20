@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 
@@ -40,6 +42,9 @@ public class KhachHangEntity implements Serializable {
 
 	@Column(name = "diaChi", columnDefinition = "NVARCHAR(255)")
 	private String diaChi;
+	
+	@OneToMany(mappedBy = "khachHang")
+	private List<HoaDonEntity> hoaDon;
 
 	public KhachHangEntity(String maKH, String hoTen, GioiTinhEnum gioiTinh, String soDienThoai, String diaChi) {
 		super();

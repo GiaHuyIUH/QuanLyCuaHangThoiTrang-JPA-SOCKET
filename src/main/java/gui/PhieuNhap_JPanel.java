@@ -58,7 +58,11 @@ import util.GenerateID;
  */
 public class PhieuNhap_JPanel extends javax.swing.JPanel {
 
-    private MatHangNhap_bus mhn_bus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4644079511841163037L;
+	private MatHangNhap_bus mhn_bus;
     private NhaCungCap_bus ncc_bus;
     private SanPham_bus sp_bus;
     private SanPham_JPanel sp_panel;

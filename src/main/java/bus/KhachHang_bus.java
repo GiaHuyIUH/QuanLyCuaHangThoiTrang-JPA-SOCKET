@@ -18,7 +18,11 @@ import Interface.KhachHang_Interface;
  * @author HUY
  */
 public class KhachHang_bus extends UnicastRemoteObject implements KhachHang_Interface {
-    KhachHang_dao khachHangDAO;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6296325806124888504L;
+	KhachHang_dao khachHangDAO;
     
 	public KhachHang_bus() throws RemoteException {
 		khachHangDAO = new KhachHang_dao();

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Tran Hien Vinh
  */
-public interface DanhMucSanPham_Interface {
+public interface DanhMucSanPham_Interface extends java.rmi.Remote {
     public ArrayList<DanhMucSanPhamEntity> getAllDMSP()throws RemoteException;
     public String layTenDanhMucTheoMa(String maDanhMuc)throws RemoteException;
     public String layMaDanhMucTheoTen(String tenDanhMuc)throws RemoteException;

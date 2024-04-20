@@ -3,6 +3,7 @@ package gui;
 import bus.DoiTra_bus;
 import entity.DoiTraEntity;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -11,10 +12,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
     
-    private DefaultTableModel tableModel;
-    private DoiTra_bus dt_bus = new DoiTra_bus();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8604781775246705102L;
+	private DefaultTableModel tableModel;
+    private DoiTra_bus dt_bus ;
     
-    public QuanLyDoiTra_JPanel() {
+    public QuanLyDoiTra_JPanel() throws RemoteException {
+		try {
+			dt_bus = new DoiTra_bus();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         initComponents();
         setBounds(0, 0, 1173, 699);
         
@@ -95,7 +105,12 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemActionPerformed(evt);
+                try {
+					btn_TimKiemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         Jpanel_ThaoTac.add(btn_TimKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, 120, 30));
@@ -107,7 +122,12 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LamMoiActionPerformed(evt);
+                try {
+					btn_LamMoiActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         Jpanel_ThaoTac.add(btn_LamMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 20, 120, 30));
@@ -119,7 +139,12 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
         btn_XemChiTiet.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_XemChiTiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_XemChiTietActionPerformed(evt);
+                try {
+					btn_XemChiTietActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         Jpanel_ThaoTac.add(btn_XemChiTiet, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 20, 140, 30));
@@ -144,18 +169,18 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_MaDonDoiTraActionPerformed
 
-    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LamMoiActionPerformed
+    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiActionPerformed
         txt_MaDonDoiTra.setText("");
         jdc_NgayLap.setDate(null);
         importDoiTra();
     }//GEN-LAST:event_btn_LamMoiActionPerformed
 
-    private void btn_XemChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XemChiTietActionPerformed
+    private void btn_XemChiTietActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_XemChiTietActionPerformed
         xemChiTiet();
 
     }//GEN-LAST:event_btn_XemChiTietActionPerformed
 
-    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
         timKiemDoiTra();
     }//GEN-LAST:event_btn_TimKiemActionPerformed
 
@@ -174,7 +199,7 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_MaDonDoiTra;
     // End of variables declaration//GEN-END:variables
     
-    public void importDoiTra() {
+    public void importDoiTra() throws RemoteException {
         tableModel.setRowCount(0);
         ArrayList<DoiTraEntity> dtList = dt_bus.getAllDoiTra();
         if(dtList != null) {
@@ -185,7 +210,7 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
         }
     }
     
-    public void timKiemDoiTra() {
+    public void timKiemDoiTra() throws RemoteException {
         String ma = txt_MaDonDoiTra.getText().trim();
         Date ngayLap = jdc_NgayLap.getDate();
         if(ma.equals("") && ngayLap == null) {
@@ -218,7 +243,7 @@ public class QuanLyDoiTra_JPanel extends javax.swing.JPanel {
         }
     }
     
-    public void xemChiTiet() {
+    public void xemChiTiet() throws RemoteException {
         int row = table_DanhSachDoiTra.getSelectedRow();
         if(row < 0) {
             JOptionPane.showMessageDialog(this, "Đơn đổi trả chưa được chọn!");
