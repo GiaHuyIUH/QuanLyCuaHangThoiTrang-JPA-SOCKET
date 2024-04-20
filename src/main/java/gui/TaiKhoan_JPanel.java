@@ -1,18 +1,24 @@
 package gui;
 
 import bus.TaiKhoan_bus;
+import entity.NhanVienEntity;
 import entity.TaiKhoanEntity;
 import entity.TinhTrangTKEnum;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class TaiKhoan_JPanel extends javax.swing.JPanel {
-    private TaiKhoan_bus bus = new TaiKhoan_bus();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7924558533978254668L;
+	private TaiKhoan_bus bus = new TaiKhoan_bus();
     private DefaultTableModel tableModel = new DefaultTableModel();
-    public TaiKhoan_JPanel() {
+    public TaiKhoan_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748);
         ImageIcon img_btnTimKiem = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
@@ -77,7 +83,12 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setPreferredSize(new java.awt.Dimension(123, 30));
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemActionPerformed(evt);
+                try {
+					btn_TimKiemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -90,7 +101,12 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         btn_CapNhat.setPreferredSize(new java.awt.Dimension(123, 30));
         btn_CapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CapNhatActionPerformed(evt);
+                try {
+					btn_CapNhatActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -198,7 +214,7 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_NhapTenTKActionPerformed
 
-    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CapNhatActionPerformed
+    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
         int rowSelected = table_DanhSachTK.getSelectedRow();
         String tenTaiKhoan = (String) tableModel.getValueAt(rowSelected, 1);
         TaiKhoanEntity tk = bus.findOne(tenTaiKhoan);
@@ -212,7 +228,7 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         refresh();
     }//GEN-LAST:event_btn_CapNhatActionPerformed
 
-    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
         String id = txt_NhapTenTK.getText();
         if (id.isBlank()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản của nhân viên!");
@@ -232,11 +248,21 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         cbo_TinhTrang.setSelectedItem(tableModel.getValueAt(selectedRow, 3));
     }//GEN-LAST:event_table_DanhSachTKMouseClicked
 
-     private void loadData() {
+     private void loadData() throws RemoteException {
         ArrayList<TaiKhoanEntity> listTK = new ArrayList<>();
         listTK = bus.findAll();
         for (TaiKhoanEntity tk : listTK) {
-            tableModel.addRow(new Object[]{tk.getNhanVien().getHoTen(), tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
+        	NhanVienEntity nv = tk.getNhanVien();
+        	String hoTen = "";
+        	if (nv != null) {
+        	    hoTen = nv.getHoTen();
+        	    // Sử dụng hoTen
+        	} else {
+        	    // Xử lý khi nhanVien là null
+        	}
+
+        	
+            tableModel.addRow(new Object[]{hoTen, tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
         }
     }
 
@@ -255,7 +281,7 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_NhapTenTK;
     // End of variables declaration//GEN-END:variables
     
-    public void refresh() {
+    public void refresh() throws RemoteException {
         txt_NhapTenTK.setText("");
         tableModel.setRowCount(0);
         cbo_TinhTrang.setSelectedIndex(-1);

@@ -6,12 +6,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import lombok.EqualsAndHashCode;
 
 @Entity
+@EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "NhanVienEntity.getNV", query = "SELECT nv FROM NhanVienEntity nv WHERE nv.soDienThoai = :soDienThoai"),
+	@NamedQuery(name = "NhanVienEntity.checkNV", query = "SELECT nv FROM NhanVienEntity nv WHERE nv.email = :email AND nv.soDienThoai = :soDienThoai"),
+	@NamedQuery(name = "NhanVienEntity.getAllNV", query = "SELECT nv FROM NhanVienEntity nv"),
+    
+})
 public class NhanVienEntity implements Serializable {
 	/**
 	 * 
@@ -19,12 +30,17 @@ public class NhanVienEntity implements Serializable {
 	private static final long serialVersionUID = 7564071463227667131L;
 	@Id
 	private String maNV;
+	
+	@Column(name = "hoTen", columnDefinition = "nvarchar(255)")
 	private String hoTen;
 	@Enumerated(EnumType.STRING)
 	private GioiTinhEnum gioiTinh;
 	private LocalDate ngaySinh;
+	@Column(name = "email", columnDefinition = "nvarchar(255)")
 	private String email;
+	@Column(name = "soDienThoai", columnDefinition = "nvarchar(255)")
 	private String soDienThoai;
+	@Column(name = "diaChi", columnDefinition = "nvarchar(255)")
 	private String diaChi;
 	@Enumerated(EnumType.STRING)
 	private ChucVuEnum chucVu;

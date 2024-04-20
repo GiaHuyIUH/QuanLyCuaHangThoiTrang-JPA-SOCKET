@@ -5,7 +5,7 @@
 package dao;
 
 import Interface.SanPham_Interface;
-import connectDB.ConnectDB;
+//import connectDB.ConnectDB;
 import entity.ChatLieuEntity;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.DanhMucSanPhamEntity;
@@ -19,6 +19,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
 import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,30 +33,34 @@ import util.ConvertStringToEnum;
  *
  * @author Tran Hien Vinh
  */
-public class SanPham_dao implements SanPham_Interface {
+public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interface {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2929240039504344643L;
 	EntityManager em;
 	
 	
 	
 	
 
-    public SanPham_dao() {
+    public SanPham_dao() throws RemoteException{
 		super();
 		// TODO Auto-generated constructor stub
-		em = Persistence.createEntityManagerFactory("jpa-mssql").createEntityManager();
+		em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
 	}
 
 	@Override
-    public ArrayList<SanPhamEntity> getAllSanPham() {
+    public ArrayList<SanPhamEntity> getAllSanPham()throws RemoteException {
 		
 		ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
-		try {
+//		try {
 			dsSanPham = (ArrayList<SanPhamEntity>) em.createQuery("select s from SanPhamEntity s").getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//
+//		}
 		return dsSanPham;
 		
 		
@@ -131,7 +137,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public boolean themSP(SanPhamEntity sp) {
+    public boolean themSP(SanPhamEntity sp)throws RemoteException {
     	
     	EntityTransaction tx = em.getTransaction();
         try {
@@ -176,7 +182,7 @@ public class SanPham_dao implements SanPham_Interface {
 
 
 	@Override
-    public ArrayList<SanPhamEntity> timSanPham(String ma) {
+    public ArrayList<SanPhamEntity> timSanPham(String ma)throws RemoteException {
     	
     	ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
     	        try {
@@ -255,7 +261,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public boolean capNhatSanPham(SanPhamEntity sp) {
+    public boolean capNhatSanPham(SanPhamEntity sp) throws RemoteException{
     	
     	EntityTransaction tx = em.getTransaction();
         try {
@@ -297,7 +303,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public ArrayList<SanPhamEntity> kiemTraTonKho() {
+    public ArrayList<SanPhamEntity> kiemTraTonKho() throws RemoteException{
     	
     	
 		ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
@@ -380,7 +386,7 @@ public class SanPham_dao implements SanPham_Interface {
 
     
     @Override
-    public SanPhamEntity timKiemSanPham(String ma) {
+    public SanPhamEntity timKiemSanPham(String ma) throws RemoteException{
     	
     	
 		SanPhamEntity sp = em.find(SanPhamEntity.class, ma);
@@ -458,7 +464,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public boolean capNhatSoLuongTonSauKhiTaoHD(String maSP, int soLuong) {
+    public boolean capNhatSoLuongTonSauKhiTaoHD(String maSP, int soLuong)throws RemoteException {
     	
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -507,7 +513,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public int laySoLuongTonKhoTheoMaSP(String maSP) {
+    public int laySoLuongTonKhoTheoMaSP(String maSP) throws RemoteException{
     	
 		SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
 		return sp.getSoLuongTonKho();
@@ -536,7 +542,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public boolean capNhatSoLuong(String maSP, int soLuongNhap) {
+    public boolean capNhatSoLuong(String maSP, int soLuongNhap)throws RemoteException {
     	
 	        EntityTransaction tx = em.getTransaction();
 			try {
@@ -573,7 +579,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public boolean kiemTraMaSanPhamTonTai(String maSP) {
+    public boolean kiemTraMaSanPhamTonTai(String maSP) throws RemoteException{
     		
     	        SanPhamEntity sp = em.find(SanPhamEntity.class, maSP);
     	        return sp != null;
@@ -603,14 +609,12 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public void capNhatKhuyenMai() {
+    public void capNhatKhuyenMai() throws RemoteException{
     	
     	EntityTransaction tx = em.getTransaction();
         try {
 			tx.begin();
-			em.createQuery(
-					"update SanPhamEntity s set s.chuongTrinhKhuyenMai = null where s.chuongTrinhKhuyenMai.ngayKetThuc < CURRENT_DATE() and s.chuongTrinhKhuyenMai.ngayKetThuc <> CURRENT_DATE()")
-					.executeUpdate();
+			em.createQuery("SanPhamEntity.capNhatKhuyenMai").executeUpdate();
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
@@ -635,7 +639,7 @@ public class SanPham_dao implements SanPham_Interface {
     }
 
     @Override
-    public void capNhatTinhTrang(String maSP, TinhTrangSPEnum tinhTrangDangBan) {
+    public void capNhatTinhTrang(String maSP, TinhTrangSPEnum tinhTrangDangBan) throws RemoteException{
     	
     	EntityTransaction tx = em.getTransaction();
         try {

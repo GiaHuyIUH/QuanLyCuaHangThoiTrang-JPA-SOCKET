@@ -4,26 +4,43 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
+import lombok.EqualsAndHashCode;
 
 @Entity
+@EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "TaiKhoanEntity.getTKByNameAndPass", query = "SELECT tk FROM TaiKhoanEntity tk WHERE tk.tenTaiKhoan = :tenTaiKhoan AND tk.matKhau = :matKhau"),
+	@NamedQuery(name = "TaiKhoanEntity.updateThoiGianDNGN", query = "UPDATE TaiKhoanEntity tk SET tk.thoiGianDNGN = :thoiGianDNGN WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
+	@NamedQuery(name = "TaiKhoanEntity.lamMoiMatKha", query = "UPDATE TaiKhoanEntity tk SET tk.matKhau = :matKhau WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
+//	@NamedQuery(name = "TaiKhoanEntity.insert", query = "insert into TaiKhoanEntity(tk.tenTaiKhoan, tk.matKhau, tk.thoiGianDNGN, tk.tinhTrang, tk.maNV) values(:tenTaiKhoan, :matKhau, :thoiGianDNGN, :tinhTrang, :maNV)"),
+	@NamedQuery(name = "TaiKhoanEntity.updateTinhTrang", query = "UPDATE TaiKhoanEntity tk SET tk.tinhTrang = :tinhTrang WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
+	@NamedQuery(name = "TaiKhoanEntity.getAllTK", query = "SELECT tk FROM TaiKhoanEntity tk"),
+})
 public class TaiKhoanEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7617207203593199672L;
-	private String tenTaiKhoan, matKhau;
+	@Id
+	private String tenTaiKhoan;
+	
+	private String matKhau;
 	private LocalDateTime thoiGianDNGN;
 	@Enumerated(EnumType.STRING)
+	@Column(columnDefinition = "nvarchar(255)")
 	private TinhTrangTKEnum tinhTrang;
 	
-	@Id
-	@OneToOne(mappedBy = "maNV")
+	
+	@OneToOne
 	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
 

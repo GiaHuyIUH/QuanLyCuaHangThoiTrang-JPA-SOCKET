@@ -7,18 +7,19 @@ package Interface;
 import entity.ChiTietDoiTraEntity;
 import entity.DoiTraEntity;
 import java.util.ArrayList;
+import java.rmi.RemoteException;
 import java.sql.Date;
 
 /**
  *
  * @author Admin
  */
-public interface DoiTra_Interface {
-    public boolean taoDoiTra(DoiTraEntity dt, ArrayList<ChiTietDoiTraEntity> ctdtList);
-    public ArrayList<DoiTraEntity> getAllDoiTra();
-    public DoiTraEntity getDoiTraTheoMa(String ma);
-    public ArrayList<DoiTraEntity> getDoiTraTheoNgayLap(Date ngayLap);
-    public DoiTraEntity getDoiTraTheoDieuKien(String ma, Date ngayLap);
-    public int getTongSoLuongSPDoiTra(String maHD, String maSP);
-    public boolean kiemTraThoiHanDoiTra(String maHD);
+public interface DoiTra_Interface extends java.rmi.Remote{
+    public boolean taoDoiTra(DoiTraEntity dt, ArrayList<ChiTietDoiTraEntity> ctdtList) throws java.rmi.RemoteException;
+    public ArrayList<DoiTraEntity> getAllDoiTra() throws RemoteException;
+    public DoiTraEntity getDoiTraTheoMa(String ma)throws RemoteException;
+    public ArrayList<DoiTraEntity> getDoiTraTheoNgayLap(Date ngayLap)throws RemoteException;
+    public DoiTraEntity getDoiTraTheoDieuKien(String ma, Date ngayLap)throws RemoteException;
+    public Long getTongSoLuongSPDoiTra(String maHD, String maSP)throws RemoteException;
+    public boolean kiemTraThoiHanDoiTra(String maHD)throws RemoteException;
 }

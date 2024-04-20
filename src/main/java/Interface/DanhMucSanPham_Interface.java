@@ -5,14 +5,16 @@
 package Interface;
 
 import entity.DanhMucSanPhamEntity;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
  *
  * @author Tran Hien Vinh
  */
-public interface DanhMucSanPham_Interface {
-    public ArrayList<DanhMucSanPhamEntity> getAllDMSP();
-    public String layTenDanhMucTheoMa(String maDanhMuc);
-    public String layMaDanhMucTheoTen(String tenDanhMuc);
+public interface DanhMucSanPham_Interface extends java.rmi.Remote {
+    public ArrayList<DanhMucSanPhamEntity> getAllDMSP()throws RemoteException;
+    public String layTenDanhMucTheoMa(String maDanhMuc)throws RemoteException;
+    public String layMaDanhMucTheoTen(String tenDanhMuc)throws RemoteException;
 }

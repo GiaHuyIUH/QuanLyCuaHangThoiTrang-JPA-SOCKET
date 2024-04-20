@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -57,15 +58,20 @@ import util.GenerateID;
  */
 public class PhieuNhap_JPanel extends javax.swing.JPanel {
 
-    private MatHangNhap_bus mhn_bus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4644079511841163037L;
+	private MatHangNhap_bus mhn_bus;
     private NhaCungCap_bus ncc_bus;
     private SanPham_bus sp_bus;
     private SanPham_JPanel sp_panel;
 
     /**
      * Creates new form PhieuNhap_JPanel
+     * @throws Exception 
      */
-    public PhieuNhap_JPanel() {
+    public PhieuNhap_JPanel() throws Exception {
         initComponents();
         //Khỏi tạo
         mhn_bus = new MatHangNhap_bus();
@@ -234,7 +240,12 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemActionPerformed(evt);
+                try {
+					btn_TimKiemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -247,7 +258,12 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LamMoiActionPerformed(evt);
+                try {
+					btn_LamMoiActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -260,7 +276,12 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         btn_NhapHang.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_NhapHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_NhapHangActionPerformed(evt);
+                try {
+					btn_NhapHangActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -273,7 +294,12 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         btn_CapNhat.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_CapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CapNhatActionPerformed(evt);
+                try {
+					btn_CapNhatActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -316,7 +342,12 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         btn_Luu.setPreferredSize(new java.awt.Dimension(90, 31));
         btn_Luu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LuuActionPerformed(evt);
+                try {
+					btn_LuuActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -419,7 +450,7 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     //Hàn load dữ liệu từ database lên table
-    private void loadDuLieuTuDataLenTable() {
+    private void loadDuLieuTuDataLenTable() throws RemoteException {
         ArrayList<MatHangNhapEntity> dsMHN = mhn_bus.getAllMatHangNhap();
         for (MatHangNhapEntity mhn : dsMHN) {
             String tenNCC = ncc_bus.layTenNhaCungCapTheoMa(mhn.getNhaCungCap().getMaNCC());
@@ -441,7 +472,7 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         comboBox.setModel(model);
     }
 
-    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
         // TODO add your handling code here:
         Date date = jdc_NgayNhap_Search.getDate();
         LocalDate ngayTim = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -450,7 +481,7 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_TimKiemActionPerformed
 
     //Hàm tìm kiếm theo ngày
-    private void timKiemTheoNgay(LocalDate ngayTimKiem) {
+    private void timKiemTheoNgay(LocalDate ngayTimKiem) throws RemoteException {
         model.setRowCount(0);
         ArrayList<MatHangNhapEntity> dsMHN = mhn_bus.timKiemMHN(ngayTimKiem);
         if (dsMHN.isEmpty()) {
@@ -464,13 +495,13 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LamMoiActionPerformed
+    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiActionPerformed
         // TODO add your handling code here:
         lamMoi();
     }//GEN-LAST:event_btn_LamMoiActionPerformed
 
     //Hàm làm mới
-    private void lamMoi() {
+    private void lamMoi() throws RemoteException {
         txt_MaMatHangNhap.setText("");
         cbo_MaNhaCungCap.setSelectedIndex(0);
         txt_MaSanPham.setText("");
@@ -486,13 +517,13 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         btn_NhapHang.setEnabled(true);
     }
 
-    private void btn_NhapHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NhapHangActionPerformed
+    private void btn_NhapHangActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_NhapHangActionPerformed
         // TODO add your handling code here:
         nhapHang();
     }//GEN-LAST:event_btn_NhapHangActionPerformed
 
     //Hàm nhập hàng
-    private void nhapHang() {
+    private void nhapHang() throws RemoteException {
         if (validata()) {
             String maMHN = GenerateID.sinhMa("MHN");
             String maSP = txt_MaSanPham.getText().trim();
@@ -519,13 +550,13 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         }
     }
 
-    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CapNhatActionPerformed
+    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
         // TODO add your handling code here:
         capNhatMatHangNhap();
     }//GEN-LAST:event_btn_CapNhatActionPerformed
 
     //Hàm cập nhập mặt hàng nhập
-    private void capNhatMatHangNhap() {
+    private void capNhatMatHangNhap() throws RemoteException {
         int row = table_PhieuNhapHang.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(null, "Chưa chọn phiếu nhập hàng để cập nhật");
@@ -601,12 +632,12 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
         nhapExcel();
     }//GEN-LAST:event_btn_NhapExcelActionPerformed
 
-    private void btn_LuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LuuActionPerformed
+    private void btn_LuuActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LuuActionPerformed
         // TODO add your handling code here:
         luu();
     }//GEN-LAST:event_btn_LuuActionPerformed
     //Hàm lưu dữ liệu từ table vào db
-    private void luu() {
+    private void luu() throws RemoteException {
         for (int i = 0; i < model.getRowCount(); i++) {
             String maMHN = model.getValueAt(i, 0).toString();
             String maSP = model.getValueAt(i, 1).toString();
@@ -795,7 +826,7 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
     }
 
     //Hàm lấy số lượng tồn kho của sản phẩm nhập ban đầu
-    public int laySoLuongNhapBanDau(String maMHN) {
+    public int laySoLuongNhapBanDau(String maMHN) throws RemoteException {
         ArrayList<MatHangNhapEntity> dsMHN = mhn_bus.getAllMatHangNhap();
         for (MatHangNhapEntity mhn : dsMHN) {
             if (mhn.getMaMHN().equals(maMHN)) {
@@ -806,7 +837,7 @@ public class PhieuNhap_JPanel extends javax.swing.JPanel {
     }
 
     //Hàm kiểm tra regex
-    private boolean validata() {
+    private boolean validata() throws RemoteException {
         String maSP = txt_MaSanPham.getText().trim();
         ArrayList<SanPhamEntity> ketQuaTimKiem = sp_bus.timSanPham(maSP);
         if (maSP.isBlank()) {

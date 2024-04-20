@@ -14,6 +14,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
 import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,20 +29,24 @@ import java.util.logging.Logger;
  *
  * @author Tran Hien Vinh
  */
-public class MatHangNhap_dao implements MatHangNhap_Interface {
+public class MatHangNhap_dao extends UnicastRemoteObject implements MatHangNhap_Interface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1822590663794462584L;
 	EntityManager em;
 	
 	
 	
-    public MatHangNhap_dao() {
+    public MatHangNhap_dao() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub
-		em = Persistence.createEntityManagerFactory("jpa-mssql").createEntityManager();
+		em = Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
 	}
 
 	@Override
-    public ArrayList<MatHangNhapEntity> getAllMatHangNhap() {
+    public ArrayList<MatHangNhapEntity> getAllMatHangNhap() throws RemoteException{
     	
 		     ArrayList<MatHangNhapEntity> dsMHN = new ArrayList<MatHangNhapEntity>();
         	try {
@@ -81,7 +87,7 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
     }
 
     @Override
-    public boolean nhapHang(MatHangNhapEntity mhn) {
+    public boolean nhapHang(MatHangNhapEntity mhn)throws RemoteException {
     	EntityTransaction tx = em.getTransaction();
         try {
         	tx.begin();
@@ -117,13 +123,14 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
     }
 
     @Override
-    public ArrayList<MatHangNhapEntity> timKiemMHN(LocalDate ngayNhap) {
+    public ArrayList<MatHangNhapEntity> timKiemMHN(LocalDate ngayNhap)throws RemoteException {
     	
     	ArrayList<MatHangNhapEntity> dsMHN = new ArrayList<MatHangNhapEntity>();
     	try {
-    		dsMHN = (ArrayList<MatHangNhapEntity>) em.createQuery("select m from MatHangNhapEntity m where m.ngayNhap = :ngayNhap")
+    		ArrayList<MatHangNhapEntity> resultList = (ArrayList<MatHangNhapEntity>) em.createQuery("select m from MatHangNhapEntity m where m.ngayNhap = :ngayNhap")
     				.setParameter("ngayNhap", ngayNhap)
     				.getResultList();
+			dsMHN = resultList;
         } catch (Exception e) {
  			e.printStackTrace();
         	     			
@@ -165,7 +172,7 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
     }
 
     @Override
-    public boolean capNhapMatHangNhap(MatHangNhapEntity mhn) {
+    public boolean capNhapMatHangNhap(MatHangNhapEntity mhn) throws RemoteException{
     	
     	EntityTransaction tx = em.getTransaction();
         try {
@@ -204,7 +211,7 @@ public class MatHangNhap_dao implements MatHangNhap_Interface {
     }
 
     @Override
-    public boolean kiemTraMaMatHangNhapTonTai(String maMHN) {
+    public boolean kiemTraMaMatHangNhapTonTai(String maMHN)throws RemoteException {
 		MatHangNhapEntity mhn = em.find(MatHangNhapEntity.class, maMHN);
 		return mhn != null;
 //        try {

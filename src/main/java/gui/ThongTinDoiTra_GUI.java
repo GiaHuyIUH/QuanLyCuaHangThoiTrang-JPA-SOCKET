@@ -9,6 +9,7 @@ import bus.DoiTra_bus;
 import entity.ChiTietDoiTraEntity;
 import entity.DoiTraEntity;
 import java.awt.Color;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import util.ConvertDoubleToMoney;
@@ -20,17 +21,22 @@ import util.ExportToPDF;
  */
 public class ThongTinDoiTra_GUI extends javax.swing.JFrame {
 
-    private String maDT;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2598713329885685570L;
+	private String maDT;
     private DefaultTableModel tableModel;
-    private DoiTra_bus dt_bus = new DoiTra_bus();
-    private ChiTietDoiTra_bus ctdt_bus = new ChiTietDoiTra_bus();
+    private DoiTra_bus dt_bus ;
+    private  ChiTietDoiTra_bus ctdt_bus ;
     private ConvertDoubleToMoney convert = new ConvertDoubleToMoney();
     
-    public ThongTinDoiTra_GUI(String maDT) {
+    public ThongTinDoiTra_GUI(String maDT) throws RemoteException {
         this.maDT = maDT;
         initComponents();
         setLocationRelativeTo(null);
-        
+        ctdt_bus = new ChiTietDoiTra_bus();
+        dt_bus = new DoiTra_bus();
         // import data
         String[] cols = {"Mã", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Giá bán", "Thành tiền"};
         tableModel = new DefaultTableModel(cols, 0);

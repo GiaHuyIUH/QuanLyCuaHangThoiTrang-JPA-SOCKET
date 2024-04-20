@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.ButtonGroup;
@@ -30,7 +31,11 @@ import util.ConvertDoubleToMoney;
 
 public class ThongKeNVKH_Panel extends javax.swing.JPanel {
 
-    private final ThongKe_bus tkbus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8630491057046471779L;
+	private final ThongKe_bus tkbus;
     private DefaultTableModel model;
     private BarRenderer renderer;
     private String sort = "desc";
@@ -48,7 +53,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         }
     }
 
-    public ThongKeNVKH_Panel() {
+    public ThongKeNVKH_Panel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1183, 710);
         setVisible(true);
@@ -71,7 +76,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         md.setRowCount(0);
     }
 
-    public void DocDuLieuLenTable() {
+    public void DocDuLieuLenTable() throws RemoteException {
         String thang = String.valueOf(monthChooser.getMonth() + 1);
         String nam = String.valueOf(spin_nam.getValue());
         ArrayList<Object[]> ds = new ArrayList<>();
@@ -84,7 +89,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         }
     }
     
-    public void DocDuLieuLenTableDuplication() {
+    public void DocDuLieuLenTableDuplication() throws RemoteException {
         String thang = String.valueOf(monthChooser.getMonth() + 1);
         String nam = String.valueOf(spin_nam.getValue());
         ArrayList<Object[]> ds = new ArrayList<>();
@@ -293,7 +298,12 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         monthChooser.setPreferredSize(new java.awt.Dimension(125, 30));
         monthChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                monthChooserPropertyChange(evt);
+                try {
+					monthChooserPropertyChange(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(monthChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 69, -1, 30));
@@ -310,7 +320,12 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         rdo_staticticsByMonth.setText("Theo tháng");
         rdo_staticticsByMonth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_staticticsByMonthActionPerformed(evt);
+                try {
+					rdo_staticticsByMonthActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_staticticsByMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, -1, -1));
@@ -320,14 +335,24 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         rdo_staticticByYear.setText("Theo năm");
         rdo_staticticByYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_staticticByYearActionPerformed(evt);
+                try {
+					rdo_staticticByYearActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_staticticByYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 100, -1, -1));
 
         spin_nam.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                spin_namPropertyChange(evt);
+                try {
+					spin_namPropertyChange(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(spin_nam, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, -1, 30));
@@ -353,7 +378,12 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         rdo_bdc1.setText("Top nhân viên doanh thu bán hàng cao");
         rdo_bdc1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_bdc1ActionPerformed(evt);
+                try {
+					rdo_bdc1ActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_bdc1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 70, -1, -1));
@@ -363,7 +393,12 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         rdo_bdd2.setText("Top khách hàng mua hàng nhiều");
         rdo_bdd2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_bdd2ActionPerformed(evt);
+                try {
+					rdo_bdd2ActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_bdd2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 70, -1, -1));
@@ -404,7 +439,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 142, 1168, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void monthChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_monthChooserPropertyChange
+    private void monthChooserPropertyChange(java.beans.PropertyChangeEvent evt) throws RemoteException {//GEN-FIRST:event_monthChooserPropertyChange
         if (sort.equals("desc")) {
             XoaAllData();
             DocDuLieuLenTable();
@@ -419,7 +454,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_monthChooserPropertyChange
 
-    private void rdo_staticticsByMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_staticticsByMonthActionPerformed
+    private void rdo_staticticsByMonthActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_staticticsByMonthActionPerformed
         if (sort.equals("desc")) {
             XoaAllData();
             DocDuLieuLenTable();
@@ -432,7 +467,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_rdo_staticticsByMonthActionPerformed
 
-    private void rdo_staticticByYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_staticticByYearActionPerformed
+    private void rdo_staticticByYearActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_staticticByYearActionPerformed
         if (sort.equals("desc")) {
             XoaAllData();
             DocDuLieuLenTable();
@@ -446,7 +481,7 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
 //        createLineChart();
     }//GEN-LAST:event_rdo_staticticByYearActionPerformed
 
-    private void spin_namPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_namPropertyChange
+    private void spin_namPropertyChange(java.beans.PropertyChangeEvent evt) throws RemoteException {//GEN-FIRST:event_spin_namPropertyChange
         // TODO add your handling code here:
         XoaAllData();
         DocDuLieuLenTable();
@@ -499,14 +534,14 @@ public class ThongKeNVKH_Panel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_button1ActionPerformed
 
-    private void rdo_bdc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_bdc1ActionPerformed
+    private void rdo_bdc1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_bdc1ActionPerformed
         sort = "desc";
         XoaAllData();
         DocDuLieuLenTable();
         charAt();
     }//GEN-LAST:event_rdo_bdc1ActionPerformed
 
-    private void rdo_bdd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_bdd2ActionPerformed
+    private void rdo_bdd2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_bdd2ActionPerformed
         sort = "asc";
         XoaAllData();
         DocDuLieuLenTableDuplication();

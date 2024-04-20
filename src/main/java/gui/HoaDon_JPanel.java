@@ -1,9 +1,9 @@
 package gui;
 
 import bus.HoaDon_bus;
-import connectDB.ConnectDB;
 import entity.HoaDonEntity;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,13 +15,18 @@ import util.HoaDon_toancuc;
 
 public class HoaDon_JPanel extends javax.swing.JPanel {
 
-    private  HoaDon_bus hdbus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7234758356924974813L;
+	private  HoaDon_bus hdbus;
     private DefaultTableModel model;
     
     /**
      * Creates new form HoaDon_JPanel
+     * @throws RemoteException 
      */
-    public HoaDon_JPanel() {
+    public HoaDon_JPanel() throws RemoteException {
 
         initComponents();
         dateNgayLap.setLocale(new Locale("vi", "VN"));
@@ -63,11 +68,35 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
     }
     
 
-    private void DocDuLieuTuSQLvaoTable() {
-        ArrayList<HoaDonEntity> listHD = hdbus.getallHoaDon();
+    private void DocDuLieuTuSQLvaoTable() throws RemoteException {
+//        ArrayList<HoaDonEntity> listHD = hdbus.getallHoaDon();
+//        for (HoaDonEntity hd : listHD) {
+//            
+//            addRows(new Object[]{hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(), hd.getTinhTrang().toString()});
+//        }
+    	ArrayList<HoaDonEntity> listHD = hdbus.getallHoaDon();
         for (HoaDonEntity hd : listHD) {
-
-            addRows(new Object[]{hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(), hd.getTinhTrang().toString()});
+            String maKH = "";
+            if (hd.getKhachHang() != null) {
+                maKH = hd.getKhachHang().getMaKH();
+            }
+            
+            String maNV = "";
+            if (hd.getNhanVien() != null) {
+                maNV = hd.getNhanVien().getMaNV();
+            }
+            
+            String maCTKM = "";
+            if (hd.getChuongTrinhKM() != null) {
+                maCTKM = hd.getChuongTrinhKM().getMaCTKM();
+            }
+            
+            String tinhTrang = "";
+            if (hd.getTinhTrang() != null) {
+                tinhTrang = hd.getTinhTrang().toString();
+            }
+            
+            addRows(new Object[]{hd.getMaHD(), maKH, maNV, maCTKM, hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(), tinhTrang});
         }
     }
 
@@ -154,7 +183,12 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
         btn_TimKiem.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemActionPerformed(evt);
+                try {
+					btn_TimKiemActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         Jpanel_ThaoTac.add(btn_TimKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, 120, 30));
@@ -165,7 +199,12 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setText("Làm mới");
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LamMoiActionPerformed(evt);
+                try {
+					btn_LamMoiActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         Jpanel_ThaoTac.add(btn_LamMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 20, 120, 30));
@@ -219,7 +258,7 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_MaHoaDonActionPerformed
 
-    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LamMoiActionPerformed
+    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiActionPerformed
         // TODO add your handling code here:
         XoahetDuLieuTrenTable();
         DocDuLieuTuSQLvaoTable();
@@ -257,7 +296,7 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btn_XemChiTietActionPerformed
 
-    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
 
         XoahetDuLieuTrenTable();
         DocDuLieuTuSQLvaoTable();

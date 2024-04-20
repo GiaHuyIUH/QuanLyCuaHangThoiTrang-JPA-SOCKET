@@ -6,7 +6,7 @@ import bus.ChuongTrinhKhuyenMai_bus;
 import bus.HoaDon_bus;
 import bus.KhachHang_bus;
 import bus.SanPham_bus;
-import connectDB.ConnectDB;
+
 import entity.ChiTietHoaDonEntity;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.HoaDonEntity;
@@ -15,6 +15,7 @@ import entity.SanPhamEntity;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -32,7 +33,12 @@ import util.HoaDon_toancuc;
  */
 public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
     
-     public static void main(String args[]) {
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 167296322406356641L;
+
+	public static void main(String args[]) {
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             private ChiTietHoaDon_GUI frame;
@@ -60,13 +66,14 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form ChiTietHoaDon_GUI
+     * @throws RemoteException 
      */
-    public ChiTietHoaDon_GUI() {
-           try {
-            ConnectDB.getInstance().connect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public ChiTietHoaDon_GUI() throws RemoteException {
+//           try {
+//            ConnectDB.getInstance().connect();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         initComponents();
         setLocationRelativeTo(null);
         cthdbus = new ChiTietHoaDon_bus();
@@ -109,7 +116,7 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
 
     }
 
-    private void DocDuLieuSQLvaoTable() {
+    private void DocDuLieuSQLvaoTable() throws RemoteException {
     ArrayList<ChiTietHoaDonEntity> listCTHD = cthdbus.getallCTHD();
     int sl = 0;
         try {

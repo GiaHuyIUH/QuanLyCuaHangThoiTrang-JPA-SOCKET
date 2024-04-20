@@ -14,6 +14,12 @@ import javax.swing.ImageIcon;
 public class TrangChu_JPanel extends javax.swing.JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3186001251407276052L;
+
+
+	/**
      * Creates new form TrangChu_JPanel
      */
     public TrangChu_JPanel() {

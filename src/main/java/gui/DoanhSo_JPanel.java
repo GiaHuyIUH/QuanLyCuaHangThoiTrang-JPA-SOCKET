@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.ButtonGroup;
@@ -29,7 +30,11 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class DoanhSo_JPanel extends javax.swing.JPanel {
 
-    private final ThongKe_bus tkbus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9126047518015794780L;
+	private final ThongKe_bus tkbus;
     private DefaultTableModel model;
     private BarRenderer renderer;
     private String sort = "desc";
@@ -47,7 +52,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         }
     }
 
-    public DoanhSo_JPanel() {
+    public DoanhSo_JPanel() throws RemoteException {
         initComponents();
           setBounds(0, 0, 1183, 710);
         setVisible(true);
@@ -73,7 +78,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         md.setRowCount(0);
     }
 
-    public void DocDuLieuLenTable() {
+    public void DocDuLieuLenTable() throws RemoteException {
         String month = String.valueOf(monthChooser.getMonth() + 1);
         String nam = String.valueOf(spin_nam.getValue());
         String thangNam = month + layHaiSoCuoiNam(nam);
@@ -85,7 +90,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         }
     }
 
-    public void DocDuLieuLenTableTheoYear() {
+    public void DocDuLieuLenTableTheoYear() throws RemoteException {
         String nam = String.valueOf(spin_nam.getValue());
         String nam2So = layHaiSoCuoiNam(nam);
         ArrayList<Object[]> ds = tkbus.getListThongKeDoanhSoTheoNam(nam2So, sort);
@@ -234,7 +239,12 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         monthChooser.setPreferredSize(new java.awt.Dimension(125, 30));
         monthChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                monthChooserPropertyChange(evt);
+                try {
+					monthChooserPropertyChange(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(monthChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 69, -1, 30));
@@ -251,7 +261,12 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         rdo_month.setText("Theo tháng");
         rdo_month.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_monthActionPerformed(evt);
+                try {
+					rdo_monthActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_month, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 100, -1, -1));
@@ -261,14 +276,24 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         rdo_year.setText("Theo năm");
         rdo_year.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_yearActionPerformed(evt);
+                try {
+					rdo_yearActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_year, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 100, -1, -1));
 
         spin_nam.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                spin_namPropertyChange(evt);
+                try {
+					spin_namPropertyChange(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(spin_nam, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, -1, 30));
@@ -294,7 +319,12 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         rdo_bdc.setText("Top sản phẩm bán chạy");
         rdo_bdc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_bdcActionPerformed(evt);
+                try {
+					rdo_bdcActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_bdc, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 70, -1, -1));
@@ -304,7 +334,12 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         rdo_bdd.setText("Top sản phẩm bán không chạy");
         rdo_bdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdo_bddActionPerformed(evt);
+                try {
+					rdo_bddActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(rdo_bdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 70, -1, -1));
@@ -374,7 +409,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void monthChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_monthChooserPropertyChange
+    private void monthChooserPropertyChange(java.beans.PropertyChangeEvent evt) throws RemoteException {//GEN-FIRST:event_monthChooserPropertyChange
 
         XoaAllData();
         if (timeline == "y") {
@@ -386,14 +421,14 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_monthChooserPropertyChange
 
-    private void rdo_monthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_monthActionPerformed
+    private void rdo_monthActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_monthActionPerformed
         timeline = "m";
         XoaAllData();
         DocDuLieuLenTable();
         charAt();
     }//GEN-LAST:event_rdo_monthActionPerformed
 
-    private void rdo_yearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_yearActionPerformed
+    private void rdo_yearActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_yearActionPerformed
         // TODO add your handling code here:
         timeline = "y";
         XoaAllData();
@@ -403,7 +438,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
 //        createLineChart();
     }//GEN-LAST:event_rdo_yearActionPerformed
 
-    private void spin_namPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_namPropertyChange
+    private void spin_namPropertyChange(java.beans.PropertyChangeEvent evt) throws RemoteException {//GEN-FIRST:event_spin_namPropertyChange
         // TODO add your handling code here:
         XoaAllData();
          if (timeline == "y") {
@@ -461,7 +496,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_button1ActionPerformed
 
 
-    private void rdo_bdcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_bdcActionPerformed
+    private void rdo_bdcActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_bdcActionPerformed
         // TODO add your handling code here:
         sort = "desc";
         XoaAllData();
@@ -473,7 +508,7 @@ public class DoanhSo_JPanel extends javax.swing.JPanel {
         charAt();
     }//GEN-LAST:event_rdo_bdcActionPerformed
 
-    private void rdo_bddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdo_bddActionPerformed
+    private void rdo_bddActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_rdo_bddActionPerformed
         sort = "asc";
         XoaAllData();
         if (timeline == "m") {

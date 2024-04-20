@@ -3,19 +3,35 @@ package entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import lombok.EqualsAndHashCode;
 
 
 @Entity
+@EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "ChatLieuEntity.getAllChatLieu", query = "SELECT cl FROM ChatLieuEntity cl"),
+	@NamedQuery(name = "ChatLieuEntity.getTenChatLieuTheoMa", query = "SELECT cl.tenChatLieu FROM ChatLieuEntity cl WHERE cl.maChatLieu = :maChatLieu"),
+	@NamedQuery(name = "ChatLieuEntity.getMaChatLieuTheoTen", query = "SELECT cl.maChatLieu FROM ChatLieuEntity cl WHERE cl.tenChatLieu = :tenChatLieu")
+})
 public class ChatLieuEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9194959906817190364L;
 	@Id
+	@Column(name = "maChatLieu", columnDefinition = "nvarchar(50)" )
 	private String maChatLieu;
-	private String tenChatLieu, xuatXu;
+	
+	@Column(name = "tenChatLieu", columnDefinition = "nvarchar(255)" )
+	private String tenChatLieu;
+	
+	@Column(name = "xuatXu", columnDefinition = "nvarchar(255)" )
+	private String xuatXu;
 	public ChatLieuEntity(String maChatLieu, String tenChatLieu, String xuatXu) {
 		super();
 		this.maChatLieu = maChatLieu;

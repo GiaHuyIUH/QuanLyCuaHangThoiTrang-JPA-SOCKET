@@ -1,6 +1,8 @@
 package Interface;
 
 import entity.NhanVienEntity;
+
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -8,12 +10,12 @@ import java.util.ArrayList;
  *
  * @author HUY
  */
-public interface NhanVienInterface {
-    public Boolean checkNV(String email, String sdt) throws SQLException ;
-    public NhanVienEntity getNV( String sdt) throws SQLException ;
-    NhanVienEntity findOne(String id);
-    boolean update(NhanVienEntity updateNV);
-    boolean insert(NhanVienEntity insertNV);
-    ArrayList<NhanVienEntity> findAll();
+public interface NhanVienInterface extends java.rmi.Remote{
+    public boolean checkNV(String email, String sdt) throws RemoteException ;
+    public NhanVienEntity getNV( String sdt) throws RemoteException ;
+    NhanVienEntity findOne(String id)throws RemoteException;
+    boolean update(NhanVienEntity updateNV)throws RemoteException;
+    boolean insert(NhanVienEntity insertNV) throws RemoteException;
+    ArrayList<NhanVienEntity> findAll() throws RemoteException;
 //    int count(String id);
 }

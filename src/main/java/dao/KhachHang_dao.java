@@ -10,6 +10,8 @@ import jakarta.persistence.Persistence;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,12 +23,12 @@ import util.ConvertStringToEnum;
  *
  * @author HUY
  */
-public class KhachHang_dao   implements KhachHang_Interface{
+public class KhachHang_dao extends UnicastRemoteObject implements KhachHang_Interface{
 	
 	private EntityManager em;
 	
 	
-	public KhachHang_dao() {
+	public KhachHang_dao() throws RemoteException{
 		super();
 		em =Persistence.createEntityManagerFactory("JPA MSSQL").createEntityManager();
 		
@@ -35,7 +37,7 @@ public class KhachHang_dao   implements KhachHang_Interface{
 //    ConnectDB connect = new ConnectDB();
     
     @Override
-    public KhachHangEntity findOne(String id) {
+    public KhachHangEntity findOne(String id)throws RemoteException {
     	
     	  return em.find(KhachHangEntity.class, id);
 //        KhachHangEntity khachHang = null;
@@ -71,7 +73,7 @@ public class KhachHang_dao   implements KhachHang_Interface{
     }
 
     @Override
-    public boolean update(KhachHangEntity NewKH) {
+    public boolean update(KhachHangEntity NewKH) throws RemoteException{
     	
     	EntityTransaction tx = em.getTransaction();
     	try {
@@ -105,7 +107,7 @@ public class KhachHang_dao   implements KhachHang_Interface{
     }
 
     @Override
-    public boolean insert(KhachHangEntity KH) {
+    public boolean insert(KhachHangEntity KH) throws RemoteException{
     	EntityTransaction tx = em.getTransaction();
     	try {
     		tx.begin();
@@ -137,7 +139,7 @@ public class KhachHang_dao   implements KhachHang_Interface{
     }
 
     @Override
-    public ArrayList<KhachHangEntity> findAll() {
+    public ArrayList<KhachHangEntity> findAll()throws RemoteException {
     		return (ArrayList<KhachHangEntity>) em.createQuery("from KhachHangEntity").getResultList();
     	
     	
@@ -195,7 +197,7 @@ public class KhachHang_dao   implements KhachHang_Interface{
     
     // Nguyen Huy Hoang
     @Override
-    public KhachHangEntity timKiemTheoSDT(String sdt) {
+    public KhachHangEntity timKiemTheoSDT(String sdt) throws RemoteException{
     		
 		return em.createQuery("select k from KhachHangEntity k where k.soDienThoai = :sdt", KhachHangEntity.class)
 				.setParameter("sdt", sdt).getResultList().stream().findFirst().orElse(null);
@@ -240,7 +242,7 @@ public class KhachHang_dao   implements KhachHang_Interface{
     }
 
     @Override
-    public KhachHangEntity getKHTheoMa(String ma) {
+    public KhachHangEntity getKHTheoMa(String ma) throws RemoteException{
     	
     	
     	return em.find(KhachHangEntity.class, ma);

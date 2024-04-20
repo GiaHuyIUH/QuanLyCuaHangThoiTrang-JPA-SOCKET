@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 import java.io.Serializable;
@@ -9,8 +5,14 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -18,24 +20,34 @@ import jakarta.persistence.Table;
  * @author Admin
  */
 @Entity
-@Table(name = "ChiTietDoiTra")
+@NamedQueries({
+	@NamedQuery(name = "ChiTietDoiTra.getAllCTDTTheoMaDT", query = "SELECT ctdt FROM ChiTietDoiTraEntity ctdt WHERE ctdt.doiTra.maDT = :ma"),
+})
 public class ChiTietDoiTraEntity implements Serializable{
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 7974067434651045054L;
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaSP")
+	
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "maSP")
     private SanPhamEntity sanPham;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaDT")
+	
+	@Id
+    @ManyToOne
+    @JoinColumn(name = "maDoiTra")
     private DoiTraEntity doiTra;
-    @Column(name = "SoLuong")
+    
     private int soLuong;
-    @Column(name = "GiaBan")
+   
     private double giaBan;
-    @Column(name = "ThanhTien")
+    
     private double thanhTien;
+    
+    @ManyToOne
+    private ChiTietHoaDonEntity chiTietHoaDon;
+    
 
     public ChiTietDoiTraEntity() {
     }

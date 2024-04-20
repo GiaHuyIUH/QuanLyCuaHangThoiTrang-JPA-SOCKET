@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -18,32 +20,45 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@EqualsAndHashCode
+
 @Table(name = "ChiTietHoaDon")
-@Setter
-@Getter
+@EqualsAndHashCode
+@NamedQueries({
+	@NamedQuery(name = "ChiTietHoaDonEntity.getAllCTHD", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd"),
+    @NamedQuery(name = "ChiTietHoaDonEntity.getCTHDByMaHD", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD"),
+    @NamedQuery(name = "ChiTietHoaDonEntity.getCTHDByMaSP", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.sanPham.maSP = :maSP"),
+    @NamedQuery(name = "ChiTietHoaDonEntity.getCTHDByMaHDAndMaSP", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD AND cthd.sanPham.maSP = :maSP"),
+//	"Select cthd.*, sp.tenSP, sp.kichThuoc, sp.mauSac from ChiTietHoaDon as cthd inner join SanPham as sp on cthd.maSP=sp.maSP where maHD=?"
+	@NamedQuery(name = "ChiTietHoaDonEntity.getAllCTHDTheoMaHD", query = "SELECT cthd FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD"),
+//	"Select tongSoLuong=sum(cthd.soLuong) from ChiTietHoaDon as cthd inner join HoaDon as hd on cthd.maHD=hd.maHD where cthd.maSP=? and hd.tinhTrang=N'Chưa thanh toán' "
+	@NamedQuery(name = "ChiTietHoaDonEntity.getSoLuongCTHD", query = "SELECT SUM(cthd.soLuong) FROM ChiTietHoaDonEntity cthd WHERE cthd.sanPham.maSP = :maSP AND cthd.hoaDon.tinhTrang = 'CHUATHANHTOAN' "),
+	@NamedQuery(name = "ChiTietHoaDonEntity.soluongSPByMaSPAndMaHD", query = "SELECT cthd.soLuong FROM ChiTietHoaDonEntity cthd WHERE cthd.sanPham.maSP = :maSP AND cthd.hoaDon.maHD = :maHD"),
+})
+
 public class ChiTietHoaDonEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4070089837652376842L;
 	
+	
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaSP")
+	@JoinColumn(name = "maSP")
 	private SanPhamEntity sanPham;
+	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaHD")
+	@JoinColumn(name = "maHD")
 	private HoaDonEntity hoaDon;
-	@Column(name = "SoLuong")
+	
+	
 	private int soLuong;
-	    @Column(name = "GiaGoc")
+	    
         private double giaGoc;
-	     @Column(name = "GiaBan")
+	     
         private double giaBan;
-	    @Column(name = "ThanhTien")
+	    
         private double thanhTien;
 
         public ChiTietHoaDonEntity(SanPhamEntity sanPham, HoaDonEntity hoaDon, int soLuong, double giaGoc, double giaBan, double thanhTien) {

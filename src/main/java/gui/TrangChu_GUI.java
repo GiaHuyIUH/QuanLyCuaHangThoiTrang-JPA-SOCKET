@@ -1,6 +1,6 @@
 package gui;
 
-import connectDB.ConnectDB;
+
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Desktop;
@@ -32,7 +32,11 @@ public class TrangChu_GUI extends javax.swing.JFrame {
             // Dimention
 //        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         
-    public TrangChu_GUI() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8744587646219989543L;
+	public TrangChu_GUI() throws Exception {
 
         initComponents();
         ToanCuc tc = new ToanCuc();

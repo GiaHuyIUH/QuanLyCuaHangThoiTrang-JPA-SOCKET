@@ -5,17 +5,20 @@
 package Interface;
 
 import entity.TaiKhoanEntity;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
  *
  * @author HUY
  */
-public interface TaiKhoanInterface {
-    public boolean insert(TaiKhoanEntity tk);
-    public boolean update(TaiKhoanEntity tk);
-    public boolean delete(TaiKhoanEntity tk);
-    public TaiKhoanEntity findOne(String tenTK);
-    public ArrayList<TaiKhoanEntity> findAll();
-    public boolean thoiGianDNGN(TaiKhoanEntity tk);
+public interface TaiKhoanInterface extends Remote {
+    public boolean insert(TaiKhoanEntity tk)throws RemoteException;
+    public boolean update(TaiKhoanEntity tk)throws RemoteException;
+    public boolean delete(TaiKhoanEntity tk)throws RemoteException;
+    public TaiKhoanEntity findOne(String tenTK)throws RemoteException;
+    public ArrayList<TaiKhoanEntity> findAll()throws RemoteException;
+    public boolean thoiGianDNGN(TaiKhoanEntity tk)throws RemoteException;
 }

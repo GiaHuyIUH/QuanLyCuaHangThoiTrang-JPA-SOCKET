@@ -2,15 +2,21 @@ package gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.rmi.RemoteException;
 
 public class DoiTra_JPanel extends javax.swing.JPanel {
 
-    private CardLayout cartLayout;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3329255247458051279L;
+	private CardLayout cartLayout;
 
     /**
      * Creates new form HoaDon_JPanel
+     * @throws RemoteException 
      */
-    public DoiTra_JPanel() {
+    public DoiTra_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748);
         cartLayout = new CardLayout();

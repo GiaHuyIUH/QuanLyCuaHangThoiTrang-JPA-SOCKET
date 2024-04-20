@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -12,104 +13,129 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import jakarta.persistence.NamedQueries;
 
 @Entity
-@Table(name = "DoiTra")
+@EqualsAndHashCode
+
+@NamedQueries({
+	@NamedQuery(name = "DoiTra.getAllDoiTra", query = "SELECT dt FROM DoiTraEntity dt"),
+	@NamedQuery(name = "DoiTra.kiemTraThoiHanDoiTra", query = "SELECT COUNT(hd) FROM HoaDonEntity hd "
+			+ "WHERE YEAR(hd.ngayLapHD) = YEAR(CURRENT_DATE) " + "AND MONTH(hd.ngayLapHD) = MONTH(CURRENT_DATE) "
+			+ "AND DAY(hd.ngayLapHD) + 7 >= DAY(CURRENT_DATE) " + "AND hd.maHD = :maHD"),
+	@NamedQuery(name = "DoiTra.getTongSoLuongSPDoiTra", query = "SELECT SUM(ctdt.soLuong) AS tongSoLuong FROM DoiTraEntity dt "
+			+ "INNER JOIN dt.chiTietDoiTra ctdt " + "WHERE dt.hoaDon.maHD = :maHD "
+			+ "AND dt.hinhThucDoiTra = :hinhThucDoiTra " + "AND ctdt.sanPham.maSP = :maSP "
+			+ "GROUP BY ctdt.sanPham.maSP"),
+	@NamedQuery(name = "DoiTra.getDoiTraTheoDieuKien", query = "SELECT dt FROM DoiTraEntity dt WHERE dt.maDT = :ma AND dt.thoiGianDoiTra = :ngayLap"),
+	@NamedQuery(name = "DoiTra.getDoiTraTheoNgayLap", query = "SELECT dt FROM DoiTraEntity dt WHERE dt.thoiGianDoiTra = :ngayLap"),
+})
 public class DoiTraEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6170787916186295208L;
 	@Id
-	@Column(name = "MaDT")
 	private String maDT;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaHD")
+
+	@ManyToOne
+	@JoinColumn(name = "maHD")
 	private HoaDonEntity hoaDon;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaNV")
+
+	@ManyToOne
+	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
+	
+	@OneToMany(mappedBy = "doiTra") 
+	private List<ChiTietDoiTraEntity> chiTietDoiTra;
+
 	@Enumerated(EnumType.STRING)
 	private HinhThucDoiTraEnum hinhThucDoiTra;
-	@Column(name = "ThoiGianDoiTra")
+
 	private Date thoiGianDoiTra;
-	@Column(name = "TongTien")
-        private double tongTien;
 
-        public DoiTraEntity() {
-        }
-        
-        public DoiTraEntity(String maDT) {
-            this.maDT = maDT;
-        }
+	private double tongTien;
 
-        public DoiTraEntity(String maDT, HoaDonEntity hoaDon, NhanVienEntity nhanVien, HinhThucDoiTraEnum hinhThucDoiTra, Date thoiGianDoiTra, double tongTien) {
-            this.maDT = maDT;
-            this.hoaDon = hoaDon;
-            this.nhanVien = nhanVien;
-            this.hinhThucDoiTra = hinhThucDoiTra;
-            this.thoiGianDoiTra = thoiGianDoiTra;
-            this.tongTien = tongTien;
-        }
+	public DoiTraEntity() {
+	}
 
-        public String getMaDT() {
-            return maDT;
-        }
+	public DoiTraEntity(String maDT) {
+		this.maDT = maDT;
+	}
 
-        public void setMaDT(String maDT) {
-            this.maDT = maDT;
-        }
+	public DoiTraEntity(String maDT, HoaDonEntity hoaDon, NhanVienEntity nhanVien, HinhThucDoiTraEnum hinhThucDoiTra,
+			Date thoiGianDoiTra, double tongTien) {
+		this.maDT = maDT;
+		this.hoaDon = hoaDon;
+		this.nhanVien = nhanVien;
+		this.hinhThucDoiTra = hinhThucDoiTra;
+		this.thoiGianDoiTra = thoiGianDoiTra;
+		this.tongTien = tongTien;
+	}
 
-        public HoaDonEntity getHoaDon() {
-            return hoaDon;
-        }
+	public String getMaDT() {
+		return maDT;
+	}
 
-        public void setHoaDon(HoaDonEntity hoaDon) {
-            this.hoaDon = hoaDon;
-        }
+	public void setMaDT(String maDT) {
+		this.maDT = maDT;
+	}
 
-        public NhanVienEntity getNhanVien() {
-            return nhanVien;
-        }
+	public HoaDonEntity getHoaDon() {
+		return hoaDon;
+	}
 
-        public void setNhanVien(NhanVienEntity nhanVien) {
-            this.nhanVien = nhanVien;
-        }
+	public void setHoaDon(HoaDonEntity hoaDon) {
+		this.hoaDon = hoaDon;
+	}
 
-        public HinhThucDoiTraEnum getHinhThucDoiTra() {
-            return hinhThucDoiTra;
-        }
+	public NhanVienEntity getNhanVien() {
+		return nhanVien;
+	}
 
-        public void setHinhThucDoiTra(HinhThucDoiTraEnum hinhThucDoiTra) {
-            this.hinhThucDoiTra = hinhThucDoiTra;
-        }
+	public void setNhanVien(NhanVienEntity nhanVien) {
+		this.nhanVien = nhanVien;
+	}
 
-        public Date getThoiGianDoiTra() {
-            return thoiGianDoiTra;
-        }
+	public HinhThucDoiTraEnum getHinhThucDoiTra() {
+		return hinhThucDoiTra;
+	}
 
-        public void setThoiGianDoiTra(Date thoiGianDoiTra) {
-            this.thoiGianDoiTra = thoiGianDoiTra;
-        }
+	public void setHinhThucDoiTra(HinhThucDoiTraEnum hinhThucDoiTra) {
+		this.hinhThucDoiTra = hinhThucDoiTra;
+	}
 
-        public double getTongTien() {
-            return tongTien;
-        }
+	public Date getThoiGianDoiTra() {
+		return thoiGianDoiTra;
+	}
 
-        public void setTongTien(double tongTien) {
-            this.tongTien = tongTien;
-        }
+	public void setThoiGianDoiTra(Date thoiGianDoiTra) {
+		this.thoiGianDoiTra = thoiGianDoiTra;
+	}
 
-        @Override
-        public String toString() {
-            return "DoiTraEntity{" + "maDT=" + maDT + ", hoaDon=" + hoaDon + ", nhanVien=" + nhanVien + ", hinhThucDoiTra=" + hinhThucDoiTra + ", thoiGianDoiTra=" + thoiGianDoiTra + ", tongTien=" + tongTien + '}';
-        }
+	public double getTongTien() {
+		return tongTien;
+	}
+
+	public void setTongTien(double tongTien) {
+		this.tongTien = tongTien;
+	}
+
+	@Override
+	public String toString() {
+		return "DoiTraEntity{" + "maDT=" + maDT + ", hoaDon=" + hoaDon + ", nhanVien=" + nhanVien + ", hinhThucDoiTra="
+				+ hinhThucDoiTra + ", thoiGianDoiTra=" + thoiGianDoiTra + ", tongTien=" + tongTien + '}';
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(maDT);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -121,6 +147,5 @@ public class DoiTraEntity implements Serializable {
 		DoiTraEntity other = (DoiTraEntity) obj;
 		return Objects.equals(maDT, other.maDT);
 	}
-	
-	
+
 }

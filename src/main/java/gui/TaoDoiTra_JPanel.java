@@ -20,6 +20,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -42,16 +43,20 @@ import util.ToanCuc;
 public class TaoDoiTra_JPanel extends javax.swing.JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 682876456266678476L;
+	/**
      * Creates new form DoiTra_JPanel
      */
-    private HoaDon_bus hd_bus = new HoaDon_bus();
-    private ChiTietHoaDon_bus cthd_bus = new ChiTietHoaDon_bus();
-    private SanPham_bus sp_bus = new SanPham_bus();
+    private HoaDon_bus hd_bus ;
+    private ChiTietHoaDon_bus cthd_bus ;
+    private SanPham_bus sp_bus ;
     private DefaultTableModel tableModel_HoaDon;
     private DefaultTableModel tableModel_GioHang;
     private GenerateID generateID = new GenerateID();
     private ToanCuc tc = new ToanCuc();
-    private DoiTra_bus dt_bus = new DoiTra_bus();
+    private DoiTra_bus dt_bus;
     private SpinnerNumberModel spinnerModel;
     private ConvertDoubleToMoney convert = new ConvertDoubleToMoney();
     
@@ -206,7 +211,12 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         btn_TimKiemHoaDon.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TimKiemHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TimKiemHoaDonActionPerformed(evt);
+                try {
+					btn_TimKiemHoaDonActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -289,7 +299,12 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         btn_ThemVaoGio.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_ThemVaoGio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ThemVaoGioActionPerformed(evt);
+                try {
+					btn_ThemVaoGioActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -305,7 +320,12 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         btn_CapNhatSoLuong.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_CapNhatSoLuong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_CapNhatSoLuongActionPerformed(evt);
+                try {
+					btn_CapNhatSoLuongActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -468,7 +488,12 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         btn_TaoDoiTra.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_TaoDoiTra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_TaoDoiTraActionPerformed(evt);
+                try {
+					btn_TaoDoiTraActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -578,7 +603,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         tinhTienHoanTra();
     }//GEN-LAST:event_radiobtn_HoanTraActionPerformed
 
-    private void btn_TaoDoiTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TaoDoiTraActionPerformed
+    private void btn_TaoDoiTraActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TaoDoiTraActionPerformed
         taoDoiTra();
     }//GEN-LAST:event_btn_TaoDoiTraActionPerformed
 
@@ -600,7 +625,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_table_GioHangMouseClicked
 
-    private void btn_TimKiemHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemHoaDonActionPerformed
+    private void btn_TimKiemHoaDonActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemHoaDonActionPerformed
         timKiemHoaDon();
     }//GEN-LAST:event_btn_TimKiemHoaDonActionPerformed
 
@@ -618,11 +643,11 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         spinnerModel.setMaximum(sl);
     }//GEN-LAST:event_table_HoaDonMouseClicked
 
-    private void btn_ThemVaoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemVaoGioActionPerformed
+    private void btn_ThemVaoGioActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_ThemVaoGioActionPerformed
         themVaoGioHang();
     }//GEN-LAST:event_btn_ThemVaoGioActionPerformed
 
-    private void btn_CapNhatSoLuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CapNhatSoLuongActionPerformed
+    private void btn_CapNhatSoLuongActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatSoLuongActionPerformed
         capNhatSoLuong();
     }//GEN-LAST:event_btn_CapNhatSoLuongActionPerformed
 
@@ -679,7 +704,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_MaHoaDon;
     // End of variables declaration//GEN-END:variables
     
-    public void timKiemHoaDon() {
+    public void timKiemHoaDon() throws RemoteException {
         String maHD = txt_MaHoaDon.getText().trim();
         if(maHD.equals("")) {
             JOptionPane.showMessageDialog(this, "Mã hoá đơn chưa được nhập!");
@@ -738,7 +763,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         return true;
     }
     
-    public void themVaoGioHang() {
+    public void themVaoGioHang() throws RemoteException {
         int row = table_HoaDon.getSelectedRow();
         if(row < 0) {
             JOptionPane.showMessageDialog(this, "Sản phẩm đổi trả trong hoá đơn chưa được chọn!");
@@ -762,7 +787,9 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         // Xu ly so luong
         int soLuongMax = Integer.parseInt(spinnerModel.getMaximum().toString());
         String maHD = txt_MaHoaDon.getText().trim();
-        int tongSoLuong = dt_bus.getTongSoLuongSPDoiTra(maHD, maSP);
+        
+        long tongSoLuonglong = dt_bus.getTongSoLuongSPDoiTra(maHD, maSP).longValue();
+        int tongSoLuong = (int) tongSoLuonglong;
         int soLuongConLai = soLuongMax - tongSoLuong;
         if(soLuongConLai == 0) {
             JOptionPane.showMessageDialog(this, "Sản phẩm này đã được hoàn trả hết số lượng!");
@@ -785,7 +812,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         }
     }
     
-    public void capNhatSoLuong() {
+    public void capNhatSoLuong() throws RemoteException {
         int row = table_GioHang.getSelectedRow();
         if(row < 0) {
             JOptionPane.showMessageDialog(this, "Sản phẩm trong giỏ hàng chưa được chọn!");
@@ -797,7 +824,10 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         // Xu ly so luong
         int soLuongMax = Integer.parseInt(spinnerModel.getMaximum().toString());
         String maHD = txt_MaHoaDon.getText().trim();
-        int tongSoLuong = dt_bus.getTongSoLuongSPDoiTra(maHD, maSP);
+        long tongSoLuonglong = dt_bus.getTongSoLuongSPDoiTra(maHD, maSP).longValue();
+        int tongSoLuong = (int) tongSoLuonglong;
+
+//        int  = (int)dt_bus.getTongSoLuongSPDoiTra(maHD, maSP);
         int soLuongConLai = soLuongMax - tongSoLuong;
         if(soLuongConLai == 0) {
             JOptionPane.showMessageDialog(this, "Sản phẩm này đã được hoàn trả hết số lượng!");
@@ -841,7 +871,7 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         lbl_TienHoanTra.setText(convert.toMoney(tongTien));
     }
     
-    public void taoDoiTra() {
+    public void taoDoiTra() throws RemoteException {
         if(!radiobtn_HoanTra.isSelected() && !radiobtn_DoiMoi.isSelected()) {
             JOptionPane.showMessageDialog(this, "Hình thức đổi trả chưa chọn!");
             return;

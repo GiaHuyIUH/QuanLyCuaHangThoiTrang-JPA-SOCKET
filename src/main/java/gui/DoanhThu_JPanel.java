@@ -7,6 +7,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.ButtonGroup;
@@ -37,7 +38,11 @@ import javax.swing.JFileChooser;
 
 public class DoanhThu_JPanel extends javax.swing.JPanel {
 
-    private final ThongKe_bus tkbus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4537207675697298756L;
+	private final ThongKe_bus tkbus;
     private DefaultTableModel model;
     private BarRenderer Renderer;
     private static String tieude,trucX,trucY;
@@ -46,8 +51,9 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form DoanhThu_JPanel
+     * @throws RemoteException 
      */
-    public DoanhThu_JPanel() {
+    public DoanhThu_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1180, 710);
         setVisible(true);
@@ -65,7 +71,7 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         charAt(tieude,trucX,trucY);
     }
 
-    public void DocDuLieuLenTable() {
+    public void DocDuLieuLenTable() throws RemoteException {
         String month = String.valueOf(monthChooser.getMonth()+1);
         String nam = String.valueOf(spin_nam.getValue());
         System.out.println("Tháng " + month + nam);
@@ -259,7 +265,12 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         monthChooser.setPreferredSize(new java.awt.Dimension(125, 30));
         monthChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                monthChooserPropertyChange(evt);
+                try {
+					monthChooserPropertyChange(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(monthChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 69, -1, 30));
@@ -293,7 +304,12 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
 
         spin_nam.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                spin_namPropertyChange(evt);
+                try {
+					spin_namPropertyChange(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(spin_nam, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, -1, 30));
@@ -311,7 +327,12 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         btn_dtnam.setLabel("Xem doanh thu trong năm");
         btn_dtnam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_dtnamActionPerformed(evt);
+                try {
+					btn_dtnamActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(btn_dtnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 40, -1, -1));
@@ -322,7 +343,12 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         btnLamMoi.setText("Làm Mới");
         btnLamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLamMoiMouseClicked(evt);
+                try {
+					btnLamMoiMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(btnLamMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 30));
@@ -333,7 +359,12 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         btn_TopDT.setText("Doanh Thu Tiêu Biểu");
         btn_TopDT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_TopDTMouseClicked(evt);
+                try {
+					btn_TopDTMouseClicked(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         jPanel5.add(btn_TopDT, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, 30));
@@ -391,7 +422,7 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
        charAt(tieude,trucX,trucY);
     }//GEN-LAST:event_rdo_bdcActionPerformed
 
-    private void monthChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_monthChooserPropertyChange
+    private void monthChooserPropertyChange(java.beans.PropertyChangeEvent evt) throws RemoteException {//GEN-FIRST:event_monthChooserPropertyChange
        
         XoaAllData();
 //        DocDuLieuLenTable();
@@ -420,7 +451,7 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
             createLineChart(tieude,trucX,trucY);
     }//GEN-LAST:event_monthChooserPropertyChange
 
-    private void btn_dtnamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dtnamActionPerformed
+    private void btn_dtnamActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_dtnamActionPerformed
         // TODO add your handling code here:
         tieude = "Doanh Thu Năm";
         trucX = "Tháng";
@@ -531,7 +562,7 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         createLineChart(tieude,trucX,trucY);
     }//GEN-LAST:event_rdo_bddActionPerformed
 
-    private void spin_namPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spin_namPropertyChange
+    private void spin_namPropertyChange(java.beans.PropertyChangeEvent evt) throws RemoteException {//GEN-FIRST:event_spin_namPropertyChange
         // TODO add your handling code here:
        
         XoaAllData();
@@ -562,7 +593,7 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_spin_namPropertyChange
 
-    private void btnLamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLamMoiMouseClicked
+    private void btnLamMoiMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btnLamMoiMouseClicked
         // TODO add your handling code here:
         tieude = "Doanh Thu Tháng";
         trucX = "Ngày";
@@ -577,7 +608,7 @@ public class DoanhThu_JPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnLamMoiMouseClicked
 
-    private void btn_TopDTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TopDTMouseClicked
+    private void btn_TopDTMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TopDTMouseClicked
         // TODO add your handling code here:
         XoaAllData();
            String month = String.valueOf(monthChooser.getMonth() + 1);
