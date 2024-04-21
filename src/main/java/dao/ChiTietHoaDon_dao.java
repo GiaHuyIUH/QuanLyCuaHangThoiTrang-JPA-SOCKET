@@ -222,52 +222,84 @@ public class ChiTietHoaDon_dao extends UnicastRemoteObject implements ChiTietHoa
     }
 
     // Nguyen Huy Hoang
+//    @Override
+//    public boolean themChiTietHoaDon(ChiTietHoaDonEntity cthd) throws RemoteException{
+////        PreparedStatement statement = null;
+////        try {
+//////            ConnectDB.getInstance().connect();
+//////            Connection con = ConnectDB.getConnection();
+////
+////            String sql = "Insert into ChiTietHoaDon(maSP, maHD, soLuong, giaGoc, giaBan, thanhTien) values (?, ?, ?, ?, ?, ?)";
+//////            statement = con.prepareStatement(sql);
+////            statement.setString(1, cthd.getSanPham().getMaSP());
+////            statement.setString(2, cthd.getHoaDon().getMaHD());
+////            statement.setInt(3, cthd.getSoLuong());
+////            statement.setDouble(4, cthd.getGiaGoc());
+////            statement.setDouble(5, cthd.getGiaBan());
+////            statement.setDouble(6, cthd.getThanhTien());
+////
+////            int ketQua = statement.executeUpdate();
+////
+////            if (ketQua < 1) {
+////                return false;
+////            }
+////
+////            return true;
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////            return false;
+////        } finally {
+////            try {
+////                statement.close();
+//////                ConnectDB.getInstance().disconnect();
+////            } catch (SQLException e) {
+////                e.printStackTrace();
+////            }
+////        }
+//    	   String maHD = cthd.getHoaDon().getMaHD();
+//    	    
+//    	    // Kiểm tra xem giá trị maHD có tồn tại trong bảng HoaDonEntity hay không
+//    	    HoaDonEntity hoaDon = em.find(HoaDonEntity.class, maHD);
+//    	    if (hoaDon == null) {
+//    	        // Nếu maHD không tồn tại, có thể xử lý tùy theo yêu cầu của ứng dụng,
+//    	        // ví dụ: trả về thông báo lỗi hoặc rollback giao dịch
+//    	    	System.out.println("HoaDonEntity không tồn tại");
+//    	        return false;
+//    	    }
+//    	EntityTransaction tx = em.getTransaction();
+//    	try {
+//			tx.begin();
+//			em.persist(cthd);
+//			tx.commit();
+//			return true;
+//		} catch (Exception e) {
+//			tx.rollback();
+//			e.printStackTrace();
+//		}
+//    	return false;
+//    }
     @Override
-    public boolean themChiTietHoaDon(ChiTietHoaDonEntity cthd) throws RemoteException{
-//        PreparedStatement statement = null;
-//        try {
-////            ConnectDB.getInstance().connect();
-////            Connection con = ConnectDB.getConnection();
-//
-//            String sql = "Insert into ChiTietHoaDon(maSP, maHD, soLuong, giaGoc, giaBan, thanhTien) values (?, ?, ?, ?, ?, ?)";
-////            statement = con.prepareStatement(sql);
-//            statement.setString(1, cthd.getSanPham().getMaSP());
-//            statement.setString(2, cthd.getHoaDon().getMaHD());
-//            statement.setInt(3, cthd.getSoLuong());
-//            statement.setDouble(4, cthd.getGiaGoc());
-//            statement.setDouble(5, cthd.getGiaBan());
-//            statement.setDouble(6, cthd.getThanhTien());
-//
-//            int ketQua = statement.executeUpdate();
-//
-//            if (ketQua < 1) {
-//                return false;
-//            }
-//
-//            return true;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return false;
-//        } finally {
-//            try {
-//                statement.close();
-////                ConnectDB.getInstance().disconnect();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-    	EntityTransaction tx = em.getTransaction();
-    	try {
-			tx.begin();
-			em.persist(cthd);
-			tx.commit();
+	public boolean themChiTietHoaDon(ChiTietHoaDonEntity cthd) throws RemoteException {
+		try {
+			em.getTransaction().begin();
+			int result = em.createNativeQuery(
+					"INSERT INTO ChiTietHoaDon(maSP, maHD, soLuong, giaGoc, giaBan, thanhTien) VALUES (?, ?, ?, ?, ?, ?)")
+					.setParameter(1, cthd.getSanPham().getMaSP()).setParameter(2, cthd.getHoaDon().getMaHD())
+					.setParameter(3, cthd.getSoLuong()).setParameter(4, cthd.getGiaGoc())
+					.setParameter(5, cthd.getGiaBan()).setParameter(6, cthd.getThanhTien()).executeUpdate();
+			
+			if (result < 1) {
+				return false;
+			}
+			
+			em.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
-			tx.rollback();
+			em.getTransaction().rollback();
 			e.printStackTrace();
+			return false;
 		}
-    	return false;
-    }
+	}
     
     @Override
     public boolean xoaCTHDTheoMaHoaDon(String maHD)throws RemoteException {

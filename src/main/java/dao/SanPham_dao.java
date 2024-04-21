@@ -17,8 +17,10 @@ import entity.TinhTrangSPEnum;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -27,6 +29,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+
 import util.ConvertStringToEnum;
 
 /**
@@ -39,7 +44,7 @@ public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interfac
 	 * 
 	 */
 	private static final long serialVersionUID = 2929240039504344643L;
-	EntityManager em;
+	private EntityManager em;
 	
 	
 	
@@ -186,9 +191,12 @@ public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interfac
     	
     	ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
     	        try {
+//					dsSanPham = (ArrayList<SanPhamEntity>) em
+//							.createQuery("select s from SanPhamEntity s where s.maSP = :maSP").setParameter("maSP", ma)
+//							.getResultList();
 					dsSanPham = (ArrayList<SanPhamEntity>) em
-							.createQuery("select s from SanPhamEntity s where s.maSP = :maSP").setParameter("maSP", ma)
-							.getResultList();
+							.createNativeQuery("select * from SanPham where maSP = :maSP", SanPhamEntity.class)
+							.setParameter("maSP", ma).getResultList();
 				} catch (Exception e) {
 					e.printStackTrace();
     	        }
@@ -263,17 +271,74 @@ public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interfac
     @Override
     public boolean capNhatSanPham(SanPhamEntity sp) throws RemoteException{
     	
-    	EntityTransaction tx = em.getTransaction();
-        try {
-        	tx.begin();
-        	em.merge(sp);
-        	tx.commit();
-        	return true;
-        } catch (Exception e) {
-        	tx.rollback();
-        	e.printStackTrace();
-        }
-        return false;
+//    	EntityTransaction tx = em.getTransaction();
+//        try {
+//        	tx.begin();
+////        	em.merge(sp);
+//        	String mauSac = sp.getMauSac() != null ? sp.getMauSac().toString() : null;
+//        	if (mauSac != null && (mauSac.equalsIgnoreCase(MauSacEnum.WHITE.toString()) || mauSac.equalsIgnoreCase(MauSacEnum.GREY.toString()) || mauSac.equalsIgnoreCase(MauSacEnum.BLACK.toString()))) {
+//        	    em.createNativeQuery("update SanPhamEntity set tenSP=?, kichThuoc=?, mauSac=?, donGia=?, tinhTrang=?, soLuongTonKho=?, maChatLieu=?, maThuongHieu=?, maDanhMuc=?, imgUrl=?, maCTKM=? where maSP=?")
+//        	        .setParameter(1, sp.getTenSP())
+//        	        .setParameter(2, sp.getKichThuoc().toString())
+//        	        .setParameter(3, mauSac)
+//        	        .setParameter(4, sp.getDonGia())
+//        	        .setParameter(5, sp.getTinhTrang().toString())
+//        	        .setParameter(6, sp.getSoLuongTonKho())
+//        	        .setParameter(7, sp.getChatLieu().getMaChatLieu())
+//        	        .setParameter(8, sp.getThuongHieu().getMaThuongHieu())
+//        	        .setParameter(9, sp.getDanhMucSanPham().getMaDanhMuc())
+//        	        .setParameter(10, sp.getImgUrl())
+//        	        .setParameter(11, sp.getChuongTrinhKhuyenMai().getMaCTKM())
+//        	        .setParameter(12, sp.getMaSP())
+//        	        .executeUpdate();
+//        	} else {
+//        	    // Xử lý trường hợp màu sắc không hợp lệ
+//        	    JOptionPane.showMessageDialog(null, "Màu sắc không hợp lệ!");
+//        	}
+//
+//        	tx.commit();
+//        	return true;
+//        } catch (Exception e) {
+//        	tx.rollback();
+//        	e.printStackTrace();
+//        }
+//        return false;
+    	try {
+			em.getTransaction().begin();
+			int result = 0;
+			
+			if(sp.getChuongTrinhKhuyenMai() != null) {
+				System.out.println(sp.getMauSac().name());
+				result = em.createNativeQuery(
+						"UPDATE SanPhamEntity SET tenSP = ?, kichThuoc=?, mauSac=?, donGia = ?, soLuongTonKho = ?, maCTKM = ?, tinhTrang = ?, maChatLieu=?, maThuongHieu=?, maDanhMuc=? WHERE maSP = ?")
+						.setParameter(1, sp.getTenSP()).setParameter(2, sp.getKichThuoc().name()).setParameter(3, sp.getMauSac().name())
+						.setParameter(4, sp.getDonGia()).setParameter(5, sp.getSoLuongTonKho()).setParameter(6, sp.getChuongTrinhKhuyenMai().getMaCTKM())
+						.setParameter(7, sp.getTinhTrang().name()).setParameter(8, sp.getChatLieu().getMaChatLieu()).setParameter(9, sp.getThuongHieu().getMaThuongHieu())
+						.setParameter(10, sp.getDanhMucSanPham().getMaDanhMuc()).setParameter(11, sp.getMaSP()).executeUpdate();
+			} else {
+				result = em.createNativeQuery(
+						"UPDATE SanPhamEntity SET tenSP = ?, kichThuoc=?, mauSac=?, donGia = ?, soLuongTonKho = ?, maCTKM = ?, tinhTrang = ?, maChatLieu=?, maThuongHieu=?, maDanhMuc=? WHERE maSP = ?")
+						.setParameter(1, sp.getTenSP()).setParameter(2, sp.getKichThuoc().name()).setParameter(3, sp.getMauSac().name())
+						.setParameter(4, sp.getDonGia()).setParameter(5, sp.getSoLuongTonKho()).setParameter(6, null)
+						.setParameter(7, sp.getTinhTrang().name()).setParameter(8, sp.getChatLieu().getMaChatLieu()).setParameter(9, sp.getThuongHieu().getMaThuongHieu())
+						.setParameter(10, sp.getDanhMucSanPham().getMaDanhMuc()).setParameter(11, sp.getMaSP()).executeUpdate();
+			}
+			
+		
+
+			if (result == 0) {
+				em.getTransaction().rollback();
+				return false;
+			}
+			
+			em.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			e.printStackTrace();
+			return false;
+		}
+	
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -308,14 +373,32 @@ public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interfac
     	
 		ArrayList<SanPhamEntity> dsSanPham = new ArrayList<SanPhamEntity>();
 		try {
-			dsSanPham = (ArrayList<SanPhamEntity>) em
-					.createQuery("select s from SanPhamEntity s order by s.soLuongTonKho asc").getResultList();
+//			dsSanPham = (ArrayList<SanPhamEntity>) em
+//					.createNamedQuery("select s from SanPhamEntity s order by s.soLuongTonKho asc").getResultList();
+			dsSanPham = (ArrayList<SanPhamEntity>) em.createNativeQuery("select * from SanPhamEntity order by soLuongTonKho asc",SanPhamEntity.class).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return dsSanPham;
     	
-    	
+//    	try {
+//           
+//            em.getTransaction().begin();
+//            
+//            ArrayList<SanPhamEntity> ds = (ArrayList<SanPhamEntity>) em.createQuery("SELECT sp FROM SanPhamEntity sp ORDER BY sp.soLuongTonKho ASC", SanPhamEntity.class).getResultList();
+//            
+//            
+//            em.getTransaction().commit();
+//            return ds;
+////            return new ArrayList<>(resultList);
+//        } catch (Exception e) {
+//            if (em != null && em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            e.printStackTrace();
+////            return new ArrayList<>();
+//       
+//        }
     	
 //        ArrayList<SanPhamEntity> dsSP = new ArrayList<SanPhamEntity>();
 //        try {

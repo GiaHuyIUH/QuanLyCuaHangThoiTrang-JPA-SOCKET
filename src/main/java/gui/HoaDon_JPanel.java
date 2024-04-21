@@ -27,7 +27,8 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
      * @throws RemoteException 
      */
     public HoaDon_JPanel() throws RemoteException {
-
+    	hdbus = new HoaDon_bus();
+    	
         initComponents();
         dateNgayLap.setLocale(new Locale("vi", "VN"));
         setBounds(0, 0, 1186, 748);

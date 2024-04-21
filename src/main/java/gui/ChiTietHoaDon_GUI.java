@@ -74,9 +74,14 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+    	spbus = new SanPham_bus();
+    	khbus = new KhachHang_bus();
+    	kmbus = new ChuongTrinhKhuyenMai_bus();
+    	hdbus = new HoaDon_bus();
+    	cthdbus = new ChiTietHoaDon_bus();
         initComponents();
         setLocationRelativeTo(null);
-        cthdbus = new ChiTietHoaDon_bus();
+//        cthdbus = new ChiTietHoaDon_bus();
         HoaDon_toancuc hdtc = new HoaDon_toancuc();
        if(hdtc == null) JOptionPane.showMessageDialog(null, "HoaDon ToanCuc rỗng !");
        else {
@@ -130,20 +135,29 @@ public class ChiTietHoaDon_GUI extends javax.swing.JFrame {
                 for(ChiTietHoaDonEntity ct: listCTHD){
                     System.out.println(sl);
                     
-                    if(sp.getChuongTrinhKhuyenMai().getMaCTKM()!= null){
-                        ChuongTrinhKhuyenMaiEntity ctkm = kmbus.getKMTheoma(sp.getChuongTrinhKhuyenMai().getMaCTKM());
-                         giagoc = "<html><strike>"+ct.getGiaGoc()+"</strike><sub>"+"-"+ctkm.getGiamGia()+"%"+"</sub></html>" ;
-                    }
-                    else {
-                        giagoc = ct.getGiaGoc() +"";
-                    }
+                    
+//                    if(sp.getChuongTrinhKhuyenMai().getMaCTKM()!= null){
+//                        ChuongTrinhKhuyenMaiEntity ctkm = kmbus.getKMTheoma(sp.getChuongTrinhKhuyenMai().getMaCTKM());
+//                         giagoc = "<html><strike>"+ct.getGiaGoc()+"</strike><sub>"+"-"+ctkm.getGiamGia()+"%"+"</sub></html>" ;
+//                    }
+//                    else {
+//                        giagoc = ct.getGiaGoc() +"";
+//                    }
+                    ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai = sp.getChuongTrinhKhuyenMai();
+					if (chuongTrinhKhuyenMai != null && chuongTrinhKhuyenMai.getMaCTKM() != null) {
+					    ChuongTrinhKhuyenMaiEntity ctkm = kmbus.getKMTheoma(chuongTrinhKhuyenMai.getMaCTKM());
+					    giagoc = "<html><strike>" + ct.getGiaGoc() + "</strike><sub>" + "-" + ctkm.getGiamGia() + "%" + "</sub></html>";
+					} else {
+					    giagoc = ct.getGiaGoc() + "";
+					}
+
                 addRows(new Object[]{sp.getMaSP(),sp.getTenSP(),sp.getKichThuoc(),sp.getMauSac(),ct.getSoLuong(),giagoc ,ct.getGiaBan(),ct.getThanhTien()});
                 }
             }
 //           lblTongTien.setText(TongTien(5));
            lbl_TienThanhToan.setText(TongTien(7));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn hoá đơn cần xem !");
+//            JOptionPane.showMessageDialog(null, "Vui lòng chọn hoá đơn cần xem !");
             e.printStackTrace();
         }
    

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,19 +42,22 @@ public class HoaDonEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 3387812072003627356L;
 	@Id
-	@Column(name = "MaHD")
+	@Column(name = "maHD")
 	private String maHD;
-	@Column(name = "NgayLapHD")
+	@Column(name = "ngayLapHD")
 	private Date ngayLapHD;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaKH")
+	@JoinColumn(name = "maKH")
 	private KhachHangEntity khachHang;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MaNV")
+	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "maCTKM")
 	private ChuongTrinhKhuyenMaiEntity chuongTrinhKM;
+	
+	
 	@Column(name = "TienKhuyenMai")
 	private double tienKhuyenMai;
 	@Column(name = "TongTien")

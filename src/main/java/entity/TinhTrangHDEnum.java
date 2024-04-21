@@ -9,19 +9,7 @@ package entity;
  * @author Nguyen Huy Hoang
  */
 public enum TinhTrangHDEnum {
-    DATHANHTOAN("Da Thanh Toan"), CHUATHANHTOAN("Chua Thanh Toan");
-
-//    @Override
-//    public String toString() {
-//        switch (this) {
-//            case DATHANHTOAN:
-//                return "Đã thanh toán";
-//            case CHUATHANHTOAN:
-//                return "Chưa thanh toán";
-//            default:
-//                return "Chưa thanh toán";
-//        }
-//    }
+    DATHANHTOAN("Đã Thanh Toán"), CHUATHANHTOAN("Chưa Thanh Toán");
     
     private String name;
     private TinhTrangHDEnum(String name) {

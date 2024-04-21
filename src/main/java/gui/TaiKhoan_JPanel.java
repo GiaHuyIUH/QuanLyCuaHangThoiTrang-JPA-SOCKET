@@ -16,15 +16,18 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -7924558533978254668L;
-	private TaiKhoan_bus bus = new TaiKhoan_bus();
+    private TaiKhoan_bus bus = new TaiKhoan_bus();
     private DefaultTableModel tableModel = new DefaultTableModel();
+    
     public TaiKhoan_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748);
+        
         ImageIcon img_btnTimKiem = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
         Image scaled_btnTimKiem = img_btnTimKiem.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         img_btnTimKiem = new ImageIcon(scaled_btnTimKiem);
         btn_TimKiem.setIcon(img_btnTimKiem);
+        
         ImageIcon img_btnXoa = new ImageIcon("src//main//java//pic//icon//buttonXoa.png");
         Image scaled_btnXoa = img_btnXoa.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         img_btnXoa = new ImageIcon(scaled_btnXoa);
@@ -214,54 +217,107 @@ public class TaiKhoan_JPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_NhapTenTKActionPerformed
 
+//    private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
+//        int rowSelected = table_DanhSachTK.getSelectedRow();
+//        String tenTaiKhoan = (String) tableModel.getValueAt(rowSelected, 1);
+//        TaiKhoanEntity tk = bus.findOne(tenTaiKhoan);
+//        tk.setTinhTrang(cbo_TinhTrang.getSelectedItem().equals("Đang hoạt động") == true ? TinhTrangTKEnum.DANG_HOAT_DONG : TinhTrangTKEnum.NGUNG_HOAT_DONG);
+//        if (bus.update(tk)) {
+//            JOptionPane.showMessageDialog(this, "Cập nhật tình trạng tài khoản thành công!");
+//    }
+//        else JOptionPane.showConfirmDialog(this, "Cập nhật nhật tình trạng tài khoản thất bại!");
+//        
+//        
+//        refresh();
+//    }//GEN-LAST:event_btn_CapNhatActionPerformed
     private void btn_CapNhatActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_CapNhatActionPerformed
         int rowSelected = table_DanhSachTK.getSelectedRow();
+        if (rowSelected == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để cập nhật!");
+            return;
+        }
+        
         String tenTaiKhoan = (String) tableModel.getValueAt(rowSelected, 1);
         TaiKhoanEntity tk = bus.findOne(tenTaiKhoan);
-        tk.setTinhTrang(cbo_TinhTrang.getSelectedItem().equals("Đang hoạt động") == true ? TinhTrangTKEnum.DANG_HOAT_DONG : TinhTrangTKEnum.NGUNG_HOAT_DONG);
-        if (bus.update(tk)) {
-            JOptionPane.showMessageDialog(this, "Cập nhật tình trạng tài khoản thành công!");
-    }
-        else JOptionPane.showConfirmDialog(this, "Cập nhật nhật tình trạng tài khoản thất bại!");
+        if (tk == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy tài khoản!");
+            return;
+        }
         
-        
-        refresh();
+        tk.setTinhTrang(cbo_TinhTrang.getSelectedItem().equals("Đang hoạt động") ? TinhTrangTKEnum.DANG_HOAT_DONG : TinhTrangTKEnum.NGUNG_HOAT_DONG);
+        try {
+            if (bus.update(tk)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật tình trạng tài khoản thành công!");
+                refresh();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật tình trạng tài khoản thất bại!");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình cập nhật!");
+        }
     }//GEN-LAST:event_btn_CapNhatActionPerformed
 
+//    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
+//        String id = txt_NhapTenTK.getText();
+//        if (id.isBlank()) {
+//            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản của nhân viên!");
+//            return;
+//        }
+//        TaiKhoanEntity tk = bus.findOne(id);
+//        if (tk == null) {
+//            JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!");
+//            return;
+//        }
+//       tableModel.setRowCount(0);
+//       tableModel.addRow(new Object[] {tk.getNhanVien().getHoTen(), tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
+//    }//GEN-LAST:event_btn_TimKiemActionPerformed
     private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemActionPerformed
         String id = txt_NhapTenTK.getText();
         if (id.isBlank()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản của nhân viên!");
             return;
         }
+        
         TaiKhoanEntity tk = bus.findOne(id);
         if (tk == null) {
             JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!");
             return;
         }
-       tableModel.setRowCount(0);
-       tableModel.addRow(new Object[] {tk.getNhanVien().getHoTen(), tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
+        
+        tableModel.setRowCount(0);
+        tableModel.addRow(new Object[] {tk.getNhanVien().getHoTen(), tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
     }//GEN-LAST:event_btn_TimKiemActionPerformed
+
+
 
     private void table_DanhSachTKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_DanhSachTKMouseClicked
         int selectedRow = table_DanhSachTK.getSelectedRow();
         cbo_TinhTrang.setSelectedItem(tableModel.getValueAt(selectedRow, 3));
     }//GEN-LAST:event_table_DanhSachTKMouseClicked
 
-     private void loadData() throws RemoteException {
-        ArrayList<TaiKhoanEntity> listTK = new ArrayList<>();
-        listTK = bus.findAll();
+//     private void loadData() throws RemoteException {
+//        ArrayList<TaiKhoanEntity> listTK = new ArrayList<>();
+//        listTK = bus.findAll();
+//        for (TaiKhoanEntity tk : listTK) {
+//        	NhanVienEntity nv = tk.getNhanVien();
+//        	String hoTen = "";
+//        	if (nv != null) {
+//        	    hoTen = nv.getHoTen();
+//        	    // Sử dụng hoTen
+//        	} else {
+//        	    // Xử lý khi nhanVien là null
+//        	}
+//
+//        	
+//            tableModel.addRow(new Object[]{hoTen, tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
+//        }
+//    }
+    private void loadData() throws RemoteException {
+        ArrayList<TaiKhoanEntity> listTK = bus.findAll();
         for (TaiKhoanEntity tk : listTK) {
-        	NhanVienEntity nv = tk.getNhanVien();
-        	String hoTen = "";
-        	if (nv != null) {
-        	    hoTen = nv.getHoTen();
-        	    // Sử dụng hoTen
-        	} else {
-        	    // Xử lý khi nhanVien là null
-        	}
-
-        	
+            NhanVienEntity nv = tk.getNhanVien();
+            String hoTen = (nv != null) ? nv.getHoTen() : "";
             tableModel.addRow(new Object[]{hoTen, tk.getTenTaiKhoan(), tk.getThoiGianDNGN(), tk.getTinhTrang().toString()});
         }
     }

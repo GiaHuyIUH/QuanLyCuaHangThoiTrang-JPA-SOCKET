@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -60,6 +61,8 @@ public class ChiTietHoaDonEntity implements Serializable {
         private double giaBan;
 	    
         private double thanhTien;
+    	@OneToMany(mappedBy = "chiTietHoaDon")
+    	private List<ChiTietDoiTraEntity> chiTietDoiTra;
 
         public ChiTietHoaDonEntity(SanPhamEntity sanPham, HoaDonEntity hoaDon, int soLuong, double giaGoc, double giaBan, double thanhTien) {
             this.sanPham = sanPham;

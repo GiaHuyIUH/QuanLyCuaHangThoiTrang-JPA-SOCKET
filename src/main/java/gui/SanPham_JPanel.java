@@ -72,7 +72,7 @@ public class SanPham_JPanel extends javax.swing.JPanel {
      * Creates new form SanPham_JPanel
      * @throws Exception 
      */
-    public SanPham_JPanel() throws Exception {
+    public SanPham_JPanel() throws RemoteException {
         initComponents();
         //Khởi tạo
         sp_bus = new SanPham_bus();
@@ -763,8 +763,14 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                 String tenDanhMuc = danhMucSanPham_bus.layTenDanhMucTheoMa(sp.getDanhMucSanPham().getMaDanhMuc());
                 ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai = sp.getChuongTrinhKhuyenMai();
                 
-                String km = ctkm_bus.layTenKhuyenMaiTheoMa(chuongTrinhKhuyenMai.getMaCTKM());
-                String hienThiKM = null;
+                String km ="";
+				if (chuongTrinhKhuyenMai == null) {
+					chuongTrinhKhuyenMai = new ChuongTrinhKhuyenMaiEntity();
+				}else {
+					km = ctkm_bus.layTenKhuyenMaiTheoMa(chuongTrinhKhuyenMai.getMaCTKM());
+				}
+//                = ctkm_bus.layTenKhuyenMaiTheoMa(chuongTrinhKhuyenMai.getMaCTKM());
+                String hienThiKM = "";
                 if (km != null) {
                     hienThiKM = km;
                 } else {
@@ -797,7 +803,12 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         cbo_ChatLieu.setSelectedIndex(0);
         txt_DonGia.setText("");
         txt_SoLuongTonKho.setText("0");
-        cbo_ThuongHieu.setSelectedIndex(0);
+//        cbo_ThuongHieu.setSelectedIndex(0);
+        if (cbo_ThuongHieu.getItemCount() > 0) {
+            // Ensure that the combo box has at least one item
+            cbo_ThuongHieu.setSelectedIndex(0); // Set the selected index to the first item
+        } 
+
         cbo_KichThuoc.setSelectedItem("S");
         cbo_MauSac.setSelectedItem("Trắng");
         cbo_DanhMuc.setSelectedIndex(0);
@@ -861,13 +872,28 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                             kichThuoc = KichThuocEnum.FREESIZE;
                         }
                         MauSacEnum mauSac = null;
-                        if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
-                            mauSac = MauSacEnum.WHITE;
-                        } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
-                            mauSac = MauSacEnum.BLACK;
-                        } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
-                            mauSac = MauSacEnum.GREY;
+//                        if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
+//                            mauSac = MauSacEnum.WHITE;
+//                        } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
+//                            mauSac = MauSacEnum.BLACK;
+//                        } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
+//                            mauSac = MauSacEnum.GREY;
+//                        }
+                        if (cbo_MauSac.getSelectedItem() != null) {
+                            // Tiếp tục xử lý
+                            if (cbo_MauSac.getSelectedItem().equals("Trắng")) {
+                                mauSac = MauSacEnum.WHITE;
+                            } else if (cbo_MauSac.getSelectedItem().equals("Đen")) {
+                                mauSac = MauSacEnum.BLACK;
+                            } else if (cbo_MauSac.getSelectedItem().equals("Xám")) {
+                                mauSac = MauSacEnum.GREY;
+                            } else {
+                                // Xử lý trường hợp màu sắc không được nhận dạng
+                                // Ví dụ: hiển thị thông báo lỗi
+                                JOptionPane.showMessageDialog(null, "Màu sắc không được nhận dạng!");
+                            }
                         }
+
                         double donGia = Double.parseDouble(txt_DonGia.getText().replace(" VNĐ", "").replace(",", ""));
                         TinhTrangSPEnum tinhTrang = null;
                         if (cbo_TinhTrang.getSelectedItem().equals("Đang bán")) {
@@ -881,7 +907,17 @@ public class SanPham_JPanel extends javax.swing.JPanel {
                         String tenChatLieu = cbo_ChatLieu.getSelectedItem().toString();
                         String maChatLieu = chatLieu_bus.layMaChatLieuTheoTen(tenChatLieu);
                         ChatLieuEntity chatLieu = new ChatLieuEntity(maChatLieu);
-                        String tenThuongHieu = cbo_ThuongHieu.getSelectedItem().toString();
+//                        String tenThuongHieu = cbo_ThuongHieu.getSelectedItem().toString();
+                        
+                        Object selectedItem = cbo_ThuongHieu.getSelectedItem();
+                        String tenThuongHieu = "";
+                        if (selectedItem != null) {
+                            tenThuongHieu = selectedItem.toString();
+                        } else {
+                            // Handle the case where the selected item is null
+                            // You can assign a default value or show an error message
+                        }
+
                         String maThuongHieu = thuongHieu_bus.layMaThuongHieuTheoTen(tenThuongHieu);
                         ThuongHieuEntity thuongHieu = new ThuongHieuEntity(maThuongHieu);
                         String tenDanhMuc = cbo_DanhMuc.getSelectedItem().toString();
@@ -1049,23 +1085,46 @@ public class SanPham_JPanel extends javax.swing.JPanel {
         ArrayList<SanPhamEntity> dsSP = sp_bus.kiemTraTonKho();
         model.setRowCount(0);
         DecimalFormat decimalFormat = new DecimalFormat();
+        if(dsSP.isEmpty()) {
+        	JOptionPane.showMessageDialog(null, "Tất cả sản phẩm đều còn hàng");
+        }
+//        for (SanPhamEntity sp : dsSP) {
+//            String formattedDonGia = decimalFormat.format(sp.getDonGia()) + " VNĐ";
+//            String tenChatLieu = chatLieu_bus.layTenChatLieuTheoMa(sp.getChatLieu().getMaChatLieu());
+//            String tenThuongHieu = thuongHieu_bus.layTenThuongHieuTheoMa(sp.getThuongHieu().getMaThuongHieu());
+//            String tenDanhMuc = danhMucSanPham_bus.layTenDanhMucTheoMa(sp.getDanhMucSanPham().getMaDanhMuc());
+//            String km = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
+//            String hienThiKM = null;
+//            if (km != null) {
+//                hienThiKM = km;
+//            } else {
+//                hienThiKM = "Không giảm giá";
+//            }
+//            model.addRow(new Object[]{sp.getMaSP(), sp.getTenSP(), sp.getKichThuoc(),
+//                sp.getMauSac().toString(), formattedDonGia, sp.getTinhTrang().toString(),
+//                sp.getSoLuongTonKho(), tenChatLieu, tenThuongHieu, tenDanhMuc,
+//                hienThiKM, sp.getImgUrl()});
+//        }
         for (SanPhamEntity sp : dsSP) {
             String formattedDonGia = decimalFormat.format(sp.getDonGia()) + " VNĐ";
             String tenChatLieu = chatLieu_bus.layTenChatLieuTheoMa(sp.getChatLieu().getMaChatLieu());
             String tenThuongHieu = thuongHieu_bus.layTenThuongHieuTheoMa(sp.getThuongHieu().getMaThuongHieu());
             String tenDanhMuc = danhMucSanPham_bus.layTenDanhMucTheoMa(sp.getDanhMucSanPham().getMaDanhMuc());
-            String km = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
-            String hienThiKM = null;
-            if (km != null) {
-                hienThiKM = km;
+            
+            String hienThiKM;
+            if (sp.getChuongTrinhKhuyenMai() != null) {
+                String km = ctkm_bus.layTenKhuyenMaiTheoMa(sp.getChuongTrinhKhuyenMai().getMaCTKM());
+                hienThiKM = (km != null) ? km : "Không giảm giá";
             } else {
                 hienThiKM = "Không giảm giá";
             }
+            
             model.addRow(new Object[]{sp.getMaSP(), sp.getTenSP(), sp.getKichThuoc(),
                 sp.getMauSac().toString(), formattedDonGia, sp.getTinhTrang().toString(),
                 sp.getSoLuongTonKho(), tenChatLieu, tenThuongHieu, tenDanhMuc,
                 hienThiKM, sp.getImgUrl()});
         }
+
     }
 
     private void btn_NhapExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NhapExcelActionPerformed

@@ -56,6 +56,12 @@ public class TaiKhoan_bus extends UnicastRemoteObject implements TaiKhoanInterfa
     public boolean thoiGianDNGN(TaiKhoanEntity tk)throws RemoteException {
         return dao.thoiGianDNGN(tk);// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+	@Override
+	public TaiKhoanEntity getTaiKhoan(String taiKhoan, String matKhau) throws RemoteException {
+		// TODO Auto-generated method stub
+		return dao.getTaiKhoan(taiKhoan, matKhau);
+	}
     
     
     

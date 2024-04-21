@@ -8,10 +8,13 @@ import Interface.ChuongTrinhKhuyenMai_Interface;
 import dao.ChuongTrinhKhuyenMai_dao;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.LoaiKhuyenMaiEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -93,4 +96,10 @@ public class ChuongTrinhKhuyenMai_bus extends UnicastRemoteObject implements Chu
     public ChuongTrinhKhuyenMaiEntity getKMTheomaHD(String maHD) throws RemoteException{
        return ctkm_dao.getKMTheomaHD(maHD);
     }
+//    public List<ChuongTrinhKhuyenMaiEntity> getallCTKMtheoLoaiKM(String loaiKM, EntityManager entityManager) {
+//        TypedQuery<ChuongTrinhKhuyenMaiEntity> query = entityManager.createQuery(
+//                "SELECT c FROM ChuongTrinhKhuyenMaiEntity c WHERE c.maLoaiKM = :loaiKM", ChuongTrinhKhuyenMaiEntity.class);
+//        query.setParameter("loaiKM", loaiKM);
+//        return query.getResultList();
+//    }
 }

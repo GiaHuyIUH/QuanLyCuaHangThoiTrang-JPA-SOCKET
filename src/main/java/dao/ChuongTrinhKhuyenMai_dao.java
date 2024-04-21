@@ -8,6 +8,7 @@ import entity.LoaiKhuyenMaiEntity;
 import gui.KhuyenMai_JPanel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 import java.sql.Connection;
@@ -360,13 +361,13 @@ public class ChuongTrinhKhuyenMai_dao extends UnicastRemoteObject implements Chu
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        tenDanhMuc = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.layTenKhuyenMaiTheoMa",String.class).setParameter("maCTKM", maDanhMuc).getResultList().get(0);
+        tenDanhMuc = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.layTenKhuyenMaiTheoMa",String.class).setParameter("maCTKM", maDanhMuc).getResultList().stream().findFirst().orElse(null).toString();
         return tenDanhMuc;
     }
 
     @Override
     public String layMaKhuyenMaiTheoTen(String tenDanhMuc)throws RemoteException {
-        String maDanhMuc = null;
+//        String maDanhMuc = null;
 //        try {
 //            ConnectDB.getInstance().connect();
 //            Connection con = ConnectDB.getConnection();
@@ -386,8 +387,21 @@ public class ChuongTrinhKhuyenMai_dao extends UnicastRemoteObject implements Chu
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        maDanhMuc = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.layMaKhuyenMaiTheoTen",String.class).setParameter("tenCTKM", tenDanhMuc).getResultList().get(0);
-        return maDanhMuc;
+//        maDanhMuc = em.createNamedQuery("ChuongTrinhKhuyenMaiEntity.layMaKhuyenMaiTheoTen",String.class).setParameter("tenCTKM", tenDanhMuc).getResultList().stream().findFirst().orElse(null);
+    	try {
+    	    // Thực hiện truy vấn để lấy giá trị maCTKM từ bảng "ChuongTrinhKhuyenMaiEntity"
+    	    String maKM = (String) em.createNativeQuery("SELECT maCTKM FROM ChuongTrinhKhuyenMaiEntity WHERE tenCTKM = ? AND tinhTrang=N'Còn'")
+    	                              .setParameter(1, tenDanhMuc)
+    	                              .getSingleResult(); // Sử dụng getSingleResult() vì chỉ mong muốn một kết quả duy nhất
+
+    	    // Trả về giá trị maCTKM nếu tồn tại trong bảng
+    	    return maKM;
+    	} catch (NoResultException e) {
+    	    // Xử lý trường hợp không tìm thấy kết quả trong bảng
+    	    // Ở đây, bạn có thể quyết định trả về một giá trị mặc định hoặc xử lý lỗi theo logic của ứng dụng của bạn
+    	    return null; // Hoặc ném một ngoại lệ tùy thuộc vào logic ứng dụng của bạn
+    	}
+
     }
 
     @Override

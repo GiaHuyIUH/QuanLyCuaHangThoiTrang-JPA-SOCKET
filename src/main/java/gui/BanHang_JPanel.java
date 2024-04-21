@@ -47,10 +47,10 @@ public class BanHang_JPanel extends javax.swing.JPanel {
     private HoaDon_bus hd_bus;
     private ChiTietHoaDon_bus cthd_bus;
     
-    private ArrayList<HoaDonEntity> hdList = new ArrayList<HoaDonEntity>();
-    private HoaDonEntity hoaDon = new HoaDonEntity();
-    private ArrayList<ChiTietHoaDonEntity> cthdList = new ArrayList<ChiTietHoaDonEntity>();
-    private ToanCuc tc = new ToanCuc();
+    private ArrayList<HoaDonEntity> hdList;
+    private HoaDonEntity hoaDon;
+    private ArrayList<ChiTietHoaDonEntity> cthdList;
+    private ToanCuc tc ;
     private ConvertStringToEnum toEnum = new ConvertStringToEnum();
     private ConvertDoubleToMoney convert = new ConvertDoubleToMoney();
 
@@ -62,6 +62,11 @@ public class BanHang_JPanel extends javax.swing.JPanel {
          ctkm_bus = new ChuongTrinhKhuyenMai_bus();
          hd_bus = new HoaDon_bus();
          cthd_bus = new ChiTietHoaDon_bus();
+         tc = new ToanCuc();
+         hoaDon = new HoaDonEntity();
+         hdList = new ArrayList<HoaDonEntity>();
+         cthdList = new ArrayList<ChiTietHoaDonEntity>();
+         
         ImageIcon img_btnTimKiemSanPham = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
         Image scaled_btnTimKiemSanPham = img_btnTimKiemSanPham.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         img_btnTimKiemSanPham = new ImageIcon(scaled_btnTimKiemSanPham);
@@ -659,7 +664,12 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         btn_LamMoi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btn_LamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_LamMoiActionPerformed(evt);
+                try {
+					btn_LamMoiActionPerformed(evt);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -994,7 +1004,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         tinhTien();
     }//GEN-LAST:event_btn_TinhActionPerformed
 
-    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LamMoiActionPerformed
+    private void btn_LamMoiActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btn_LamMoiActionPerformed
         lamMoi();
     }//GEN-LAST:event_btn_LamMoiActionPerformed
 
@@ -1100,6 +1110,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_SoDienThoaiKH;
     private javax.swing.JTextField txt_TienNhan;
     // End of variables declaration//GEN-END:variables
+	private GenerateID generateID;
     
     public void timKiemSanPham() throws RemoteException { 
         String maSP = txt_MaSanPham.getText().trim();
@@ -1315,77 +1326,25 @@ public class BanHang_JPanel extends javax.swing.JPanel {
     }
     
     public void taoHoaDon() throws RemoteException {
-//        int rowCount = table_GioHang.getRowCount();
-//        if(rowCount == 0) {
-//            JOptionPane.showMessageDialog(this, "Giỏ hàng chưa có sản phẩm !");
-//            return;
-//        }
-//        
-//        if(lbl_TienTraLai.getText().equals("") || txt_TienNhan.getText().equals("")) {
-//            JOptionPane.showMessageDialog(this, "Khách hàng chưa thanh toán !");
-//            return;
-//        }
-//        // Khach Hang
-//        if(hoaDon.getKhachHang() == null) {
-//           hoaDon.setKhachHang(new KhachHangEntity());
-//        }
-//
-//        // Nhan Vien
-//        NhanVienEntity nhanVien = new NhanVienEntity(tc.getMa());
-//        hoaDon.setNhanVien(nhanVien);
-//        LocalDate now = LocalDate.now();
-//        hoaDon.setNgayLapHD(java.sql.Date.valueOf(now));
-//        
-//        for (ChiTietHoaDonEntity cthd : cthdList) {
-//            cthd.setHoaDon(hoaDon);
-//        }
-//        
-//        boolean kq = false;
-//        if(table_HoaDon.getSelectedRow() < 0) {
-//            GenerateID generateID = new GenerateID();
-//            hoaDon.setMaHD(generateID.sinhMa("HD"));
-//            kq = hd_bus.themHoaDon(hoaDon, cthdList);
-//        } else {
-//            kq = hd_bus.themHoaDonLuuTam(hoaDon, cthdList);
-//            tableModel_HoaDon.removeRow(table_HoaDon.getSelectedRow());
-//        }
-//        
-//        if(kq) {
-//            for (ChiTietHoaDonEntity cthd : cthdList) {
-//                boolean ketQua = sp_bus.capNhatSoLuongTonSauKhiTaoHD(cthd.getSanPham().getMaSP(), cthd.getSoLuong());
-//                if(!ketQua) {
-//                    JOptionPane.showMessageDialog(this, "Cập nhật số lượng tồn kho thất bại!");
-//                    return;
-//                }
-//            }
-//            double tienNhan = Double.parseDouble(txt_TienNhan.getText().trim());
-//            double tienTraLai = convert.toDouble(lbl_TienTraLai.getText().trim());
-//            new ThongTinHoaDon_GUI(hoaDon, cthdList, tienNhan, tienTraLai).setVisible(true);
-//            lamMoi();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Tạo hoá đơn thất bại !");
-//        }
-    	int rowCount = table_GioHang.getRowCount();
+        int rowCount = table_GioHang.getRowCount();
         if(rowCount == 0) {
             JOptionPane.showMessageDialog(this, "Giỏ hàng chưa có sản phẩm !");
             return;
         }
         
-        if(lbl_TienTraLai.getText().isEmpty() || txt_TienNhan.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin thanh toán !");
+        if(lbl_TienTraLai.getText().equals("") || txt_TienNhan.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Khách hàng chưa thanh toán !");
             return;
         }
-        
         // Khach Hang
         if(hoaDon.getKhachHang() == null) {
            hoaDon.setKhachHang(new KhachHangEntity());
         }
 
         // Nhan Vien
-        NhanVienEntity nhanVien = new NhanVienEntity(); // Tạo một thực thể nhân viên mới
+        NhanVienEntity nhanVien = new NhanVienEntity(ToanCuc.getMa());
         hoaDon.setNhanVien(nhanVien);
-        
-        LocalDate now = LocalDate.now(); // Lấy ngày hiện tại
+        LocalDate now = LocalDate.now();
         hoaDon.setNgayLapHD(java.sql.Date.valueOf(now));
         
         for (ChiTietHoaDonEntity cthd : cthdList) {
@@ -1394,15 +1353,13 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         
         boolean kq = false;
         if(table_HoaDon.getSelectedRow() < 0) {
-            GenerateID generateID = new GenerateID();
+            generateID = new GenerateID();
             hoaDon.setMaHD(generateID.sinhMa("HD"));
-           try {
-        	   kq = hd_bus.themHoaDon(hoaDon, cthdList);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+            kq = hd_bus.themHoaDon(hoaDon, cthdList);
         } else {
+        	ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity();
+        	ctkm.setMaCTKM(table_HoaDon.getValueAt(table_HoaDon.getSelectedRow(), 3).toString());
+        	hoaDon.setChuongTrinhKM(ctkm);
             kq = hd_bus.themHoaDonLuuTam(hoaDon, cthdList);
             tableModel_HoaDon.removeRow(table_HoaDon.getSelectedRow());
         }
@@ -1422,6 +1379,7 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Tạo hoá đơn thất bại !");
         }
+    
     }
     
     public void luuTam() throws RemoteException {
@@ -1477,16 +1435,32 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         }
     }
     
-    public void importHoaDon() {
+    public void importHoaDon() throws RemoteException {
 //        tableModel_HoaDon.setRowCount(0);
 //        hdList = hd_bus.getAllHDChuaThanhToan();
 //        for (HoaDonEntity hd : hdList) {
 //            String[] data = {hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD().toString(), convert.toMoney(hd.getTienKhuyenMai()), convert.toMoney(hd.getTongTien()), convert.toMoney(hd.getTienThanhToan()), hd.getTinhTrang().toString()};
 //            tableModel_HoaDon.addRow(data);
 //        }
+    	tableModel_HoaDon.setRowCount(0);
+        hdList = hd_bus.getAllHDChuaThanhToan();
+        for (HoaDonEntity hd : hdList) {
+            String maHD = hd.getMaHD();
+            String maKH = (hd.getKhachHang() != null) ? hd.getKhachHang().getMaKH() : "";
+            String maNV = (hd.getNhanVien() != null) ? hd.getNhanVien().getMaNV() : "";
+            String maCTKM = (hd.getChuongTrinhKM() != null) ? hd.getChuongTrinhKM().getMaCTKM() : "";
+            String ngayLapHD = (hd.getNgayLapHD() != null) ? hd.getNgayLapHD().toString() : "";
+            String tienKhuyenMai = convert.toMoney(hd.getTienKhuyenMai());
+            String tongTien = convert.toMoney(hd.getTongTien());
+            String tienThanhToan = convert.toMoney(hd.getTienThanhToan());
+            String tinhTrang = (hd.getTinhTrang() != null) ? hd.getTinhTrang().toString() : "";
+
+            String[] data = {maHD, maKH, maNV, maCTKM, ngayLapHD, tienKhuyenMai, tongTien, tienThanhToan, tinhTrang};
+            tableModel_HoaDon.addRow(data);
+        }
     }
     
-    public void lamMoi() {
+    public void lamMoi() throws RemoteException {
         txt_SoDienThoaiKH.setText("");
         tableModel_HoaDon.setRowCount(0);
         txt_MaSanPham.setText("");

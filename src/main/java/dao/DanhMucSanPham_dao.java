@@ -73,7 +73,7 @@ public class DanhMucSanPham_dao extends UnicastRemoteObject implements DanhMucSa
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        tenDanhMuc = em.createNamedQuery("DanhMucSanPhamEntity.getTenDanhMucTheoMa",String.class).setParameter("maDanhMuc", maDanhMuc).getResultList().get(0);
+        tenDanhMuc = em.createNamedQuery("DanhMucSanPhamEntity.getTenDanhMucTheoMa",String.class).setParameter("maDanhMuc", maDanhMuc).getResultList().stream().findFirst().orElse(null).toString();
         return tenDanhMuc;
     }
 
@@ -99,7 +99,7 @@ public class DanhMucSanPham_dao extends UnicastRemoteObject implements DanhMucSa
 //        } catch (SQLException ex) {
 //            Logger.getLogger(DanhMucSanPham_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        maDanhMuc = em.createNamedQuery("DanhMucSanPhamEntity.getMaDanhMucTheoTen",String.class).setParameter("tenDanhMuc", tenDanhMuc).getResultList().get(0);
+        maDanhMuc = em.createNamedQuery("DanhMucSanPhamEntity.getMaDanhMucTheoTen",String.class).setParameter("tenDanhMuc", tenDanhMuc).getResultList().stream().findFirst().orElse(null).toString();
         return maDanhMuc;
     }
     

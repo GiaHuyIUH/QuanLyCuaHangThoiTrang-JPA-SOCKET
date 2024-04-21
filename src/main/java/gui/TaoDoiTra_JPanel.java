@@ -60,10 +60,13 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
     private SpinnerNumberModel spinnerModel;
     private ConvertDoubleToMoney convert = new ConvertDoubleToMoney();
     
-    public TaoDoiTra_JPanel() {
+    public TaoDoiTra_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1173, 699);
-         
+         hd_bus = new HoaDon_bus();
+         cthd_bus = new ChiTietHoaDon_bus();
+         sp_bus = new SanPham_bus();
+         dt_bus = new DoiTra_bus();
         ImageIcon img_btnTimKiemHoaDon = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
         Image scaled_btnTimKiemHoaDon = img_btnTimKiemHoaDon.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         img_btnTimKiemHoaDon = new ImageIcon(scaled_btnTimKiemHoaDon);

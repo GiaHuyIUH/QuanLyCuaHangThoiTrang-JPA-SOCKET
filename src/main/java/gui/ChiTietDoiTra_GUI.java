@@ -34,7 +34,8 @@ public class ChiTietDoiTra_GUI extends javax.swing.JFrame {
         this.maDT = maDT;
         initComponents();
         setLocationRelativeTo(null);
-        
+        dt_bus = new DoiTra_bus();
+        ctdt_bus = new ChiTietDoiTra_bus();
         // import data
         String[] cols = {"Mã", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Giá bán", "Thành tiền"};
         tableModel = new DefaultTableModel(cols, 0);

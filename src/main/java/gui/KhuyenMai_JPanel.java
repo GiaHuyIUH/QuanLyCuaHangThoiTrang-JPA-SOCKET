@@ -3,6 +3,9 @@ package gui;
 import bus.ChuongTrinhKhuyenMai_bus;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.LoaiKhuyenMaiEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -49,21 +53,24 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
 	private final ChuongTrinhKhuyenMai_bus ctkmbus;
     private DefaultTableModel model;
     private java.sql.Date ngaybatdau;
+    
+    private EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
 
     /**
      * Creates new form KhuyenMai_JPanel
      * @throws RemoteException 
      */
     public KhuyenMai_JPanel() throws RemoteException {
-        initComponents();
-         
-         ButtonGroup rdo_group = new ButtonGroup();
-         rdo_group.add(rdo_sp);
-         rdo_group.add(rdo_hd);
-         
-         dateNgayBatDau.setLocale(new Locale("vi","VN"));
-         dateNgayKetThuc.setLocale(new Locale("vi","VN"));
-          setBounds(0, 0, 1186, 748);
+    	initComponents();
+
+        ButtonGroup rdo_group = new ButtonGroup();
+        rdo_group.add(rdo_sp);
+        rdo_group.add(rdo_hd);
+
+        dateNgayBatDau.setLocale(new Locale("vi", "VN"));
+        dateNgayKetThuc.setLocale(new Locale("vi", "VN"));
+        setBounds(0, 0, 1186, 748);
 
         ImageIcon img_btnTimKiem = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
         Image scaled_btnTimKiem = img_btnTimKiem.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
@@ -84,24 +91,25 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         Image scaled_btnCapNhat = img_btnCapNhat.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         img_btnCapNhat = new ImageIcon(scaled_btnCapNhat);
         btn_CapNhat.setIcon(img_btnCapNhat);
-//
-//        ImageIcon img_btnXoa = new ImageIcon("src//main//java//pic//icon//buttonXoa.png");
-//        Image scaled_btnXoa = img_btnXoa.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-//        img_btnXoa = new ImageIcon(scaled_btnXoa);
-//        btn_Xoa.setIcon(img_btnXoa);
+
         ctkmbus = new ChuongTrinhKhuyenMai_bus();
-    // set LoaiKM sẵn cho Hoá đơn
-    txtLoaiKM.setText("GGHD");
+
+        // set LoaiKM sẵn cho Hoá đơn
+        txtLoaiKM.setText("GGHD");
+
+        // Gọi iển thị dữ liệu từ cơ sở dữ liệu lên bảng
         DocDuLieuTuSQLvaoTable();
     }
 
+
     private void DocDuLieuTuSQLvaoTable() throws RemoteException {
-          ArrayList<ChuongTrinhKhuyenMaiEntity> listCTKM = ctkmbus.getallCTKMtheoLoaiKM(txtLoaiKM.getText());
+        List<ChuongTrinhKhuyenMaiEntity> listCTKM = ctkmbus.getallCTKMtheoLoaiKM(txtLoaiKM.getText());
         for (ChuongTrinhKhuyenMaiEntity ctkm : listCTKM) {
-            addRows(new Object[]{ctkm.getMaCTKM(),ctkm.getMaLoaiKM().getMaLoaiKM(), ctkm.getTenCTKM(), ctkm.getSoTienToiThieu(),ctkm.getSoTienToiDa(), ctkm.getGiamGia(), ctkm.getNgayBatDau(), ctkm.getNgayKetThuc(),ctkm.getTinhTrang()});
+            addRows(new Object[]{ctkm.getMaCTKM(), ctkm.getMaLoaiKM().getMaLoaiKM(), ctkm.getTenCTKM(),
+                    ctkm.getSoTienToiThieu(), ctkm.getSoTienToiDa(), ctkm.getGiamGia(),
+                    ctkm.getNgayBatDau(), ctkm.getNgayKetThuc(), ctkm.getTinhTrang()});
         }
     }
-
     public void addRows(Object[] row) {
         model = (DefaultTableModel) jTable1.getModel();
         model.addRow(row);
@@ -178,63 +186,59 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
         }
     }
 
+
     private void ThemMoi() {
-        if(CheckValid()){
-        String ma = PhatSinhMaCTKM();
-        String ten = txtTenCTKM.getText();
-        String maLoai = txtLoaiKM.getText();
-        LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(maLoai);
-        double sotienTT;
-        double sotienTD;
-        if(txtLoaiKM.getText().equals("GGSP")){
-            sotienTT = 0;
-            sotienTD =0;
-        }
-        else{
-             sotienTT = Double.parseDouble(txtSoTienGiamTT.getText());
-             sotienTD = Double.parseDouble(txtSoTienGiamTD.getText());
-        }
-        
-        int giamgia = Integer.parseInt(txtGiamGia.getText());
-        java.sql.Date ngayBD = new java.sql.Date(dateNgayBatDau.getDate().getTime());
-        java.sql.Date ngayKT = new java.sql.Date(dateNgayKetThuc.getDate().getTime());
-        String tinhtrang = SetTinhTrang(ngayKT);
-        ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(ma, ten, lkm, sotienTT, sotienTD, giamgia, ngayBD, ngayKT, tinhtrang);
-        try {
-            ctkmbus.create(ctkm);
-           
+        if (CheckValid()) {
+            entityManager.getTransaction().begin();
+            String ma = PhatSinhMaCTKM();
+            String ten = txtTenCTKM.getText();
+            String maLoai = txtLoaiKM.getText();
+            LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(maLoai);
+            double sotienTT;
+            double sotienTD;
+            if (txtLoaiKM.getText().equals("GGSP")) {
+                sotienTT = 0;
+                sotienTD = 0;
+            } else {
+                sotienTT = Double.parseDouble(txtSoTienGiamTT.getText());
+                sotienTD = Double.parseDouble(txtSoTienGiamTD.getText());
+            }
+
+            int giamgia = Integer.parseInt(txtGiamGia.getText());
+            java.sql.Date ngayBD = new java.sql.Date(dateNgayBatDau.getDate().getTime());
+            java.sql.Date ngayKT = new java.sql.Date(dateNgayKetThuc.getDate().getTime());
+            String tinhtrang = SetTinhTrang(ngayKT);
+            ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(ma, ten, lkm, sotienTT, sotienTD,
+                    giamgia, ngayBD, ngayKT, tinhtrang);
+            entityManager.persist(ctkm);
+            entityManager.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Thêm thành công !");
             LamMoi();
-            addRows(new Object[]{ctkm.getMaCTKM(),ctkm.getMaLoaiKM().getMaLoaiKM(), ctkm.getTenCTKM(), ctkm.getSoTienToiThieu(),ctkm.getSoTienToiDa(), ctkm.getGiamGia(), ctkm.getNgayBatDau(), ctkm.getNgayKetThuc(),ctkm.getTinhTrang()});
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Trùng mã");
-            e.printStackTrace();
-        }
+            addRows(new Object[]{ctkm.getMaCTKM(), ctkm.getMaLoaiKM().getMaLoaiKM(), ctkm.getTenCTKM(),
+                    ctkm.getSoTienToiThieu(), ctkm.getSoTienToiDa(), ctkm.getGiamGia(),
+                    ctkm.getNgayBatDau(), ctkm.getNgayKetThuc(), ctkm.getTinhTrang()});
         }
     }
-
     private void XoaRows(int row) {
         model.removeRow(row);
         
     }
     
-    private void Xoa(){
+    private void Xoa() {
         try {
-        int row = jTable1.getSelectedRow();
-        String ma = jTable1.getValueAt(row, 0).toString();
-        ArrayList<ChuongTrinhKhuyenMaiEntity> ctkm = new ArrayList<ChuongTrinhKhuyenMaiEntity>();
-        ctkm = ctkmbus.getCTKMTheoMaCTKM(ma,txtLoaiKM.getText());
-        for(ChuongTrinhKhuyenMaiEntity km: ctkm){
-            if(ctkmbus.delete(km)){
-            JOptionPane.showMessageDialog(null, "Xoá thành công !");
-            XoaRows(row);
-        }
-        }
+            int row = jTable1.getSelectedRow();
+            String ma = jTable1.getValueAt(row, 0).toString();
+            entityManager.getTransaction().begin();
+            ChuongTrinhKhuyenMaiEntity ctkm = entityManager.find(ChuongTrinhKhuyenMaiEntity.class, ma);
+            if (ctkm != null) {
+                entityManager.remove(ctkm);
+                entityManager.getTransaction().commit();
+                JOptionPane.showMessageDialog(null, "Xoá thành công !");
+                XoaRows(row);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Chưa chọn dữ liệu cần xoá !");
         }
-        
     }
     private String PhatSinhMaCTKM() {
 
@@ -246,43 +250,43 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
 
     }
 
+
     private void CapNhat() {
         try {
+            entityManager.getTransaction().begin();
             String ma = txtMaCTKM.getText();
-            String ten = txtTenCTKM.getText();
-            String maLoai = txtLoaiKM.getText();
-            LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(maLoai);
-        double sotienTT;
-        double sotienTD;
-        if(txtLoaiKM.getText().equals("GGSP")){
-            sotienTT = 0;
-            sotienTD =0;
-        }
-        else{
-             sotienTT = Double.parseDouble(txtSoTienGiamTT.getText());
-             sotienTD = Double.parseDouble(txtSoTienGiamTD.getText());
-        }
-            int giam = Integer.parseInt(txtGiamGia.getText());
-            java.sql.Date ngayBD = new java.sql.Date(dateNgayBatDau.getDate().getTime());
-            java.sql.Date ngayKT = new java.sql.Date(dateNgayKetThuc.getDate().getTime());
-            String tinhtrang = SetTinhTrang(ngayKT);
-            ChuongTrinhKhuyenMaiEntity ctkm = new ChuongTrinhKhuyenMaiEntity(ma, ten, lkm, sotienTT, sotienTD, giam, ngayBD, ngayKT, tinhtrang);
-            if (ctkmbus.update(ctkm)) {
-                JOptionPane.showMessageDialog(null, "Cập nhật thành công" );
+            ChuongTrinhKhuyenMaiEntity ctkm = entityManager.find(ChuongTrinhKhuyenMaiEntity.class, ma);
+            if (ctkm != null) {
+                ctkm.setTenCTKM(txtTenCTKM.getText());
+                LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(txtLoaiKM.getText());
+                ctkm.setMaLoaiKM(lkm);
+                double sotienTT;
+                double sotienTD;
+                if (txtLoaiKM.getText().equals("GGSP")) {
+                    sotienTT = 0;
+                    sotienTD = 0;
+                } else {
+                    sotienTT = Double.parseDouble(txtSoTienGiamTT.getText());
+                    sotienTD = Double.parseDouble(txtSoTienGiamTD.getText());
+                }
+                ctkm.setSoTienToiThieu(sotienTT);
+                ctkm.setSoTienToiDa(sotienTD);
+                ctkm.setGiamGia(Integer.parseInt(txtGiamGia.getText()));
+                ctkm.setNgayBatDau(new java.sql.Date(dateNgayBatDau.getDate().getTime()));
+                ctkm.setNgayKetThuc(new java.sql.Date(dateNgayKetThuc.getDate().getTime()));
+                ctkm.setTinhTrang(SetTinhTrang(ctkm.getNgayKetThuc()));
+                entityManager.getTransaction().commit();
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công");
                 XoahetDuLieuTrenTable();
                 DocDuLieuTuSQLvaoTable();
                 LamMoi();
                 dateNgayBatDau.setSelectableDateRange(new Date(), null);
                 dateNgayKetThuc.setSelectableDateRange(new Date(), null);
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Cập nhật thất bại !");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
     private String SetTinhTrang(Date dateKT){ 
 //        Date datenow = new Date();
 //        if(datenow.after(dateKT)){

@@ -74,7 +74,7 @@ public class ChatLieu_dao extends UnicastRemoteObject implements ChatLieu_Interf
 //            Logger.getLogger(ChatLieu_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         tenChatLieu = em.createNamedQuery("ChatLieuEntity.getTenChatLieuTheoMa",String.class).setParameter("maChatLieu", maChatLieu)
-        		.getResultList().get(0);
+        		.getResultList().stream().findFirst().orElse(null).toString();
         return tenChatLieu;
     }
 
@@ -100,7 +100,7 @@ public class ChatLieu_dao extends UnicastRemoteObject implements ChatLieu_Interf
 //            Logger.getLogger(ChatLieu_dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 		maChatLieu = em.createNamedQuery("ChatLieuEntity.getMaChatLieuTheoTen", String.class)
-				.setParameter("tenChatLieu", tenChatLieu).getResultList().get(0);
+				.setParameter("tenChatLieu", tenChatLieu).getResultList().stream().findFirst().orElse(null).toString();
 
         return maChatLieu;
     }

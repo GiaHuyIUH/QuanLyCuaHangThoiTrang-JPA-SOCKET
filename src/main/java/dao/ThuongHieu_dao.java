@@ -7,8 +7,10 @@ package dao;
 import Interface.ThuongHieu_Interface;
 import entity.ThuongHieuEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,8 +37,8 @@ public class ThuongHieu_dao extends UnicastRemoteObject implements ThuongHieu_In
 	    
 	    @Override
 	    public ArrayList<ThuongHieuEntity> getAllTH()throws RemoteException {
-	        Query query = em.createQuery("SELECT t FROM ThuongHieuEntity t");
-	        return (ArrayList<ThuongHieuEntity>) query.getResultList();
+	    	  TypedQuery<ThuongHieuEntity> query = em.createQuery("SELECT t FROM ThuongHieuEntity t", ThuongHieuEntity.class);
+	    	    return new ArrayList<>(query.getResultList());
 	    }
 //    @Override
 //    public ArrayList<ThuongHieuEntity> getAllTH() {
@@ -61,9 +63,16 @@ public class ThuongHieu_dao extends UnicastRemoteObject implements ThuongHieu_In
 //    }
 	    @Override
 	    public String layTenThuongHieuTheoMa(String maThuongHieu) throws RemoteException{
-	        Query query = em.createQuery("SELECT t.tenThuongHieu FROM ThuongHieuEntity t WHERE t.maThuongHieu = :maTH");
-	        query.setParameter("maTH", maThuongHieu);
-	        return (String) query.getSingleResult();
+//	        Query query = em.createQuery("SELECT t.tenThuongHieu FROM ThuongHieuEntity t WHERE t.maThuongHieu = :maTH");
+//	        query.setParameter("maTH", maThuongHieu);
+//	        return (String) query.getSingleResult();
+			String tenTH = "";
+			tenTH = em
+//					.createNamedQuery("SELECT t.tenThuongHieu FROM ThuongHieuEntity t WHERE t.maThuongHieu = :maTH",
+//							String.class)
+					.createNativeQuery("SELECT tenThuongHieu FROM ThuongHieuEntity WHERE maThuongHieu = ?")
+					.setParameter(1, maThuongHieu).getResultList().stream().findFirst().orElse(null).toString();
+			return tenTH;
 	    }
 //    @Override
 //    public String layTenThuongHieuTheoMa(String maThuongHieu) {
@@ -94,9 +103,15 @@ public class ThuongHieu_dao extends UnicastRemoteObject implements ThuongHieu_In
 //    }
 	    @Override
 	    public String layMaThuongHieuTheoTen(String tenThuongHieu)throws RemoteException {
-	        Query query = em.createQuery("SELECT t.maThuongHieu FROM ThuongHieuEntity t WHERE t.tenThuongHieu = :tenTH");
-	        query.setParameter("tenTH", tenThuongHieu);
-	        return (String) query.getSingleResult();
+	    	 try {
+	    	        String maTH = (String) em.createNativeQuery("SELECT maThuongHieu FROM ThuongHieuEntity WHERE tenThuongHieu = ?")
+	    	                                .setParameter(1, tenThuongHieu)
+	    	                                .getSingleResult();
+	    	        return maTH;
+	    	    } catch (NoResultException e) {
+	    	        // Handle the case where no result is found
+	    	        return null;
+	    	    }
 	    }
 
 //    @Override
