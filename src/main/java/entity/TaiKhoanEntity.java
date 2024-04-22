@@ -24,6 +24,7 @@ import lombok.EqualsAndHashCode;
 //	@NamedQuery(name = "TaiKhoanEntity.insert", query = "insert into TaiKhoanEntity(tk.tenTaiKhoan, tk.matKhau, tk.thoiGianDNGN, tk.tinhTrang, tk.maNV) values(:tenTaiKhoan, :matKhau, :thoiGianDNGN, :tinhTrang, :maNV)"),
 	@NamedQuery(name = "TaiKhoanEntity.updateTinhTrang", query = "UPDATE TaiKhoanEntity tk SET tk.tinhTrang = :tinhTrang WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
 	@NamedQuery(name = "TaiKhoanEntity.getAllTK", query = "SELECT tk FROM TaiKhoanEntity tk"),
+	@NamedQuery(name = "TaiKhoanEntity.getTKByTenTK", query = "SELECT tk FROM TaiKhoanEntity tk WHERE tk.tenTaiKhoan = :tenTaiKhoan")
 })
 public class TaiKhoanEntity implements Serializable {
 	/**

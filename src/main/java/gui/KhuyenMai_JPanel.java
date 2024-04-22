@@ -252,10 +252,11 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
 
 
     private void CapNhat() {
-        try {
-            entityManager.getTransaction().begin();
+    	  try {
+//            entityManager.getTransaction().begin();
             String ma = txtMaCTKM.getText();
-            ChuongTrinhKhuyenMaiEntity ctkm = entityManager.find(ChuongTrinhKhuyenMaiEntity.class, ma);
+//            ChuongTrinhKhuyenMaiEntity ctkm = entityManager.find(ChuongTrinhKhuyenMaiEntity.class, ma);
+            ChuongTrinhKhuyenMaiEntity ctkm = ctkmbus.getKMTheoma(ma);
             if (ctkm != null) {
                 ctkm.setTenCTKM(txtTenCTKM.getText());
                 LoaiKhuyenMaiEntity lkm = new LoaiKhuyenMaiEntity(txtLoaiKM.getText());
@@ -275,13 +276,16 @@ public class KhuyenMai_JPanel extends javax.swing.JPanel {
                 ctkm.setNgayBatDau(new java.sql.Date(dateNgayBatDau.getDate().getTime()));
                 ctkm.setNgayKetThuc(new java.sql.Date(dateNgayKetThuc.getDate().getTime()));
                 ctkm.setTinhTrang(SetTinhTrang(ctkm.getNgayKetThuc()));
-                entityManager.getTransaction().commit();
+                if(ctkmbus.update(ctkm)) {
                 JOptionPane.showMessageDialog(null, "Cập nhật thành công");
                 XoahetDuLieuTrenTable();
                 DocDuLieuTuSQLvaoTable();
                 LamMoi();
                 dateNgayBatDau.setSelectableDateRange(new Date(), null);
                 dateNgayKetThuc.setSelectableDateRange(new Date(), null);
+			} else {
+				JOptionPane.showMessageDialog(null, "Cập nhật thất bại");
+			}
             }
         } catch (Exception e) {
             e.printStackTrace();

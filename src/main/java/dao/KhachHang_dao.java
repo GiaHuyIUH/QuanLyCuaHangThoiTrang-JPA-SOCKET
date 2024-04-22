@@ -39,7 +39,16 @@ public class KhachHang_dao extends UnicastRemoteObject implements KhachHang_Inte
     @Override
     public KhachHangEntity findOne(String id)throws RemoteException {
     	
-    	  return em.find(KhachHangEntity.class, id);
+//    	  return em.find(KhachHangEntity.class, id);
+
+		return em.createQuery("select k from KhachHangEntity k where k.soDienThoai = :id", KhachHangEntity.class)
+				.setParameter("id", id)
+				.getResultList()
+				.stream()
+				.findFirst()
+				.orElse(null);
+
+		
 //        KhachHangEntity khachHang = null;
 //        ResultSet rs = null;
 //        try {

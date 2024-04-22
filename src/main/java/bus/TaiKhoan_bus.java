@@ -62,6 +62,12 @@ public class TaiKhoan_bus extends UnicastRemoteObject implements TaiKhoanInterfa
 		// TODO Auto-generated method stub
 		return dao.getTaiKhoan(taiKhoan, matKhau);
 	}
+
+	@Override
+	public boolean lamMoiMatKhau(TaiKhoanEntity tk) throws RemoteException {
+		// TODO Auto-generated method stub
+		return dao.lamMoiMatKhau(tk);
+	}
     
     
     

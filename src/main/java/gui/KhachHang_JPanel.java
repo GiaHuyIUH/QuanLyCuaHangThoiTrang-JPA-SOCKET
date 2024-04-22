@@ -31,12 +31,12 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
      * Creates new form KhachHang_JPanel
      */
     private DefaultTableModel tableModel = new DefaultTableModel();
-    private KhachHang_bus bus = new KhachHang_bus();
+    private KhachHang_bus bus;
     
     public KhachHang_JPanel() throws RemoteException {
         initComponents();
         setBounds(0, 0, 1186, 748);
-        
+        bus = new KhachHang_bus();
         ImageIcon img_btnTimKiem = new ImageIcon("src//main//java//pic//icon//buttonTimKiem.png");
         Image scaled_btnTimKiem = img_btnTimKiem.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         img_btnTimKiem = new ImageIcon(scaled_btnTimKiem);
@@ -507,7 +507,7 @@ public class KhachHang_JPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_CapNhatMouseClicked
 
     private void btn_TimKiemMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_btn_TimKiemMouseClicked
-        String id = txt_NhapSDT.getText();
+        String id = txt_NhapSDT.getText().toString();
         if (id.isBlank()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại của khách hàng!");
             return;

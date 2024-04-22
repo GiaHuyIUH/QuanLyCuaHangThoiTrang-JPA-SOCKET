@@ -46,7 +46,7 @@ public class HoaDonEntity implements Serializable {
 	private String maHD;
 	@Column(name = "ngayLapHD")
 	private Date ngayLapHD;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "maKH")
 	private KhachHangEntity khachHang;
 	@ManyToOne(fetch = FetchType.LAZY)

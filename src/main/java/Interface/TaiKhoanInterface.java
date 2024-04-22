@@ -22,4 +22,5 @@ public interface TaiKhoanInterface extends Remote {
     public ArrayList<TaiKhoanEntity> findAll()throws RemoteException;
     public boolean thoiGianDNGN(TaiKhoanEntity tk)throws RemoteException;
     public TaiKhoanEntity getTaiKhoan(String taiKhoan, String matKhau) throws RemoteException ;
+    public boolean lamMoiMatKhau(TaiKhoanEntity tk)throws RemoteException ;
 }

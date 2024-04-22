@@ -1245,12 +1245,15 @@ public class BanHang_JPanel extends javax.swing.JPanel {
         spinner_SoLuong.setEnabled(false);
     }
     
-    private void importGioHang() {
-        tableModel_GioHang.setRowCount(0);
-        for (ChiTietHoaDonEntity cthd : cthdList) {
-            String[] data = {cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(), cthd.getSanPham().getKichThuoc().toString(), cthd.getSanPham().getMauSac().toString(), cthd.getSoLuong()+"", convert.toMoney(cthd.getGiaGoc()),convert.toMoney(cthd.getGiaBan()), convert.toMoney(cthd.getThanhTien())};
-            tableModel_GioHang.addRow(data);
-        }
+    private void importGioHang() throws RemoteException {
+    	  tableModel_GioHang.setRowCount(0);
+          for (ChiTietHoaDonEntity cthd : cthdList) {
+//          	System.out.println("Mã Sản Phẩm"+ cthd.getSanPham().getMaSP());
+          	SanPhamEntity sp = sp_bus.timKiemSanPham(cthd.getSanPham().getMaSP());
+          	
+          	            String[] data = {cthd.getSanPham().getMaSP(),sp.getTenSP(), sp.getKichThuoc().toString(), sp.getMauSac().toString(), cthd.getSoLuong()+"", convert.toMoney(cthd.getGiaGoc()),convert.toMoney(cthd.getGiaBan()), convert.toMoney(cthd.getThanhTien())};
+              tableModel_GioHang.addRow(data);
+          }
     }
 
     public void xoaKhoiGioHang() throws RemoteException {

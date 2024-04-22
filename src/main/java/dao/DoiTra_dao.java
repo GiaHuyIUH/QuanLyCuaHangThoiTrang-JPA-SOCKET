@@ -24,6 +24,8 @@ import entity.KhachHangEntity;
 import entity.NhanVienEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import util.ConvertStringToEnum;
 
 /**
@@ -85,11 +87,25 @@ public class DoiTra_dao extends UnicastRemoteObject implements DoiTra_Interface{
 				.setParameter("ngayLap", ngayLap).getSingleResult();
     }
 
+//    @Override
+//    public Long getTongSoLuongSPDoiTra(String maHD, String maSP) {
+//    	return em.createNamedQuery("DoiTra.getTongSoLuongSPDoiTra", Long.class).setParameter("maHD", maHD)
+//				.setParameter("maSP", maSP).setParameter("hinhThucDoiTra", HinhThucDoiTraEnum.HOANTRA)
+//				.getSingleResult();
+//    }
     @Override
     public Long getTongSoLuongSPDoiTra(String maHD, String maSP) {
-    	return em.createNamedQuery("DoiTra.getTongSoLuongSPDoiTra", Long.class).setParameter("maHD", maHD)
-				.setParameter("maSP", maSP).setParameter("hinhThucDoiTra", HinhThucDoiTraEnum.HOANTRA)
-				.getSingleResult();
+        try {
+            TypedQuery<Long> query = em.createNamedQuery("DoiTra.getTongSoLuongSPDoiTra", Long.class)
+                    .setParameter("maHD", maHD)
+                    .setParameter("maSP", maSP)
+                    .setParameter("hinhThucDoiTra", HinhThucDoiTraEnum.HOANTRA);
+            Long tongSoLuong = query.getSingleResult();
+            return tongSoLuong != null ? tongSoLuong : 0L;
+        } catch (NoResultException e) {
+            // Xử lý trường hợp không tìm thấy kết quả
+            return 0L;
+        }
     }
 
     @Override

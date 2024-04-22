@@ -1,6 +1,7 @@
 package gui;
 
 import bus.HoaDon_bus;
+import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.HoaDonEntity;
 import java.awt.Image;
 import java.rmi.RemoteException;
@@ -28,7 +29,7 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
      */
     public HoaDon_JPanel() throws RemoteException {
     	hdbus = new HoaDon_bus();
-    	
+    	model = new DefaultTableModel();
         initComponents();
         dateNgayLap.setLocale(new Locale("vi", "VN"));
         setBounds(0, 0, 1186, 748);
@@ -55,7 +56,7 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
 //        }
 
         
-         hdbus = new HoaDon_bus();
+//         hdbus = new HoaDon_bus();
          
 //           Object [][] data ={};
 //           String [] columnNames = { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Mã CTKM", "Ngày Lập Hóa Đơn", "Tiền Khuyến Mãi", "Tổng Tiền", "Tiền Thanh Toán", "Tình Trạng" };
@@ -301,33 +302,77 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
 
         XoahetDuLieuTrenTable();
         DocDuLieuTuSQLvaoTable();
-        if (!txt_MaHoaDon.getText().equals("") && dateNgayLap.getDate() == null) {
-            HoaDonEntity hd = new HoaDonEntity();
+//        if (!txt_MaHoaDon.getText().equals("") && dateNgayLap.getDate() == null) {
+//            HoaDonEntity hd = new HoaDonEntity();
+//            try {
+//                hd = hdbus.getHoaDonTheoMaHD(txt_MaHoaDon.getText().toString());
+//                XoahetDuLieuTrenTable();
+//                addRows(new Object[]{hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan()});
+//            } catch (Exception e) {
+//                JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này theo mã !");
+//            	e.printStackTrace();
+//            }
+//        }
+        if (!txt_MaHoaDon.getText().isEmpty() && dateNgayLap.getDate() == null) {
+            String maHoaDon = txt_MaHoaDon.getText();
+            HoaDonEntity hoaDon = null;
             try {
-                hd = hdbus.getHoaDonTheoMaHD(txt_MaHoaDon.getText());
-                XoahetDuLieuTrenTable();
-                addRows(new Object[]{hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan()});
+                hoaDon = hdbus.getHoaDonTheoMaHD(maHoaDon);
+                if(hoaDon==null) System.out.println("Hoá đơn null");
+                if(hoaDon.getChuongTrinhKM()==null) System.out.println("Chương trình KM null");
+                ChuongTrinhKhuyenMaiEntity ctkm = hoaDon.getChuongTrinhKM();
+                String maCTKM = "";
+				if (ctkm == null)
+					maCTKM = "";
+				else
+					maCTKM = ctkm.getMaCTKM();
+				
+                if (hoaDon != null ) {
+//                	if( hoaDon.getChuongTrinhKM() != null)
+                	XoahetDuLieuTrenTable();
+                    addRows(new Object[]{hoaDon.getMaHD(), hoaDon.getKhachHang().getMaKH(), hoaDon.getNhanVien().getMaNV(), maCTKM, hoaDon.getNgayLapHD(), hoaDon.getTienKhuyenMai(), hoaDon.getTongTien(), hoaDon.getTienThanhToan()});
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn với mã: " + maHoaDon);
+                }
             } catch (Exception e) {
-//                JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này !");
+                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tìm kiếm hoá đơn: " + e.getMessage());
+                e.printStackTrace();
             }
-        } else if (txt_MaHoaDon.getText().equals("") && dateNgayLap.getDate() != null) {
+        }
+
+        else if (txt_MaHoaDon.getText().equals("") && dateNgayLap.getDate() != null) {
             ArrayList<HoaDonEntity> ds = new ArrayList<HoaDonEntity>();
             try {
                 java.sql.Date ngaylap = new java.sql.Date(dateNgayLap.getDate().getTime());
                 System.out.println("ngay lập " + ngaylap);
                 ds = hdbus.getHoaDonTheoNgayLap(ngaylap);
-                XoahetDuLieuTrenTable();
-                for (HoaDonEntity hd : ds) {
-                    addRows(new Object[]{hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan()});
-                }
+				if (ds.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này !");
+					XoahetDuLieuTrenTable();
+					DocDuLieuTuSQLvaoTable();
+				} else {
+					XoahetDuLieuTrenTable();
+					for (HoaDonEntity hd : ds) {
+						if (hd.getKhachHang() != null)
+							addRows(new Object[] { hd.getMaHD(), hd.getKhachHang().getMaKH(),
+									hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(),
+									hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(),
+									hd.getTinhTrang() });
+					}
+//				}
+//                XoahetDuLieuTrenTable();
+//                for (HoaDonEntity hd : ds) {
+//                    addRows(new Object[]{hd.getMaHD(), hd.getKhachHang().getMaKH(), hd.getNhanVien().getMaNV(), hd.getChuongTrinhKM().getMaCTKM(), hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan()});
+//                }
+				}
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này !");
+                JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này theo ngày!");
                  XoahetDuLieuTrenTable();
                 DocDuLieuTuSQLvaoTable();
                 e.printStackTrace();
             }
         } else if (txt_MaHoaDon.getText().equals("") && dateNgayLap.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập dữ liệu Hoá đơn cần tìm !");
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập dữ liệu hoá đơn cần tìm !");
         }
         else if(!txt_MaHoaDon.getText().equals("") && dateNgayLap.getDate() != null){
             ArrayList<HoaDonEntity> ds = new ArrayList<HoaDonEntity>();
@@ -340,7 +385,7 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
                     addRows(new Object[]{hd.getMaHD(),hd.getKhachHang().getMaKH(),hd.getNhanVien().getMaNV(),hd.getChuongTrinhKM().getMaCTKM(),hd.getNgayLapHD(),hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan()});
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này !");
+                JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này theo mã và ngày!");
                 XoahetDuLieuTrenTable();
                 DocDuLieuTuSQLvaoTable();
                 e.printStackTrace();
@@ -359,6 +404,8 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
                 java.sql.Date ngaylap = new java.sql.Date(dateNgayLap.getDate().getTime());
                 System.out.println("ngay lập " + ngaylap);
                 ds = hdbus.getHoaDonTheoNgayLap(ngaylap);
+            	String maCTKM = "";
+            	String maKH = "";
                         if(ds.isEmpty())  {
                             JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn này !");
                             XoahetDuLieuTrenTable();
@@ -367,7 +414,17 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
                         else {
                             XoahetDuLieuTrenTable();
                         for (HoaDonEntity hd : ds) {
-                            addRows(new Object[]{hd.getMaHD(),hd.getKhachHang().getMaKH(),hd.getNhanVien().getMaNV(),hd.getChuongTrinhKM().getMaCTKM(),hd.getNgayLapHD(),hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(),hd.getTinhTrang()});
+                        	if(hd.getKhachHang()!=null)
+                        	
+                        	    if (hd.getChuongTrinhKM() == null) {
+                        	        maCTKM = "";
+                        	    } else {
+                        	        maCTKM = hd.getChuongTrinhKM().getMaCTKM();
+                        	    }
+                        		if(hd.getKhachHang()!=null) {
+                        			maKH = hd.getKhachHang().getMaKH();
+                        		}
+                            addRows(new Object[]{hd.getMaHD(),maKH,hd.getNhanVien().getMaNV(),maCTKM,hd.getNgayLapHD(),hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(),hd.getTinhTrang()});
                         }
                         }
                         }

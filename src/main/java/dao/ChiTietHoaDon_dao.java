@@ -303,32 +303,16 @@ public class ChiTietHoaDon_dao extends UnicastRemoteObject implements ChiTietHoa
     
     @Override
     public boolean xoaCTHDTheoMaHoaDon(String maHD)throws RemoteException {
-        PreparedStatement statement = null;
-        try {
-          
-
-            String sql = "Delete from ChiTietHoaDon where maHD=?";
-//            statement = con.prepareStatement(sql);
-            statement.setString(1, maHD);
-
-            int ketQua = statement.executeUpdate();
-
-            if (ketQua < 1) {
-                return false;
-            }
-
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                statement.close();
-//                ConnectDB.getInstance().disconnect();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+      em.getTransaction().begin();
+		try {
+			em.createNativeQuery("DELETE FROM ChiTietHoaDon WHERE maHD = ?").setParameter(1, maHD).executeUpdate();
+			em.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			e.printStackTrace();
+			return false;
+		}
     }
 
     @Override

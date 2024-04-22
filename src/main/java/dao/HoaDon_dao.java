@@ -259,45 +259,56 @@ public class HoaDon_dao extends UnicastRemoteObject implements  Interface.HoaDon
 //        }
     	try {
     	    em.getTransaction().begin();
+    	    
+    	    // Tìm đối tượng ChuongTrinhKhuyenMaiEntity từ cơ sở dữ liệu bằng mã
     	    ChuongTrinhKhuyenMaiEntity chuongTrinhKM = em.find(ChuongTrinhKhuyenMaiEntity.class, hoaDon.getChuongTrinhKM().getMaCTKM());
+    	    
+    	    // Gán đối tượng đã tìm được cho hoá đơn
     	    hoaDon.setChuongTrinhKM(chuongTrinhKM);
+    	    
+    	    // Cập nhật trạng thái của hoá đơn
     	    hoaDon.setTinhTrang(TinhTrangHDEnum.DATHANHTOAN);
     	    
+    	    // Merge hoá đơn vào cơ sở dữ liệu
     	    em.merge(hoaDon);
     	    
-    	    // Nếu không có lỗi, tiếp tục với việc xóa và thêm các chi tiết hóa đơn
+    	    // Nếu không có lỗi, tiếp tục với việc xóa và thêm các chi tiết hoá đơn
     	    
+    	    // Commit giao dịch
     	    em.getTransaction().commit();
 
-    	    // Thực hiện xóa các chi tiết hóa đơn cũ
+    	    // Thực hiện xóa các chi tiết hoá đơn cũ
     	    ChiTietHoaDon_dao cthd_dao = new ChiTietHoaDon_dao();
     	    boolean kqXoaCTHD = cthd_dao.xoaCTHDTheoMaHoaDon(hoaDon.getMaHD());
 
-    	    // Nếu xóa thành công, thêm các chi tiết hóa đơn mới
+    	    // Nếu xóa thành công, thêm các chi tiết hoá đơn mới
     	    if (kqXoaCTHD) {
     	        for (ChiTietHoaDonEntity cthd : danhSachCTHD) {
     	            if (!cthd_dao.themChiTietHoaDon(cthd)) {
-    	                // Nếu có lỗi khi thêm chi tiết hóa đơn mới, rollback giao dịch
-    	            	JOptionPane.showMessageDialog(null, "Thêm chi tiết hóa đơn mới thất bại");
+    	                // Nếu có lỗi khi thêm chi tiết hoá đơn mới, rollback giao dịch
+    	                JOptionPane.showMessageDialog(null, "Thêm chi tiết hóa đơn mới thất bại");
     	                em.getTransaction().rollback();
     	                return false;
     	            }
     	        }
     	    } else {
-    	        // Nếu có lỗi khi xóa các chi tiết hóa đơn cũ, rollback giao dịch
-    	    	JOptionPane.showMessageDialog(null, "Xóa chi tiết hóa đơn cũ thất bại");
+    	        // Nếu có lỗi khi xóa các chi tiết hoá đơn cũ, rollback giao dịch
+    	        JOptionPane.showMessageDialog(null, "Xóa chi tiết hóa đơn cũ thất bại");
     	        em.getTransaction().rollback();
     	        return false;
     	    }
 
     	    return true;
     	} catch (Exception e) {
-    	    // Nếu có lỗi, rollback giao dịch và in ra stack trace
-    		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
-    	    em.getTransaction().rollback();
+    	    // Nếu có bất kỳ lỗi nào, rollback giao dịch và hiển thị thông báo lỗi
+//    	    JOptionPane.showMessageDialog(null, "Có lỗi xảy ra");
+    	    if (em.getTransaction().isActive()) {
+    	        em.getTransaction().rollback();
+    	    }
     	    e.printStackTrace();
     	    return false;
     	}
+
 
         
     }
@@ -325,7 +336,8 @@ public class HoaDon_dao extends UnicastRemoteObject implements  Interface.HoaDon
 
     @Override
     public HoaDonEntity getHoaDonTheoMaHD(String maHD)throws RemoteException {
-    	return em.find(HoaDonEntity.class, maHD);
+//    	return em.find(HoaDonEntity.class, maHD);
+    	return em.createQuery("SELECT hd FROM HoaDonEntity hd WHERE hd.maHD = :maHD", HoaDonEntity.class).setParameter("maHD", maHD).getResultList().stream().findFirst().orElse(null);
     }
 
     @Override
