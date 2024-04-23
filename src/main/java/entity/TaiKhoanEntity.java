@@ -18,21 +18,21 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode
 @NamedQueries({
-	@NamedQuery(name = "TaiKhoanEntity.getTKByNameAndPass", query = "SELECT tk FROM TaiKhoanEntity tk WHERE tk.tenTaiKhoan = :tenTaiKhoan AND tk.matKhau = :matKhau"),
-	@NamedQuery(name = "TaiKhoanEntity.updateThoiGianDNGN", query = "UPDATE TaiKhoanEntity tk SET tk.thoiGianDNGN = :thoiGianDNGN WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
-	@NamedQuery(name = "TaiKhoanEntity.lamMoiMatKha", query = "UPDATE TaiKhoanEntity tk SET tk.matKhau = :matKhau WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
+	@NamedQuery(name = "TaiKhoanEntity.getTKByNameAndPass", query = "SELECT tk FROM TaiKhoanEntity tk WHERE tk.soDienThoai = :tenTaiKhoan AND tk.matKhau = :matKhau"),
+	@NamedQuery(name = "TaiKhoanEntity.updateThoiGianDNGN", query = "UPDATE TaiKhoanEntity tk SET tk.thoiGianDNGN = :thoiGianDNGN WHERE tk.soDienThoai = :tenTaiKhoan"),
+	@NamedQuery(name = "TaiKhoanEntity.lamMoiMatKha", query = "UPDATE TaiKhoanEntity tk SET tk.matKhau = :matKhau WHERE tk.soDienThoai = :tenTaiKhoan"),
 //	@NamedQuery(name = "TaiKhoanEntity.insert", query = "insert into TaiKhoanEntity(tk.tenTaiKhoan, tk.matKhau, tk.thoiGianDNGN, tk.tinhTrang, tk.maNV) values(:tenTaiKhoan, :matKhau, :thoiGianDNGN, :tinhTrang, :maNV)"),
-	@NamedQuery(name = "TaiKhoanEntity.updateTinhTrang", query = "UPDATE TaiKhoanEntity tk SET tk.tinhTrang = :tinhTrang WHERE tk.tenTaiKhoan = :tenTaiKhoan"),
+	@NamedQuery(name = "TaiKhoanEntity.updateTinhTrang", query = "UPDATE TaiKhoanEntity tk SET tk.tinhTrang = :tinhTrang WHERE tk.soDienThoai = :tenTaiKhoan"),
 	@NamedQuery(name = "TaiKhoanEntity.getAllTK", query = "SELECT tk FROM TaiKhoanEntity tk"),
-	@NamedQuery(name = "TaiKhoanEntity.getTKByTenTK", query = "SELECT tk FROM TaiKhoanEntity tk WHERE tk.tenTaiKhoan = :tenTaiKhoan")
+	@NamedQuery(name = "TaiKhoanEntity.getTKByTenTK", query = "SELECT tk FROM TaiKhoanEntity tk WHERE tk.soDienThoai = :tenTaiKhoan")
 })
 public class TaiKhoanEntity implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7617207203593199672L;
-	@Id
-	private String tenTaiKhoan;
+	
+	private String soDienThoai;
 	
 	private String matKhau;
 	private LocalDateTime thoiGianDNGN;
@@ -40,7 +40,7 @@ public class TaiKhoanEntity implements Serializable {
 	@Column(columnDefinition = "nvarchar(255)")
 	private TinhTrangTKEnum tinhTrang;
 	
-	
+	@Id
 	@OneToOne
 	@JoinColumn(name = "maNV")
 	private NhanVienEntity nhanVien;
@@ -61,15 +61,15 @@ public class TaiKhoanEntity implements Serializable {
 		this.tinhTrang = tinhTrang;
 	}
 
-	public TaiKhoanEntity(String tenTaiKhoan, String matKhau, LocalDateTime thoiGianDNGN, TinhTrangTKEnum tinhTrang) {
-		this.tenTaiKhoan = tenTaiKhoan;
+	public TaiKhoanEntity(String soDienThoai, String matKhau, LocalDateTime thoiGianDNGN, TinhTrangTKEnum tinhTrang) {
+		this.soDienThoai = soDienThoai;
 		this.matKhau = matKhau;
 		this.thoiGianDNGN = thoiGianDNGN;
 		this.tinhTrang = tinhTrang;
 	}
 
-	public TaiKhoanEntity(String tenTaiKhoan, String matKhau) {
-		this.tenTaiKhoan = tenTaiKhoan;
+	public TaiKhoanEntity(String soDienThoai, String matKhau) {
+		this.soDienThoai = soDienThoai;
 		this.matKhau = matKhau;
 	}
 
@@ -77,9 +77,9 @@ public class TaiKhoanEntity implements Serializable {
 		super();
 	}
 
-	public TaiKhoanEntity(String tenTaiKhoan, String matKhau, LocalDateTime thoiGianDNGN, TinhTrangTKEnum tinhTrang,
+	public TaiKhoanEntity(String soDienThoai, String matKhau, LocalDateTime thoiGianDNGN, TinhTrangTKEnum tinhTrang,
 			NhanVienEntity nhanVien) {
-		this.tenTaiKhoan = tenTaiKhoan;
+		this.soDienThoai = soDienThoai;
 		this.matKhau = matKhau;
 		this.thoiGianDNGN = thoiGianDNGN;
 		this.tinhTrang = tinhTrang;
@@ -95,11 +95,11 @@ public class TaiKhoanEntity implements Serializable {
 	}
 
 	public String getTenTaiKhoan() {
-		return tenTaiKhoan;
+		return soDienThoai;
 	}
 
 	public void setTenTaiKhoan(String tenTaiKhoan) {
-		this.tenTaiKhoan = tenTaiKhoan;
+		this.soDienThoai = tenTaiKhoan;
 	}
 
 	public String getMatKhau() {
@@ -112,7 +112,7 @@ public class TaiKhoanEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TaiKhoanEntity [tenTaiKhoan=" + tenTaiKhoan + ", matKhau=" + matKhau + "]";
+		return "TaiKhoanEntity [tenTaiKhoan=" + soDienThoai + ", matKhau=" + matKhau + "]";
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class TaiKhoanEntity implements Serializable {
 			return false;
 		}
 		final TaiKhoanEntity other = (TaiKhoanEntity) obj;
-		return Objects.equals(this.tenTaiKhoan, other.tenTaiKhoan);
+		return Objects.equals(this.soDienThoai, other.soDienThoai);
 	}
 
 }

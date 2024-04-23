@@ -30,4 +30,5 @@ public interface HoaDon_Interface extends java.rmi.Remote {
     public ArrayList<HoaDonEntity> timKiemHoaDonChuaThanhToan(String sdt)throws RemoteException;
     public int getSoLuongTonTheoMa(String maSP)throws RemoteException;
     public ArrayList<HoaDonEntity> getAllHDChuaThanhToan()throws RemoteException;
+    public boolean CapNhatTTDoiTraHoaDon(HoaDonEntity hd)throws RemoteException;
 }

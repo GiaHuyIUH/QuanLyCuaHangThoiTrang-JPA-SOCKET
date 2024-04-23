@@ -195,7 +195,7 @@ public class SanPham_dao extends UnicastRemoteObject implements SanPham_Interfac
 //							.createQuery("select s from SanPhamEntity s where s.maSP = :maSP").setParameter("maSP", ma)
 //							.getResultList();
 					dsSanPham = (ArrayList<SanPhamEntity>) em
-							.createNativeQuery("select * from SanPham where maSP = :maSP", SanPhamEntity.class)
+							.createNativeQuery("select * from SanPhamEntity where maSP = :maSP", SanPhamEntity.class)
 							.setParameter("maSP", ma).getResultList();
 				} catch (Exception e) {
 					e.printStackTrace();

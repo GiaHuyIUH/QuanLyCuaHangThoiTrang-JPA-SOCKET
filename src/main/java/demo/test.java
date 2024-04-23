@@ -1,7 +1,6 @@
 package demo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

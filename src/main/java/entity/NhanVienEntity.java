@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -13,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 
 @Entity
@@ -48,6 +50,14 @@ public class NhanVienEntity implements Serializable {
 	private TinhTrangNVEnum tinhTrang;
 	@Enumerated(EnumType.STRING)
 	private CaLamViecEnum caLamViec;
+	
+	@OneToMany(mappedBy = "nhanVien")
+	private List<HoaDonEntity> hoaDons;
+	
+	@OneToMany(mappedBy = "nhanVien")
+	private List<DoiTraEntity> doiTras;
+	
+	
 	
         
 	public NhanVienEntity(String maNV, String hoTen, GioiTinhEnum gioiTinh, LocalDate ngaySinh, String email,

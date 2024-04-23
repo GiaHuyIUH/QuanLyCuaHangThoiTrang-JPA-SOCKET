@@ -1,10 +1,12 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 
 @Entity
@@ -21,7 +23,9 @@ public class ThuongHieuEntity  implements Serializable{
 	
 	@Column(name = "tenThuongHieu", columnDefinition = "nvarchar(255)")
     private String  tenThuongHieu;
-
+	
+	@OneToMany(mappedBy = "thuongHieu")
+	private List<SanPhamEntity> sanPhams;
     public ThuongHieuEntity(String maThuongHieu, String tenThuongHieu) {
         super();
         this.maThuongHieu = maThuongHieu;

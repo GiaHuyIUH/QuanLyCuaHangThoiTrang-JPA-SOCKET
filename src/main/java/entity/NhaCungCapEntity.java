@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -8,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 
 @Entity
@@ -28,6 +30,9 @@ public class NhaCungCapEntity implements Serializable {
 	private String soDienThoai;
 	@Enumerated(EnumType.STRING)
 	private TinhTrangNCCEnum tinhTrang;
+	
+	@OneToMany(mappedBy = "nhaCungCap")
+	private List<MatHangNhapEntity> matHangNhaps;
 
 	public NhaCungCapEntity(String maNCC, String tenNCC, String diaChi, String soDienThoai,
 			TinhTrangNCCEnum tinhTrang) {

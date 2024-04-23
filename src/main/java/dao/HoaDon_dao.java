@@ -350,5 +350,22 @@ public class HoaDon_dao extends UnicastRemoteObject implements  Interface.HoaDon
     public ArrayList<HoaDonEntity> getHoaDonTheoMaHDvaNgayLap(String maHD, java.util.Date ngayLap)throws RemoteException {
     	return (ArrayList<HoaDonEntity>) em.createNamedQuery("HoaDon.getHoaDonTheoMaHDvaNgayLap", HoaDonEntity.class).setParameter("maHD", maHD).setParameter("ngayLap", ngayLap).getResultList();
     }
+
+	@Override
+	public boolean CapNhatTTDoiTraHoaDon(HoaDonEntity hd) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+		try {
+			em.getTransaction().begin();
+			em.merge(hd);
+			em.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			em.getTransaction().rollback();
+			e.printStackTrace();
+		}
+		return false;
+	}
     	
 }

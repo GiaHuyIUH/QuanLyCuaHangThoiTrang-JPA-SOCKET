@@ -45,8 +45,8 @@ public class ChiTietDoiTraEntity implements Serializable{
     
     private double thanhTien;
     
-    @ManyToOne
-    private ChiTietHoaDonEntity chiTietHoaDon;
+//    @ManyToOne
+//    private ChiTietHoaDonEntity chiTietHoaDon;
     
 
     public ChiTietDoiTraEntity() {

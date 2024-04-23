@@ -5,12 +5,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -31,6 +33,8 @@ public class LoaiKhuyenMaiEntity implements Serializable{
     private String maLoaiKM;
 	@Column(name = "moTa", columnDefinition = "nvarchar(255)")
     private String moTa;
+	@OneToMany(mappedBy = "loaiKhuyenMai")
+	private List<ChuongTrinhKhuyenMaiEntity> chuongTrinhKhuyenMai;
 
     public LoaiKhuyenMaiEntity(String maLoaiKM, String moTa) {
         this.maLoaiKM = maLoaiKM;

@@ -69,6 +69,12 @@ public class HoaDonEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "hoaDon")
 	private List<ChiTietHoaDonEntity> chiTietHoaDon;
+	
+	@OneToMany(mappedBy = "hoaDon")
+	private List<DoiTraEntity> doiTras;
+	
+	@Column(name = "tinhTrangDoiTra", columnDefinition = "nvarchar(255)")
+	private String tinhTrangDoiTra;
 
 	public HoaDonEntity(String maHD, Date ngayLapHD, KhachHangEntity khachHang, NhanVienEntity nhanVien,
 			ChuongTrinhKhuyenMaiEntity chuongTrinhKM) {
@@ -97,10 +103,35 @@ public class HoaDonEntity implements Serializable {
 		this.tienThanhToan = tienThanhToan;
 		this.tinhTrang = tinhTrang;
 	}
+	
+	public HoaDonEntity(String maHD, Date ngayLapHD, KhachHangEntity khachHang, NhanVienEntity nhanVien,
+			ChuongTrinhKhuyenMaiEntity chuongTrinhKM, double tienKhuyenMai, double tongTien, double tienThanhToan,
+			TinhTrangHDEnum tinhTrang, String tinhTrangDoiTra) {
+		super();
+		this.maHD = maHD;
+		this.ngayLapHD = ngayLapHD;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+		this.chuongTrinhKM = chuongTrinhKM;
+		this.tienKhuyenMai = tienKhuyenMai;
+		this.tongTien = tongTien;
+		this.tienThanhToan = tienThanhToan;
+		this.tinhTrang = tinhTrang;
+		this.tinhTrangDoiTra = tinhTrangDoiTra;
+	}
 
 	public HoaDonEntity() {
 		super();
 
+	}
+	
+
+	public String getTinhTrangDoiTra() {
+		return tinhTrangDoiTra;
+	}
+
+	public void setTinhTrangDoiTra(String tinhTrangDoiTra) {
+		this.tinhTrangDoiTra = tinhTrangDoiTra;
 	}
 
 	public String getMaHD() {

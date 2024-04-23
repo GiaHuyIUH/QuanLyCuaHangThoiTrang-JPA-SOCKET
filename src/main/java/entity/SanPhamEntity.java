@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 //	select * from SanPham where maSP in (select maSP from ChiTietHoaDon where maHD = ?)
 	@NamedQuery(name = "SanPhamEntity.getSanPhamTheoMaHD", query = "SELECT sp FROM SanPhamEntity sp WHERE sp.maSP IN (SELECT cthd.sanPham.maSP FROM ChiTietHoaDonEntity cthd WHERE cthd.hoaDon.maHD = :maHD)"),
 //	UPDATE SanPham SET maCTKM = NULL WHERE maCTKM IN (SELECT maCTKM FROM ChuongTrinhKhuyenMai WHERE ngayKetThuc < SYSDATETIME() AND ngayKetThuc <> CONVERT(DATE, SYSDATETIME()))
-	@NamedQuery(name = "SanPhamEntity.capNhatKhuyenMai", query = "UPDATE SanPhamEntity sp SET sp.chuongTrinhKhuyenMai.maCTKM = NULL WHERE sp.chuongTrinhKhuyenMai.maCTKM IN (SELECT ctkm.maCTKM FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.ngayKetThuc < CURRENT_DATE AND ctkm.ngayKetThuc <> CURRENT_DATE)"),
+	@NamedQuery(name = "SanPhamEntity.capNhatKhuyenMai", query = "UPDATE SanPhamEntity sp SET sp.chuongTrinhKM.maCTKM = NULL WHERE sp.chuongTrinhKM.maCTKM IN (SELECT ctkm.maCTKM FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.ngayKetThuc < CURRENT_DATE AND ctkm.ngayKetThuc <> CURRENT_DATE)"),
 	@NamedQuery(name = "SanPham.getSoLuongTonTheoMa", query = "SELECT sp.soLuongTonKho FROM SanPhamEntity sp WHERE sp.maSP = :maSP"),
 	
 })
@@ -70,11 +70,11 @@ public class SanPhamEntity implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "maDanhMuc")
-    private DanhMucSanPhamEntity danhMucSanPham;
+    private DanhMucSanPhamEntity danhMuc;
     
     @ManyToOne
     @JoinColumn(name = "maCTKM")
-    private ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai;
+    private ChuongTrinhKhuyenMaiEntity chuongTrinhKM;
     
     @OneToMany(mappedBy = "sanPham")
     private List<ChiTietDoiTraEntity> chiTietDoiTra;
@@ -98,8 +98,8 @@ public class SanPhamEntity implements Serializable{
 
 	public SanPhamEntity(String maSP, String tenSP, KichThuocEnum kichThuoc, MauSacEnum mauSac, double donGia,
 			int soLuongTonKho, TinhTrangSPEnum tinhTrang, String imgUrl, ChatLieuEntity chatLieu,
-			ThuongHieuEntity thuongHieu, DanhMucSanPhamEntity danhMucSanPham,
-			ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai) {
+			ThuongHieuEntity thuongHieu, DanhMucSanPhamEntity danhMuc,
+			ChuongTrinhKhuyenMaiEntity chuongTrinhKM) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
@@ -111,8 +111,8 @@ public class SanPhamEntity implements Serializable{
 		this.imgUrl = imgUrl;
 		this.chatLieu = chatLieu;
 		this.thuongHieu = thuongHieu;
-		this.danhMucSanPham = danhMucSanPham;
-		this.chuongTrinhKhuyenMai = chuongTrinhKhuyenMai;
+		this.danhMuc = danhMuc;
+		this.chuongTrinhKM = chuongTrinhKM;
 	}
 
 	public void setMaSP(String maSP) {
@@ -189,11 +189,11 @@ public class SanPhamEntity implements Serializable{
   
 
 	public DanhMucSanPhamEntity getDanhMucSanPham() {
-		return danhMucSanPham;
+		return danhMuc;
 	}
 
-	public void setDanhMucSanPham(DanhMucSanPhamEntity danhMucSanPham) {
-		this.danhMucSanPham = danhMucSanPham;
+	public void setDanhMucSanPham(DanhMucSanPhamEntity danhMuc) {
+		this.danhMuc = danhMuc;
 	}
 
 	public String getTenSP() {
@@ -201,11 +201,11 @@ public class SanPhamEntity implements Serializable{
 	}
 
 	public ChuongTrinhKhuyenMaiEntity getChuongTrinhKhuyenMai() {
-        return chuongTrinhKhuyenMai;
+        return chuongTrinhKM;
     }
 
-    public void setChuongTrinhKhuyenMai(ChuongTrinhKhuyenMaiEntity chuongTrinhKhuyenMai) {
-        this.chuongTrinhKhuyenMai = chuongTrinhKhuyenMai;
+    public void setChuongTrinhKhuyenMai(ChuongTrinhKhuyenMaiEntity chuongTrinhKM) {
+        this.chuongTrinhKM = chuongTrinhKM;
     }
 
     public String getImgUrl() {
@@ -222,7 +222,7 @@ public class SanPhamEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "SanPhamEntity{" + "maSP=" + maSP + ", tenSP=" + tenSP + ", kichThuoc=" + kichThuoc + ", mauSac=" + mauSac + ", donGia=" + donGia + ", soLuongTonKho=" + soLuongTonKho + ", tinhTrang=" + tinhTrang + ", chatLieu=" + chatLieu + ", thuongHieu=" + thuongHieu + ", danhMucSanPham=" + danhMucSanPham + ", chuongTrinhKhuyenMai=" + chuongTrinhKhuyenMai + ", imgUrl=" + imgUrl + '}';
+        return "SanPhamEntity{" + "maSP=" + maSP + ", tenSP=" + tenSP + ", kichThuoc=" + kichThuoc + ", mauSac=" + mauSac + ", donGia=" + donGia + ", soLuongTonKho=" + soLuongTonKho + ", tinhTrang=" + tinhTrang + ", chatLieu=" + chatLieu + ", thuongHieu=" + thuongHieu + ", danhMucSanPham=" + danhMuc + ", chuongTrinhKhuyenMai=" + chuongTrinhKM + ", imgUrl=" + imgUrl + '}';
     }
 
     @Override

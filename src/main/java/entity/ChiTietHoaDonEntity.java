@@ -56,13 +56,14 @@ public class ChiTietHoaDonEntity implements Serializable {
 	
 	private int soLuong;
 	    
-        private double giaGoc;
+    private double giaGoc;
 	     
-        private double giaBan;
+    private double giaBan;
 	    
-        private double thanhTien;
-    	@OneToMany(mappedBy = "chiTietHoaDon")
-    	private List<ChiTietDoiTraEntity> chiTietDoiTra;
+    private double thanhTien;
+    
+//    @OneToMany(mappedBy = "chiTietHoaDon")
+//    private List<ChiTietDoiTraEntity> chiTietDoiTra;
 
         public ChiTietHoaDonEntity(SanPhamEntity sanPham, HoaDonEntity hoaDon, int soLuong, double giaGoc, double giaBan, double thanhTien) {
             this.sanPham = sanPham;

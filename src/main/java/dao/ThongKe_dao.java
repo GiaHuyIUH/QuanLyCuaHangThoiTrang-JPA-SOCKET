@@ -75,7 +75,7 @@ public class ThongKe_dao extends UnicastRemoteObject implements ThongKe_Interfac
     public ArrayList<Object[]> getListThongKeDoanhSoTheoThangNam(String thangNam, String sort)throws RemoteException  {
     	String jpql = "SELECT sp.maSP AS MaSanPham, " + "       sp.tenSP AS TenSanPham, "
 				+ "       SUM(cthd.soLuong) AS SoLuongBan " + "FROM SanPhamEntity sp " + "JOIN sp.chiTietHoaDon cthd "
-				+ "JOIN cthd.hoaDon hd " + "WHERE hd.maHD LIKE CONCAT('HD__', :thangNam, '%') "
+				+ "JOIN cthd.hoaDon hd " + "WHERE hd.maHD LIKE CONCAT('HD__','%', :thangNam, '%') "
 				+ "GROUP BY sp.maSP, sp.tenSP ";
 
 		if ("ASC".equalsIgnoreCase(sort) || "DESC".equalsIgnoreCase(sort)) {

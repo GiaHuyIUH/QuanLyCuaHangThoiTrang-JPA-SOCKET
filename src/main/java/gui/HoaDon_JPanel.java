@@ -3,6 +3,8 @@ package gui;
 import bus.HoaDon_bus;
 import entity.ChuongTrinhKhuyenMaiEntity;
 import entity.HoaDonEntity;
+import entity.KhachHangEntity;
+
 import java.awt.Image;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -97,8 +99,11 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
             if (hd.getTinhTrang() != null) {
                 tinhTrang = hd.getTinhTrang().toString();
             }
-            
-            addRows(new Object[]{hd.getMaHD(), maKH, maNV, maCTKM, hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(), tinhTrang});
+            String tinTrangDoiTra = "";
+			if (hd.getTinhTrangDoiTra() != null) {
+				tinTrangDoiTra = hd.getTinhTrangDoiTra().toString();
+			}
+            addRows(new Object[]{hd.getMaHD(), maKH, maNV, maCTKM, hd.getNgayLapHD(), hd.getTienKhuyenMai(), hd.getTongTien(), hd.getTienThanhToan(), tinhTrang,tinTrangDoiTra});
         }
     }
 
@@ -235,11 +240,11 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Mã CTKM", "Ngày Lập Hóa Đơn", "Tiền Khuyến Mãi", "Tổng Tiền", "Tiền Thanh Toán", "Tình Trạng"
+                "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Mã CTKM", "Ngày Lập Hóa Đơn", "Tiền Khuyến Mãi", "Tổng Tiền", "Tiền Thanh Toán", "Tình Trạng thanh toán", "Tình Trạng đổi trả"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false,false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -329,8 +334,14 @@ public class HoaDon_JPanel extends javax.swing.JPanel {
 				
                 if (hoaDon != null ) {
 //                	if( hoaDon.getChuongTrinhKM() != null)
+//                	System.out.println("Mã khách hàng"+ hoaDon.getKhachHang().getMaKH());
+                	KhachHangEntity kh = hoaDon.getKhachHang();
+                	String maKH = "";
+					if (kh != null) {
+						maKH = kh.getMaKH();
+					}
                 	XoahetDuLieuTrenTable();
-                    addRows(new Object[]{hoaDon.getMaHD(), hoaDon.getKhachHang().getMaKH(), hoaDon.getNhanVien().getMaNV(), maCTKM, hoaDon.getNgayLapHD(), hoaDon.getTienKhuyenMai(), hoaDon.getTongTien(), hoaDon.getTienThanhToan()});
+                    addRows(new Object[]{hoaDon.getMaHD(), maKH, hoaDon.getNhanVien().getMaNV(), maCTKM, hoaDon.getNgayLapHD(), hoaDon.getTienKhuyenMai(), hoaDon.getTongTien(), hoaDon.getTienThanhToan()});
                 } else {
                     JOptionPane.showMessageDialog(null, "Không tìm thấy hoá đơn với mã: " + maHoaDon);
                 }

@@ -736,7 +736,8 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
             if(cthdList != null) {
                 tableModel_HoaDon.setRowCount(0);
                 for (ChiTietHoaDonEntity cthd : cthdList) {
-                    String[] data = {cthd.getSanPham().getMaSP(), cthd.getSanPham().getTenSP(), cthd.getSanPham().getKichThuoc().toString(), cthd.getSanPham().getMauSac().toString(), 
+                	SanPhamEntity sp = sp_bus.timKiemSanPham(cthd.getSanPham().getMaSP());
+                    String[] data = {cthd.getSanPham().getMaSP(), sp.getTenSP(), sp.getKichThuoc().toString(), sp.getMauSac().toString(), 
                     cthd.getSoLuong()+"", convert.toMoney(cthd.getGiaGoc()), convert.toMoney(cthd.getGiaBan()), convert.toMoney(cthd.getThanhTien())};
                     tableModel_HoaDon.addRow(data);
                 }
@@ -916,7 +917,19 @@ public class TaoDoiTra_JPanel extends javax.swing.JPanel {
         
         boolean kq = dt_bus.taoDoiTra(dt, ctdtList);
         if(kq) {
+        	hd = hd_bus.timKiemHoaDonTheoMa(maHD);
+        	if(hd.getTinhTrangDoiTra() == null) {
+        		hd.setTinhTrangDoiTra("Đã đổi trả");
+        		System.out.println(hd);
+        		try {
+					hd_bus.CapNhatTTDoiTraHoaDon(hd);
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+        	}
             lamMoi();
+            
             new ThongTinDoiTra_GUI(dt.getMaDT()).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Tạo đơn đổi trả thất bại!");

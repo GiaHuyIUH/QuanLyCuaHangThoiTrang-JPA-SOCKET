@@ -21,14 +21,14 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 @NamedQueries({
 	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getAllCTKM", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm"),
-	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getCTKMTheoMaCTKMAndMaLoaiCTKM", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.maCTKM = :maCTKM AND ctkm.maLoaiKM.maLoaiKM = :maLoaiKM"),
+	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getCTKMTheoMaCTKMAndMaLoaiCTKM", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.maCTKM = :maCTKM AND ctkm.loaiKhuyenMai.maLoaiKM = :maLoaiKM"),
 //	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getallLoaiCTKM", query = "SELECT LoaiCTKM FROM LoaiKhuyenMaiEntity LoaiCTKM"),
 //	Select top 1 * from ChuongTrinhKhuyenMai where getdate() between ngayBatDau and ngayKetThuc and soTienToiThieu <= ? and maLoaiCTKM='GGHD' order by giamGia desc
-	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.kiemTraKhuyenMai", query = "SELECT c FROM ChuongTrinhKhuyenMaiEntity c WHERE :currentDate BETWEEN c.ngayBatDau AND c.ngayKetThuc AND c.soTienToiThieu <= :soTienToiThieu AND c.maLoaiKM.maLoaiKM = 'GGHD'  ORDER BY c.giamGia DESC"),
-	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getallCTKMtheoLoaiKM", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.maLoaiKM.maLoaiKM = :maLoaiKM"),
+	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.kiemTraKhuyenMai", query = "SELECT c FROM ChuongTrinhKhuyenMaiEntity c WHERE :currentDate BETWEEN c.ngayBatDau AND c.ngayKetThuc AND c.soTienToiThieu <= :soTienToiThieu AND c.loaiKhuyenMai.maLoaiKM = 'GGHD'  ORDER BY c.giamGia DESC"),
+	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getallCTKMtheoLoaiKM", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.loaiKhuyenMai.maLoaiKM = :maLoaiKM"),
 	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.layTenKhuyenMaiTheoMa", query = "SELECT ctkm.tenCTKM FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.maCTKM = :maCTKM"),
 	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.layMaKhuyenMaiTheoTen", query = "SELECT ctkm.maCTKM FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.tenCTKM = :tenCTKM"),
-	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getAllCTKMTheoLoaiKMVaTinhTrang", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.maLoaiKM.maLoaiKM = :maLoaiKM AND ctkm.tinhTrang = :tinhTrang"),
+	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getAllCTKMTheoLoaiKMVaTinhTrang", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.loaiKhuyenMai.maLoaiKM = :maLoaiKM AND ctkm.tinhTrang = :tinhTrang"),
 //	select * from ChuongTrinhKhuyenMai where maCTKM in(select maCTKM from HoaDon where maHD = ?)
 	@NamedQuery(name = "ChuongTrinhKhuyenMaiEntity.getKMTheomaHD", query = "SELECT ctkm FROM ChuongTrinhKhuyenMaiEntity ctkm WHERE ctkm.maCTKM IN (SELECT hd.chuongTrinhKM.maCTKM FROM HoaDonEntity hd WHERE hd.maHD = :maHD)"),
 })
@@ -46,11 +46,13 @@ public class ChuongTrinhKhuyenMaiEntity implements Serializable {
 	private String tenCTKM;
 	@ManyToOne
 	@JoinColumn(name = "maLoaiKM")
-	private LoaiKhuyenMaiEntity maLoaiKM;
+	private LoaiKhuyenMaiEntity loaiKhuyenMai;
 	
 	@OneToMany(mappedBy = "chuongTrinhKM")
-	private List<HoaDonEntity> hoaDon;
-
+	private List<HoaDonEntity> hoaDons;
+	
+	@OneToMany(mappedBy = "chuongTrinhKM")
+	private List<SanPhamEntity> sanPhams;
 	private double soTienToiThieu;
 	private double soTienToiDa;
 	private int giamGia;
@@ -66,7 +68,7 @@ public class ChuongTrinhKhuyenMaiEntity implements Serializable {
 			String tinhTrang) {
 		this.maCTKM = maCTKM;
 		this.tenCTKM = tenCTKM;
-		this.maLoaiKM = maLoaiKM;
+		this.loaiKhuyenMai = maLoaiKM;
 		this.soTienToiThieu = soTienToiThieu;
 		this.soTienToiDa = soTienToiDa;
 		this.giamGia = giamGia;
@@ -76,11 +78,11 @@ public class ChuongTrinhKhuyenMaiEntity implements Serializable {
 	}
 
 	public LoaiKhuyenMaiEntity getMaLoaiKM() {
-		return maLoaiKM;
+		return loaiKhuyenMai;
 	}
 
 	public void setMaLoaiKM(LoaiKhuyenMaiEntity maLoaiKM) {
-		this.maLoaiKM = maLoaiKM;
+		this.loaiKhuyenMai = maLoaiKM;
 	}
 
 	public double getSoTienToiDa() {

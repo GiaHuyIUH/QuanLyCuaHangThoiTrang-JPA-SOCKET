@@ -91,5 +91,10 @@ public class HoaDon_bus extends UnicastRemoteObject implements HoaDon_Interface{
     public ArrayList<HoaDonEntity> getHoaDonTheoMaHDvaNgayLap(String maHD, Date ngayLap)throws RemoteException {
         return hd_dao.getHoaDonTheoMaHDvaNgayLap(maHD, ngayLap);
     }
+	@Override
+	public boolean CapNhatTTDoiTraHoaDon(HoaDonEntity hd) throws RemoteException {
+		// TODO Auto-generated method stub
+		return hd_dao.CapNhatTTDoiTraHoaDon(hd);
+	}
     
 }
